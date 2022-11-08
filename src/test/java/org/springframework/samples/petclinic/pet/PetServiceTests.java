@@ -27,9 +27,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.owner.OwnerService;
 import org.springframework.samples.petclinic.pet.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,13 +70,13 @@ class PetServiceTests {
 	protected PetService petService;
         
         @Autowired
-	protected OwnerService ownerService;	
+	protected PlayerService playerService;	
 
 	@Test
 	void shouldFindPetWithCorrectId() {
 		Pet pet7 = this.petService.findPetById(7);
 		assertThat(pet7.getName()).startsWith("Samantha");
-		assertThat(pet7.getOwner().getFirstName()).isEqualTo("Jean");
+		assertThat(pet7.getPlayer().getFirstName()).isEqualTo("Jean");
 
 	}
 
@@ -93,26 +93,26 @@ class PetServiceTests {
 	@Test
 	@Transactional
 	public void shouldInsertPetIntoDatabaseAndGenerateId() {
-		Owner owner6 = this.ownerService.findOwnerById(6);
-		int found = owner6.getPets().size();
+		Player player6 = this.playerService.findPlayerById(6);
+		int found = player6.getPets().size();
 
 		Pet pet = new Pet();
 		pet.setName("bowser");
 		Collection<PetType> types = this.petService.findPetTypes();
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
-		owner6.addPet(pet);
-		assertThat(owner6.getPets().size()).isEqualTo(found + 1);
+		player6.addPet(pet);
+		assertThat(player6.getPets().size()).isEqualTo(found + 1);
 
             try {
                 this.petService.savePet(pet);
             } catch (DuplicatedPetNameException ex) {
                 Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
             }
-		this.ownerService.saveOwner(owner6);
+		this.playerService.savePlayer(player6);
 
-		owner6 = this.ownerService.findOwnerById(6);
-		assertThat(owner6.getPets().size()).isEqualTo(found + 1);
+		player6 = this.playerService.findPlayerById(6);
+		assertThat(player6.getPets().size()).isEqualTo(found + 1);
 		// checks that id has been generated
 		assertThat(pet.getId()).isNotNull();
 	}
@@ -120,13 +120,13 @@ class PetServiceTests {
 	@Test
 	@Transactional
 	public void shouldThrowExceptionInsertingPetsWithTheSameName() {
-		Owner owner6 = this.ownerService.findOwnerById(6);
+		Player player6 = this.playerService.findPlayerById(6);
 		Pet pet = new Pet();
 		pet.setName("wario");
 		Collection<PetType> types = this.petService.findPetTypes();
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
-		owner6.addPet(pet);
+		player6.addPet(pet);
 		try {
 			petService.savePet(pet);		
 		} catch (DuplicatedPetNameException e) {
@@ -139,7 +139,7 @@ class PetServiceTests {
 		anotherPetWithTheSameName.setType(EntityUtils.getById(types, PetType.class, 1));
 		anotherPetWithTheSameName.setBirthDate(LocalDate.now().minusWeeks(2));
 		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
-			owner6.addPet(anotherPetWithTheSameName);
+			player6.addPet(anotherPetWithTheSameName);
 			petService.savePet(anotherPetWithTheSameName);
 		});		
 	}
@@ -161,19 +161,19 @@ class PetServiceTests {
 	@Test
 	@Transactional
 	public void shouldThrowExceptionUpdatingPetsWithTheSameName() {
-		Owner owner6 = this.ownerService.findOwnerById(6);
+		Player player6 = this.playerService.findPlayerById(6);
 		Pet pet = new Pet();
 		pet.setName("wario");
 		Collection<PetType> types = this.petService.findPetTypes();
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
-		owner6.addPet(pet);
+		player6.addPet(pet);
 		
 		Pet anotherPet = new Pet();		
 		anotherPet.setName("waluigi");
 		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
 		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
-		owner6.addPet(anotherPet);
+		player6.addPet(anotherPet);
 		
 		try {
 			petService.savePet(pet);

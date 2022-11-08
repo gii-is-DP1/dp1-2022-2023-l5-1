@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +39,7 @@ import org.springframework.samples.petclinic.pet.Pet;
 import org.springframework.samples.petclinic.user.User;
 
 /**
- * Simple JavaBean domain object representing an owner.
+ * Simple JavaBean domain object representing an player.
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -47,8 +47,8 @@ import org.springframework.samples.petclinic.user.User;
  * @author Michael Isvy
  */
 @Entity
-@Table(name = "owners")
-public class Owner extends Person {
+@Table(name = "players")
+public class Player extends Person {
 
 	@Column(name = "address")
 	@NotEmpty
@@ -63,7 +63,7 @@ public class Owner extends Person {
 	@Digits(fraction = 0, integer = 10)
 	private String telephone;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
 	private Set<Pet> pets;
 	
 	//
@@ -123,7 +123,7 @@ public class Owner extends Person {
 
 	public void addPet(Pet pet) {
 		getPetsInternal().add(pet);
-		pet.setOwner(this);
+		pet.setPlayer(this);
 	}
 	
 	public boolean removePet(Pet pet) {
@@ -131,7 +131,7 @@ public class Owner extends Person {
 	}
 
 	/**
-	 * Return the Pet with the given name, or null if none found for this Owner.
+	 * Return the Pet with the given name, or null if none found for this Player.
 	 * @param name to test
 	 * @return true if pet name is already in use
 	 */
@@ -152,7 +152,7 @@ public class Owner extends Person {
 	}
 
 	/**
-	 * Return the Pet with the given name, or null if none found for this Owner.
+	 * Return the Pet with the given name, or null if none found for this Player.
 	 * @param name to test
 	 * @return true if pet name is already in use
 	 */

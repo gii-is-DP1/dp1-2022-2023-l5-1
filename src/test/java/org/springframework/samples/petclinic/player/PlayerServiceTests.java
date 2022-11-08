@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,6 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  * <li><strong>Dependency Injection</strong> of test fixture instances, meaning that we
  * don't need to perform application context lookups. See the use of
  * {@link Autowired @Autowired} on the <code>{@link
- * OwnerServiceTests#clinicService clinicService}</code> instance variable, which uses
+ * PlayerServiceTests#clinicService clinicService}</code> instance variable, which uses
  * autowiring <em>by type</em>.
  * <li><strong>Transaction management</strong>, meaning each test method is executed in
  * its own transaction, which is automatically rolled back by default. Thus, even if tests
@@ -58,66 +60,66 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class OwnerServiceTests {                
+class PlayerServiceTests {                
         @Autowired
-	protected OwnerService ownerService;
+	protected PlayerService playerService;
 
 	@Test
-	void shouldFindOwnersByLastName() {
-		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Davis");
-		assertThat(owners.size()).isEqualTo(2);
+	void shouldFindPlayersByLastName() {
+		Collection<Player> players = this.playerService.findPlayerByLastName("Davis");
+		assertThat(players.size()).isEqualTo(2);
 
-		owners = this.ownerService.findOwnerByLastName("Daviss");
-		assertThat(owners.isEmpty()).isTrue();
+		players = this.playerService.findPlayerByLastName("Daviss");
+		assertThat(players.isEmpty()).isTrue();
 	}
 
 	@Test
-	void shouldFindSingleOwnerWithPet() {
-		Owner owner = this.ownerService.findOwnerById(1);
-		assertThat(owner.getLastName()).startsWith("Franklin");
-		assertThat(owner.getPets().size()).isEqualTo(1);
-		assertThat(owner.getPets().get(0).getType()).isNotNull();
-		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+	void shouldFindSinglePlayerWithPet() {
+		Player player = this.playerService.findPlayerById(1);
+		assertThat(player.getLastName()).startsWith("Franklin");
+		assertThat(player.getPets().size()).isEqualTo(1);
+		assertThat(player.getPets().get(0).getType()).isNotNull();
+		assertThat(player.getPets().get(0).getType().getName()).isEqualTo("cat");
 	}
 
 	@Test
 	@Transactional
-	public void shouldInsertOwner() {
-		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Schultz");
-		int found = owners.size();
+	public void shouldInsertPlayer() {
+		Collection<Player> players = this.playerService.findPlayerByLastName("Schultz");
+		int found = players.size();
 
-		Owner owner = new Owner();
-		owner.setFirstName("Sam");
-		owner.setLastName("Schultz");
-		owner.setAddress("4, Evans Street");
-		owner.setCity("Wollongong");
-		owner.setTelephone("4444444444");
+		Player player = new Player();
+		player.setFirstName("Sam");
+		player.setLastName("Schultz");
+		player.setAddress("4, Evans Street");
+		player.setCity("Wollongong");
+		player.setTelephone("4444444444");
                 User user=new User();
                 user.setUsername("Sam");
                 user.setPassword("supersecretpassword");
                 user.setEnabled(true);
-                owner.setUser(user);                
+                player.setUser(user);                
                 
-		this.ownerService.saveOwner(owner);
-		assertThat(owner.getId().longValue()).isNotEqualTo(0);
+		this.playerService.savePlayer(player);
+		assertThat(player.getId().longValue()).isNotEqualTo(0);
 
-		owners = this.ownerService.findOwnerByLastName("Schultz");
-		assertThat(owners.size()).isEqualTo(found + 1);
+		players = this.playerService.findPlayerByLastName("Schultz");
+		assertThat(players.size()).isEqualTo(found + 1);
 	}
 
 	@Test
 	@Transactional
-	void shouldUpdateOwner() {
-		Owner owner = this.ownerService.findOwnerById(1);
-		String oldLastName = owner.getLastName();
+	void shouldUpdatePlayer() {
+		Player player = this.playerService.findPlayerById(1);
+		String oldLastName = player.getLastName();
 		String newLastName = oldLastName + "X";
 
-		owner.setLastName(newLastName);
-		this.ownerService.saveOwner(owner);
+		player.setLastName(newLastName);
+		this.playerService.savePlayer(player);
 
 		// retrieving new name from database
-		owner = this.ownerService.findOwnerById(1);
-		assertThat(owner.getLastName()).isEqualTo(newLastName);
+		player = this.playerService.findPlayerById(1);
+		assertThat(player.getLastName()).isEqualTo(newLastName);
 	}
 
 
