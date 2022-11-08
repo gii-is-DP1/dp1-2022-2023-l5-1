@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.player;
 
 import java.util.Collection;
 
@@ -22,41 +22,41 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.owner.OwnerRepository;
+import org.springframework.samples.petclinic.player.PlayerRepository;
 
 /**
- * Spring Data JPA OwnerRepository interface
+ * Spring Data JPA PlayerRepository interface
  *
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface OwnerRepository extends Repository<Owner, Integer> {
+public interface PlayerRepository extends Repository<Player, Integer> {
 
 	/**
-	 * Save an <code>Owner</code> to the data store, either inserting or updating it.
-	 * @param owner the <code>Owner</code> to save
+	 * Save an <code>Player</code> to the data store, either inserting or updating it.
+	 * @param player the <code>Player</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void save(Owner owner) throws DataAccessException;
+	void save(Player player) throws DataAccessException;
 
 	/**
-	 * Retrieve <code>Owner</code>s from the data store by last name, returning all owners
+	 * Retrieve <code>Player</code>s from the data store by last name, returning all players
 	 * whose last name <i>starts</i> with the given name.
 	 * @param lastName Value to search for
-	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
+	 * @return a <code>Collection</code> of matching <code>Player</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
-	@Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
-	public Collection<Owner> findByLastName(@Param("lastName") String lastName);
+	@Query("SELECT DISTINCT player FROM Player player left join fetch player.pets WHERE player.lastName LIKE :lastName%")
+	public Collection<Player> findByLastName(@Param("lastName") String lastName);
 
 
 	/**
-	 * Retrieve an <code>Owner</code> from the data store by id.
+	 * Retrieve an <code>Player</code> from the data store by id.
 	 * @param id the id to search for
-	 * @return the <code>Owner</code> if found
+	 * @return the <code>Player</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
-	@Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
-	public Owner findById(@Param("id") int id);
+	@Query("SELECT player FROM Player player left join fetch player.pets WHERE player.id =:id")
+	public Player findById(@Param("id") int id);
 
 }
