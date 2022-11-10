@@ -1,6 +1,11 @@
 package org.springframework.samples.petclinic.card;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -24,9 +29,10 @@ public class Card extends BaseEntity{
      @NotEmpty
      public String cardImage;
 
-     public enum cardType{
-        WEAPON,
-        ABILITY,
-        UTILITY;
-    }
+     @Enumerated (value=EnumType.STRING)
+     public CardType type;
+
+     @ManyToOne(optional = true)
+     @JoinColumn(name="weaponid")
+     public Weapon weapon;
 }
