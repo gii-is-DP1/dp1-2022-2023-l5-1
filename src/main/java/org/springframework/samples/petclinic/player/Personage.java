@@ -21,23 +21,21 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "character")
-public class Personage extends Person {
+public class Personage{
 
-	@Column(name = "name")
-	@NotEmpty
-	private String nombre;
+	private Integer id;
 
-	@Column(name = "image")
-	@NotEmpty
+	private String name;
+
 	private String url;
 
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
 
-				.append("id", this.getId()).append("new", this.isNew())
-				.append("lastName", this.getLastName())
-				.append("name", this.getFirstName()).toString();
+				.append("id", this.getId())
+				.append("name", this.getName())
+				.append("url", this.getUrl()).toString();
 	}
 
 }

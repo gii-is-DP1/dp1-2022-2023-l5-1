@@ -23,10 +23,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "character")
-public class Rol extends Person {
+@Table(name = "rol")
+public class Rol{
 
-    private Id;
+    private Integer id;
 
 	private String nombre;
 
@@ -37,7 +37,8 @@ public class Rol extends Person {
 		return new ToStringCreator(this)
 
 				.append("id", this.getId())
-				.append("name", this.getName()).toString();
+				.append("name", this.getNombre())
+                .append("stars", this.getStars()).toString();
 	}
 
 }
