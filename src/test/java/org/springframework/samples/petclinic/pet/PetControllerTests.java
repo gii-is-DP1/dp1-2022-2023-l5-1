@@ -33,8 +33,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.owner.OwnerService;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,9 +57,8 @@ class PetControllerTests {
 
 	@MockBean
 	private PetService petService;
-        
         @MockBean
-	private OwnerService ownerService;
+	private PlayerService playerService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -70,37 +69,37 @@ class PetControllerTests {
 		cat.setId(3);
 		cat.setName("hamster");
 		given(this.petService.findPetTypes()).willReturn(Lists.newArrayList(cat));
-		given(this.ownerService.findOwnerById(TEST_OWNER_ID)).willReturn(new Owner());
+		given(this.playerService.findPlayerById(TEST_OWNER_ID)).willReturn(new Player());
 		given(this.petService.findPetById(TEST_PET_ID)).willReturn(new Pet());
 	}
 
 	@WithMockUser(value = "spring")
         @Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/pets/new", TEST_OWNER_ID)).andExpect(status().isOk())
+		mockMvc.perform(get("/players/{playerId}/pets/new", TEST_OWNER_ID)).andExpect(status().isOk())
 				.andExpect(view().name("pets/createOrUpdatePetForm")).andExpect(model().attributeExists("pet"));
 	}
 
 	@WithMockUser(value = "spring")
         @Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+		mockMvc.perform(post("/players/{playerId}/pets/new", TEST_OWNER_ID)
 							.with(csrf())
 							.param("name", "Betty")
 							.param("type", "hamster")
 							.param("birthDate", "2015/02/12"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/{ownerId}"));
+				.andExpect(view().name("redirect:/players/{playerId}"));
 	}
 
 	@WithMockUser(value = "spring")
     @Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
+		mockMvc.perform(post("/players/{playerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
 							.with(csrf())
 							.param("name", "Betty")
 							.param("birthDate", "2015/02/12"))
-				.andExpect(model().attributeHasNoErrors("owner"))
+				.andExpect(model().attributeHasNoErrors("player"))
 				.andExpect(model().attributeHasErrors("pet"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
@@ -109,7 +108,7 @@ class PetControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	void testInitUpdateForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
+		mockMvc.perform(get("/players/{playerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
 				.andExpect(status().isOk()).andExpect(model().attributeExists("pet"))
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
 	}
@@ -117,23 +116,23 @@ class PetControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
+		mockMvc.perform(post("/players/{playerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
 							.with(csrf())
 							.param("name", "Betty")
 							.param("type", "hamster")
 							.param("birthDate", "2015/02/12"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/{ownerId}"));
+				.andExpect(view().name("redirect:/players/{playerId}"));
 	}
     
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
+		mockMvc.perform(post("/players/{playerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
 							.with(csrf())
 							.param("name", "Betty")
 							.param("birthDate", "2015/02/12"))
-				.andExpect(model().attributeHasNoErrors("owner"))
+				.andExpect(model().attributeHasNoErrors("player"))
 				.andExpect(model().attributeHasErrors("pet")).andExpect(status().isOk())
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
 	}

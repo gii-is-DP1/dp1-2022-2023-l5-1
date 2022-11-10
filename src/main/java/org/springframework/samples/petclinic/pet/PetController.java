@@ -21,9 +21,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.owner.OwnerService;
 import org.springframework.samples.petclinic.pet.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -41,18 +41,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Arjen Poutsma
  */
 @Controller
-@RequestMapping("/owners/{ownerId}")
+@RequestMapping("/players/{playerId}")
 public class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
 	private final PetService petService;
-        private final OwnerService ownerService;
+        private final PlayerService playerService;
 
 	@Autowired
-	public PetController(PetService petService, OwnerService ownerService) {
+	public PetController(PetService petService, PlayerService playerService) {
 		this.petService = petService;
-                this.ownerService = ownerService;
+                this.playerService = playerService;
 	}
 
 	@ModelAttribute("types")
@@ -60,9 +60,9 @@ public class PetController {
 		return this.petService.findPetTypes();
 	}
 
-	@ModelAttribute("owner")
-	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-		return this.ownerService.findOwnerById(ownerId);
+	@ModelAttribute("player")
+	public Player findPlayer(@PathVariable("playerId") int playerId) {
+		return this.playerService.findPlayerById(playerId);
 	}
         
         /*@ModelAttribute("pet")
@@ -75,8 +75,8 @@ public class PetController {
             return result;
 	}*/
                 
-	@InitBinder("owner")
-	public void initOwnerBinder(WebDataBinder dataBinder) {
+	@InitBinder("player")
+	public void initPlayerBinder(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
@@ -86,28 +86,28 @@ public class PetController {
 	}
 
 	@GetMapping(value = "/pets/new")
-	public String initCreationForm(Owner owner, ModelMap model) {
+	public String initCreationForm(Player player, ModelMap model) {
 		Pet pet = new Pet();
-		owner.addPet(pet);
+		player.addPet(pet);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/pets/new")
-	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {		
+	public String processCreationForm(Player player, @Valid Pet pet, BindingResult result, ModelMap model) {		
 		if (result.hasErrors()) {
 			model.put("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
                     try{
-                    	owner.addPet(pet);
+                    	player.addPet(pet);
                     	this.petService.savePet(pet);
                     }catch(DuplicatedPetNameException ex){
                         result.rejectValue("name", "duplicate", "already exists");
                         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
                     }
-                    return "redirect:/owners/{ownerId}";
+                    return "redirect:/players/{playerId}";
 		}
 	}
 
@@ -124,26 +124,26 @@ public class PetController {
      * @param result
      * @param petId
      * @param model
-     * @param owner
+     * @param player
      * @param model
      * @return
      */
         @PostMapping(value = "/pets/{petId}/edit")
-	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner,@PathVariable("petId") int petId, ModelMap model) {
+	public String processUpdateForm(@Valid Pet pet, BindingResult result, Player player,@PathVariable("petId") int petId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
                         Pet petToUpdate=this.petService.findPetById(petId);
-			BeanUtils.copyProperties(pet, petToUpdate, "id","owner","visits");                                                                                  
+			BeanUtils.copyProperties(pet, petToUpdate, "id","player","visits");                                                                                  
                     try {                    
                         this.petService.savePet(petToUpdate);                    
                     } catch (DuplicatedPetNameException ex) {
                         result.rejectValue("name", "duplicate", "already exists");
                         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
                     }
-			return "redirect:/owners/{ownerId}";
+			return "redirect:/players/{playerId}";
 		}
 	}
 
