@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class GameRepository extends CrudRepository<Game, Integer> {
-
+    
 	@Query("SELECT game FROM Game game WHERE game.turn IS 0")
 	List<Game> findLobbies() throws DataAccessException;   
 
     @Query("SELECT game FROM Game game WHERE game.winner IS NULL AND turn > 0")
 	List<Game> findOnGoingGames() throws DataAccessException;
     
+
 }
