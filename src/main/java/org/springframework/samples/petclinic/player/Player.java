@@ -48,39 +48,24 @@ import lombok.Setter;
 @Table(name = "players")
 public class Player extends Person {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
-	@Column(name = "nickname")
-	@NotEmpty
 	private String Nickname;
 
-	@Column(name = "resistence")
-	@Min(value=0)
-	@NotEmpty
-	private Integer resistence;
+	private Integer endurance;
 
-	@Column(name = "honor")
-	@NotEmpty
-	@Min(value=0)
-	private String honor;
+	private Integer honor;
 
-	@OneToOne()
-	private Rol rol;
-	
-	@OneToOne()
-    @JoinColumn(name = "character", referencedColumnName = "name")
-	private Character Character;
+//	private Rol rol;
+
+//	private Personage Personage;
 	
 
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
-
-				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
-				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
-				.append("telephone", this.telephone).toString();
+				.append("id", this.getId()).append("name", this.getNickname()).append("endurance", this.getEndurance())
+				.append("honor", this.getHonor())/*.append("rol", this.getRol).append("personage", this.getPersonage) */.toString();
 	}
 
 }
