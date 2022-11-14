@@ -20,7 +20,10 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +67,17 @@ public class PlayerService {
 		userService.saveUser(player.getUser());
 		//creating authorities
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "player");
-	}		
+	}	
+
+	@Transactional(readOnly = true)
+    public Integer getIdPlayerByName(String n) {
+        return playerRepository.findPlayerIdByName(n);
+    }
+
+	@Transactional
+    public void save(Player player){
+        playerRepository.save(player);
+    }
+
 
 }
