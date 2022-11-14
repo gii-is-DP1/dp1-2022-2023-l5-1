@@ -24,7 +24,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,9 +36,13 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.pet.Pet;
 import org.springframework.samples.petclinic.user.User;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Simple JavaBean domain object representing an player.
@@ -47,6 +53,8 @@ import org.springframework.samples.petclinic.user.User;
  * @author Michael Isvy
  */
 @Entity
+@Getter
+@Setter
 @Table(name = "players")
 public class Player extends Person {
 
@@ -178,5 +186,8 @@ public class Player extends Person {
 				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
 				.append("telephone", this.telephone).toString();
 	}
-
+	//RELATION WITH CARDS
+	@ManyToMany(fetch = FetchType.EAGER)
+	
+	private List<Card> cards;
 }
