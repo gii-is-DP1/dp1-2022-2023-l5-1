@@ -15,7 +15,9 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.security.Principal;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -23,11 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -36,22 +41,69 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author Michael Isvy
  */
 @Controller
+@RequestMapping("/users")
 public class UserController {
-
+	private static final String USER_NOT_FOUND = "User not found";
+    private static final String USER = "user";
+    private static final String ERROR_MESSAGE = "errorMessage";
+    private static final String MESSAGE = "message";
+    private static final String GAMES = "games";
+    private static final String ERROR = "/error";
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
 
 	private final OwnerService ownerService;
+    
+    @Autowired
+    private UserService userService;
 
 	@Autowired
 	public UserController(OwnerService clinicService) {
 		this.ownerService = clinicService;
 	}
+	//PERFIL
+	@GetMapping("/profile")    
+    public String profileFromMenu(Principal principal ,ModelMap modelMap){
+        return String.format("redirect:/users/profile/%s",principal.getName());
+    }
+
+
+    @GetMapping("/profile/{username}")
+    public String profile(@PathVariable("username") String username, ModelMap modelMap){
+        String view = "users/usersProfile";
+        
+        Optional<User> user = userService.findUser(username);
+        if(user.isPresent()){
+            modelMap.put(USER, user);
+            
+        }else{
+            modelMap.addAttribute(MESSAGE, USER_NOT_FOUND);
+            view = ERROR; 
+        }
+        return view;
+    }	
+	@GetMapping("/profile/{username}/editProfile")
+    public String viewEditProfile(@PathVariable("username") String username, ModelMap modelMap){
+        String view = "users/usersEditProfileForm";
+        
+        Optional<User> user = userService.findUser(username);
+        if(user.isPresent()){
+            modelMap.put(USER, user);
+            
+        }else{
+            modelMap.addAttribute(MESSAGE, USER_NOT_FOUND);
+            view = ERROR; 
+        }
+        return view;
+    }	
+
+
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
+	
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Owner owner = new Owner();

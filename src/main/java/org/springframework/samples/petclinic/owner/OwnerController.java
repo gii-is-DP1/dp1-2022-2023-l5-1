@@ -117,20 +117,6 @@ public class OwnerController {
 		model.addAttribute(owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
-	//PROFILE
-
-	@ResponseBody
-	public String currentUserName(Authentication authentication) {
-		return authentication.getName();
-	}
-	@GetMapping("/profile")
-	public ModelAndView showProfile(Authentication authentication) {
-		String name=currentUserName(authentication);
-		ModelAndView mav = new ModelAndView("users/usersProfile");
-		mav.addObject(this.ownerService.findOwnerByName(name));
-		return mav;
-	}
-
 
 	@PostMapping(value = "/owners/{ownerId}/edit")
 	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result,
