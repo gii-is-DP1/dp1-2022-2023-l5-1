@@ -95,7 +95,17 @@ public class UserController {
         }
         return view;
     }	
-
+	@PostMapping(value = "/profile/{username}/editProfile")
+	public String confirmEditProfile(@Valid User user, BindingResult result,@PathVariable("username") String username) {
+		if (result.hasErrors()) {
+			return "users/usersEditProfileForm";
+		}
+		else {
+			user.setUsername(username);
+			this.userService.saveUser(user);
+			return String.format("redirect:/profile/%s",username);
+		}
+	}
 
 
 	@InitBinder
