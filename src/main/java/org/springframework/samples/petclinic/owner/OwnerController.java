@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -115,6 +117,20 @@ public class OwnerController {
 		model.addAttribute(owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
+	//PROFILE
+
+	@ResponseBody
+	public String currentUserName(Authentication authentication) {
+		return authentication.getName();
+	}
+	@GetMapping("/profile")
+	public ModelAndView showProfile(Authentication authentication) {
+		String name=currentUserName(authentication);
+		ModelAndView mav = new ModelAndView("users/usersProfile");
+		mav.addObject(this.ownerService.findOwnerByName(name));
+		return mav;
+	}
+
 
 	@PostMapping(value = "/owners/{ownerId}/edit")
 	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result,
