@@ -66,34 +66,23 @@ class PlayerServiceTests {
 
 	@Test
 	void shouldFindPlayersByLastName() {
-		Collection<Player> players = this.playerService.findPlayerByLastName("Davis");
+		Collection<Player> players = this.playerService.findPlayerByNickname("Davis");
 		assertThat(players.size()).isEqualTo(2);
 
-		players = this.playerService.findPlayerByLastName("Daviss");
+		players = this.playerService.findPlayerByNickname("Daviss");
 		assertThat(players.isEmpty()).isTrue();
-	}
-
-	@Test
-	void shouldFindSinglePlayerWithPet() {
-		Player player = this.playerService.findPlayerById(1);
-		assertThat(player.getLastName()).startsWith("Franklin");
-		assertThat(player.getPets().size()).isEqualTo(1);
-		assertThat(player.getPets().get(0).getType()).isNotNull();
-		assertThat(player.getPets().get(0).getType().getName()).isEqualTo("cat");
 	}
 
 	@Test
 	@Transactional
 	public void shouldInsertPlayer() {
-		Collection<Player> players = this.playerService.findPlayerByLastName("Schultz");
+		Collection<Player> players = this.playerService.findPlayerByNickname("Schultz");
 		int found = players.size();
 
 		Player player = new Player();
-		player.setFirstName("Sam");
-		player.setLastName("Schultz");
-		player.setAddress("4, Evans Street");
-		player.setCity("Wollongong");
-		player.setTelephone("4444444444");
+		player.setNickname("Sam");
+		player.setEndurance(3);
+		player.setHonor(4);
                 User user=new User();
                 user.setUsername("Sam");
                 user.setPassword("supersecretpassword");
@@ -103,7 +92,7 @@ class PlayerServiceTests {
 		this.playerService.savePlayer(player);
 		assertThat(player.getId().longValue()).isNotEqualTo(0);
 
-		players = this.playerService.findPlayerByLastName("Schultz");
+		players = this.playerService.findPlayerByNickname("Schultz");
 		assertThat(players.size()).isEqualTo(found + 1);
 	}
 
@@ -111,15 +100,15 @@ class PlayerServiceTests {
 	@Transactional
 	void shouldUpdatePlayer() {
 		Player player = this.playerService.findPlayerById(1);
-		String oldLastName = player.getLastName();
-		String newLastName = oldLastName + "X";
+		String oldNickname = player.getNickname();
+		String newNickname = oldNickname + "X";
 
-		player.setLastName(newLastName);
+		player.setNickname(newNickname);
 		this.playerService.savePlayer(player);
 
 		// retrieving new name from database
 		player = this.playerService.findPlayerById(1);
-		assertThat(player.getLastName()).isEqualTo(newLastName);
+		assertThat(player.getNickname()).isEqualTo(newNickname);
 	}
 
 

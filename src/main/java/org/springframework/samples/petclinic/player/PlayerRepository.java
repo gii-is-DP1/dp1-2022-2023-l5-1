@@ -22,7 +22,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.player.PlayerRepository;
 
 /**
  * Spring Data JPA PlayerRepository interface
@@ -31,7 +30,7 @@ import org.springframework.samples.petclinic.player.PlayerRepository;
  * @since 15.1.2013
  */
 public interface PlayerRepository extends Repository<Player, Integer> {
-
+    
 	/**
 	 * Save an <code>Player</code> to the data store, either inserting or updating it.
 	 * @param player the <code>Player</code> to save
@@ -40,14 +39,14 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	void save(Player player) throws DataAccessException;
 
 	/**
-	 * Retrieve <code>Player</code>s from the data store by last name, returning all players
-	 * whose last name <i>starts</i> with the given name.
-	 * @param lastName Value to search for
+	 * Retrieve <code>Player</code>s from the data store by name, returning all player
+	 * whose name <i>starts</i> with the given name.
+	 * @param name Value to search for
 	 * @return a <code>Collection</code> of matching <code>Player</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
-	@Query("SELECT DISTINCT player FROM Player player left join fetch player.pets WHERE player.lastName LIKE :lastName%")
-	public Collection<Player> findByLastName(@Param("lastName") String lastName);
+	@Query("SELECT DISTINCT player FROM Player player left join fetch player.nickname WHERE player.nickname LIKE :nickname%")
+	public Collection<Player> findByNickname(@Param("nickname") String nickName);
 
 
 	/**
@@ -56,7 +55,7 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	 * @return the <code>Player</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
-	@Query("SELECT player FROM Player player left join fetch player.pets WHERE player.id =:id")
+	@Query("SELECT player FROM Player player left join fetch player.id WHERE player.id =:id")
 	public Player findById(@Param("id") int id);
 
 }

@@ -33,8 +33,8 @@ public class PlayerService {
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Player> findPlayerByLastName(String lastName) throws DataAccessException {
-		return playerRepository.findByLastName(lastName);
+	public Collection<Player> findPlayerByNickname(String nickname) throws DataAccessException {
+		return playerRepository.findByNickname(nickname);
 	}
 
 	@Transactional

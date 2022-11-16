@@ -17,7 +17,7 @@ public class Rol{
 
     private Integer id;
 
-	private String nombre;
+	private String name;
 
 	private Integer stars;
 
@@ -26,7 +26,7 @@ public class Rol{
 		return new ToStringCreator(this)
 
 				.append("id", this.getId())
-				.append("name", this.getNombre())
+				.append("name", this.getName())
                 .append("stars", this.getStars()).toString();
 	}
 
