@@ -63,4 +63,6 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
-INSERT INTO games(id) VALUES (1);
+INSERT INTO games VALUES ('QWERTY', 'owner1');
+INSERT INTO games VALUES ('QWERTY2', 'admin1');
+

@@ -7,5 +7,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="joinGame">
-    <h1>JOIN GAME</h1>
+    <h1>GAMES</h1>
+
+    <b>${games}</b>
 </petclinic:layout>
