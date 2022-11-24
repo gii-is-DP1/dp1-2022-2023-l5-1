@@ -1,4 +1,3 @@
-
 package org.springframework.samples.petclinic.player;
 
 import javax.persistence.Entity;
@@ -18,7 +17,7 @@ public class Player {
 
     private Integer id;
 
-	private String Nickname;
+	private String nickname;
 
 	private Integer endurance;
 
@@ -26,7 +25,7 @@ public class Player {
 
 	private Rol rol;
 
-	private Personage Personage;
+	private Personage personage;
 
 	private User user;
 	
@@ -34,7 +33,7 @@ public class Player {
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
-				.append("id", this.getId()).append("name", this.getNickname()).append("endurance", this.getEndurance())
+				.append("id", this.getId()).append("nickname", this.getNickname()).append("endurance", this.getEndurance())
 				.append("honor", this.getHonor()).append("rol", this.getRol()).append("personage", this.getPersonage())
 				.append("user", this.getUser()).toString();
 	}
