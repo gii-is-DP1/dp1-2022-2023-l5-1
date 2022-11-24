@@ -17,6 +17,8 @@
             <petclinic:inputField label="Surname" name="surname"/>
             <petclinic:inputField label="Email" name="email"/>   
             <petclinic:inputField label="Password" name="password"/>
+            <petclinic:inputField label="profpicurl" name="profpicurl"/>
+
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

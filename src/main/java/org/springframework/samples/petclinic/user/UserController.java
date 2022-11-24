@@ -103,7 +103,7 @@ public class UserController {
 		else {
 			user.setUsername(username);
 			this.userService.saveUser(user);
-			return String.format("redirect:/profile/%s",username);
+			return "welcome";
 		}
 	}
 
