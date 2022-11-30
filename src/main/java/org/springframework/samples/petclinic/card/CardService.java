@@ -20,7 +20,7 @@ public class CardService {
 
 
     @Transactional // (readOnly = true)
-    public Iterable<Card> findAll() {
+    public Iterable<Card> findAll(){
         return cardRepository.findAll();
     }
 

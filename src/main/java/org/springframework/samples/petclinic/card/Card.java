@@ -36,3 +36,4 @@ public class Card extends BaseEntity{
      @JoinColumn(name="weaponid")
      public Weapon weapon;
 }
+

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +24,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,12 +36,16 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.pet.Pet;
 import org.springframework.samples.petclinic.user.User;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
- * Simple JavaBean domain object representing an owner.
+ * Simple JavaBean domain object representing an player.
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -47,8 +53,10 @@ import org.springframework.samples.petclinic.user.User;
  * @author Michael Isvy
  */
 @Entity
-@Table(name = "owners")
-public class Owner extends Person {
+@Getter
+@Setter
+@Table(name = "players")
+public class Player extends Person {
 
 	@Column(name = "address")
 	@NotEmpty
@@ -63,7 +71,7 @@ public class Owner extends Person {
 	@Digits(fraction = 0, integer = 10)
 	private String telephone;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
 	private Set<Pet> pets;
 	
 	//
@@ -123,7 +131,7 @@ public class Owner extends Person {
 
 	public void addPet(Pet pet) {
 		getPetsInternal().add(pet);
-		pet.setOwner(this);
+		pet.setPlayer(this);
 	}
 	
 	public boolean removePet(Pet pet) {
@@ -131,7 +139,7 @@ public class Owner extends Person {
 	}
 
 	/**
-	 * Return the Pet with the given name, or null if none found for this Owner.
+	 * Return the Pet with the given name, or null if none found for this Player.
 	 * @param name to test
 	 * @return true if pet name is already in use
 	 */
@@ -152,7 +160,7 @@ public class Owner extends Person {
 	}
 
 	/**
-	 * Return the Pet with the given name, or null if none found for this Owner.
+	 * Return the Pet with the given name, or null if none found for this Player.
 	 * @param name to test
 	 * @return true if pet name is already in use
 	 */
@@ -178,5 +186,8 @@ public class Owner extends Person {
 				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
 				.append("telephone", this.telephone).toString();
 	}
-
+	//RELATION WITH CARDS
+	@ManyToMany(fetch = FetchType.EAGER)
+	
+	private List<Card> cards;
 }

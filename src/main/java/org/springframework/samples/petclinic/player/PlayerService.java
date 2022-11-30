@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.player;
 
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class OwnerService {
+public class PlayerService {
 
-	private OwnerRepository ownerRepository;	
+	private PlayerRepository playerRepository;	
 	
 	@Autowired
 	private UserService userService;
@@ -42,28 +45,39 @@ public class OwnerService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public OwnerService(OwnerRepository ownerRepository) {
-		this.ownerRepository = ownerRepository;
+	public PlayerService(PlayerRepository playerRepository) {
+		this.playerRepository = playerRepository;
 	}	
 
 	@Transactional(readOnly = true)
-	public Owner findOwnerById(int id) throws DataAccessException {
-		return ownerRepository.findById(id);
+	public Player findPlayerById(int id) throws DataAccessException {
+		return playerRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
+	public Collection<Player> findPlayerByLastName(String lastName) throws DataAccessException {
+		return playerRepository.findByLastName(lastName);
 	}
 
 	@Transactional
-	public void saveOwner(Owner owner) throws DataAccessException {
-		//creating owner
-		ownerRepository.save(owner);		
+	public void savePlayer(Player player) throws DataAccessException {
+		//creating player
+		playerRepository.save(player);		
 		//creating user
-		userService.saveUser(owner.getUser());
+		userService.saveUser(player.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
+		authoritiesService.saveAuthorities(player.getUser().getUsername(), "player");
+	}	
+
+	@Transactional(readOnly = true)
+    public Integer getIdPlayerByName(String n) {
+        return playerRepository.findPlayerIdByName(n);
+    }
+
+	@Transactional
+    public void save(Player player){
+        playerRepository.save(player);
+    }
+
 
 }
