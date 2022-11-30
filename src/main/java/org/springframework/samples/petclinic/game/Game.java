@@ -34,6 +34,9 @@ public class Game extends BaseEntity {
     @Column(name="has_started")
     private boolean hasStarted;
     
+    @Column(name="is_finished")
+    private boolean isFinished;
+
     //Jugadores
     //Lista
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
