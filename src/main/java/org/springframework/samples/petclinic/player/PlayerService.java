@@ -53,6 +53,11 @@ public class PlayerService {
 	public Player findPlayerById(int id) throws DataAccessException {
 		return playerRepository.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Owner> findOwnerByName(String firstName) throws DataAccessException {
+		return ownerRepository.findByLastName(firstName);
+	}
 
 	@Transactional(readOnly = true)
 	public Collection<Player> findPlayerByLastName(String lastName) throws DataAccessException {

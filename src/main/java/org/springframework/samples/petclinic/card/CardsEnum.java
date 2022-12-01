@@ -4,3 +4,4 @@ public class CardsEnum {
     //TODO: fijarse en el proyecto y hacer funcion y enum para cada carta
     
 }
+
