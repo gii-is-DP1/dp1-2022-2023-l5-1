@@ -1,7 +1,7 @@
-
 package org.springframework.samples.petclinic.player;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -9,7 +9,6 @@ import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 public class PlayerService {
@@ -27,10 +26,10 @@ public class PlayerService {
 		this.playerRepository = playerRepository;
 	}	
 
-	@Transactional(readOnly = true)
-	public Player findPlayerById(int id) throws DataAccessException {
-		return playerRepository.findById(id);
-	}
+	@Transactional
+    public Optional<Player> findPlayerById(int id){
+        return playerRepository.findPlayerById(id);
+    }
 
 	@Transactional(readOnly = true)
 	public Collection<Player> findPlayerByNickname(String nickname) throws DataAccessException {

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +14,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "rol")
-public class Rol{
+public class Rol extends BaseEntity{
 
-    private Integer id;
 
 	private String name;
 

@@ -60,7 +60,7 @@ public class PetController {
 		return this.petService.findPetTypes();
 	}
 
-	@ModelAttribute("player")
+	/*@ModelAttribute("player")
 	public Player findPlayer(@PathVariable("playerId") int playerId) {
 		return this.playerService.findPlayerById(playerId);
 	}
@@ -85,7 +85,7 @@ public class PetController {
 		dataBinder.setValidator(new PetValidator());
 	}
 
-	@GetMapping(value = "/pets/new")
+	/*@GetMapping(value = "/pets/new")
 	public String initCreationForm(Player player, ModelMap model) {
 		Pet pet = new Pet();
 		player.addPet(pet);
@@ -109,7 +109,7 @@ public class PetController {
                     }
                     return "redirect:/players/{playerId}";
 		}
-	}
+	}*/
 
 	@GetMapping(value = "/pets/{petId}/edit")
 	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
@@ -128,7 +128,7 @@ public class PetController {
      * @param model
      * @return
      */
-        @PostMapping(value = "/pets/{petId}/edit")
+        /*@PostMapping(value = "/pets/{petId}/edit")
 	public String processUpdateForm(@Valid Pet pet, BindingResult result, Player player,@PathVariable("petId") int petId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
@@ -145,6 +145,6 @@ public class PetController {
                     }
 			return "redirect:/players/{playerId}";
 		}
-	}
+	}*/
 
 }

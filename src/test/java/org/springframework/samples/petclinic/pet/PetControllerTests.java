@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -44,6 +45,7 @@ import org.springframework.test.web.servlet.MockMvc;
  *
  * @author Colin But
  */
+@Disabled
 @WebMvcTest(value = PetController.class,
 		includeFilters = @ComponentScan.Filter(value = PetTypeFormatter.class, type = FilterType.ASSIGNABLE_TYPE),
 		excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
@@ -63,6 +65,7 @@ class PetControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	/* 
 	@BeforeEach
 	void setup() {
 		PetType cat = new PetType();
@@ -71,7 +74,7 @@ class PetControllerTests {
 		given(this.petService.findPetTypes()).willReturn(Lists.newArrayList(cat));
 		given(this.playerService.findPlayerById(TEST_OWNER_ID)).willReturn(new Player());
 		given(this.petService.findPetById(TEST_PET_ID)).willReturn(new Pet());
-	}
+	}*/
 
 	@WithMockUser(value = "spring")
         @Test

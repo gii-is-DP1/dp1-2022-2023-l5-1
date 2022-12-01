@@ -24,7 +24,7 @@ public interface RolRepository extends Repository<Rol, Integer> {
 	 * @return a <code>Collection</code> of matching <code>Rol</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	
-	@Query("SELECT DISTINCT rol FROM Rol rol left join fetch rol.pets WHERE player.name LIKE :name%")
+	@Query("SELECT DISTINCT rol FROM Rol rol left join fetch rol.name WHERE rol.name LIKE :name%")
 	public Collection<Rol> findByName(@Param("name") String lastName);
 
 
@@ -34,7 +34,7 @@ public interface RolRepository extends Repository<Rol, Integer> {
 	 * @return the <code>Rol</code> if found
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */	
-	@Query("SELECT rol FROM Rol rol left join fetch rol.pets WHERE rol.id =:id")
+	@Query("SELECT rol FROM Rol rol left join fetch rol.id WHERE rol.id =:id")
 	public Rol findById(@Param("id") int id);
 
 }
