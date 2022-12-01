@@ -18,6 +18,9 @@ public class DeckService {
     @Autowired
     private DeckRepository deckRepo;
 
+    @Autowired
+    private CardService cardService;
+
     @Transactional
     public Iterable<Deck> findByCardId(int id) {
         return deckRepo.findByCardId(id);
@@ -38,7 +41,7 @@ public class DeckService {
     public Deck init(String name) {  
         Deck deck = new Deck();
         deck.setName(name);
-        Iterable<Card> cardsI = CardService.findAll();
+        Iterable<Card> cardsI = cardService.findAll();
         List<Card> cards = StreamSupport.stream(cardsI.spliterator(), false).collect(Collectors.toList());
         Collections.shuffle(cards);
         deck.setCards(cards);
