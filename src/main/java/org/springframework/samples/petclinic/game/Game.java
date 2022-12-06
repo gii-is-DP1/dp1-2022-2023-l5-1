@@ -1,37 +1,40 @@
 package org.springframework.samples.petclinic.game;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-
-import org.springframework.samples.petclinic.model.NamedEntity;
-import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
 
-
-
 @Entity
+@Table(name = "games")
 @Getter
 @Setter
-public class Game extends NamedEntity{
+public class Game {
+   @Id
+   private String code;
 
-   
-   private User creator;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username")
+    private User user;
 
-   private Integer turn;
+    public User getUser() {
+		return user;
+	}
 
-   private String winner;
+	public void setUser(User user) {
+		this.user = user;
+	}
+    
 
-   private LocalDateTime startTime;
-
-   private LocalDateTime endTime;
-
-   private Integer maxNumberOfPlayers;
-
-   private List<Player> players;
-
+  
 }

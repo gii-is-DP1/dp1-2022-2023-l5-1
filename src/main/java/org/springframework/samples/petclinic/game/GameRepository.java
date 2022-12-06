@@ -7,13 +7,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class GameRepository extends CrudRepository<Game, Integer> {
+public interface GameRepository extends CrudRepository<Game,Integer>{
+  
+    Iterable<Game> findAll();
     
-	@Query("SELECT game FROM Game game WHERE game.turn IS 0")
-	List<Game> findLobbies() throws DataAccessException;   
-
-    @Query("SELECT game FROM Game game WHERE game.winner IS NULL AND turn > 0")
-	List<Game> findOnGoingGames() throws DataAccessException;
-    
-
+    @Query("SELECT P from Game P WHERE P.code = :code")
+    Iterable<Game> findGamesByRoomCode(String code) throws DataAccessException;
 }
