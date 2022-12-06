@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.player;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.core.style.ToStringCreator;
@@ -28,7 +29,8 @@ public class Player extends BaseEntity{
 	@NotBlank
 	private Rol rol;
 
-	
+	@NotBlank
+	@ManyToOne
 	private User user;
 	
 
