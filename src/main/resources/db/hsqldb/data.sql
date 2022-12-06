@@ -62,26 +62,3 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
-
-INSERT INTO games VALUES ('QWERTY', 'owner1');
-INSERT INTO games VALUES ('QWERTY2', 'admin1');
-
-INSERT INTO rol(id,name,stars) VALUES (1, 'ninja1',1 ),
- VALUES (1, 'ninja2',2 ),
- VALUES (1, 'ninja3',3),
- VALUES (1, 'ronin',1 ),
- VALUES (1, 'samurai',1 ),
-VALUES (1, 'shogun',1 );
-
-INSERT INTO acciones(id,name,description,cardImage,CardType) VALUES (1, 'respiración','Recuperas todos tus puntos de Resistencia (es decir, te
-curas de todas tus heridas). Entonces, otro jugador que elijas (¡tú no!) roba 1 carta del mazo. No puedes curar a otros jugadores.', '', UTILITY ),
-VALUES (2 , 'grito de batalla','Cada uno de los demás jugadores debe elegir entre jugar una Parada o sufrir 1 herida. Los jugadores Inofensivos
- no se ven afectados por el Grito de batalla.', '', UTILITY ),
-VALUES (3 , 'jiu-jitsu','Cada uno de los demás jugadores debe elegir entre jugar 1 carta de Arma o sufrir 1 herida. 
- Los jugadores Inofensivos no se ven afectados por Jiu-jitsu.', '', UTILITY ), 
-VALUES (4 , 'ceremonia del té','Roba 3 cartas del mazo. Cada uno de los demás jugadores roba 1 carta del mazo.', '', UTILITY ),
-VALUES (5 , 'geisha','Obliga a un jugador a descartar 1 carta (independientemente de la Dificultad).
- Puedes elegir cualquier carta de Propiedad que tenga en juego, o cogerla al azar de la mano del jugador.', '', UTILITY ),
-VALUES (6 , 'distracción','Roba 1 carta al azar de la mano de otro jugador (independientemente de la Dificultad) 
- y añádela a tu mano.', '', UTILITY ),
-VALUES (7, 'parada','Puedes usar esta carta cuando te ataquen y parar el ataque para impedir que te hagan daño', '', UTILITY )

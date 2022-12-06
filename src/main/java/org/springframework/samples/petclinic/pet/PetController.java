@@ -85,13 +85,13 @@ public class PetController {
 		dataBinder.setValidator(new PetValidator());
 	}
 
-	@GetMapping(value = "/pets/new")
-	public String initCreationForm(Owner owner, ModelMap model) {
-		Pet pet = new Pet();
-		owner.addPet(pet);
-		model.put("pet", pet);
-		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
-	}
+	// @GetMapping(value = "/pets/new")
+	// public String initCreationForm(Owner owner, ModelMap model) {
+	// 	Pet pet = new Pet();
+	// 	owner.addPet(pet);
+	// 	model.put("pet", pet);
+	// 	return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+	// }
 
 	@PostMapping(value = "/pets/new")
 	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {		
