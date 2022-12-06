@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.player;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.dom4j.tree.BaseElement;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.user.User;
@@ -29,6 +28,7 @@ public class Player extends BaseEntity{
 	@NotBlank
 	private Rol rol;
 
+	
 	private User user;
 	
 
