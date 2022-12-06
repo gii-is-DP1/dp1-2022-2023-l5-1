@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "players")
+//@Table(name = "players")
 public class Player extends BaseEntity{
 
 	@NotBlank
