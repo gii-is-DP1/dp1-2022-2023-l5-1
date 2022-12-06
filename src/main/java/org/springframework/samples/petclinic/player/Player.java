@@ -17,19 +17,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-//@Table(name = "players")
+@Table(name = "players")
 public class Player extends BaseEntity{
 
-	@NotBlank
+
 	private String nickname;
-	@NotNull
+
 	private Integer resistance;
-	@NotNull
+
 	private Integer honor;
-	@NotBlank
+
 	private Rol rol;
 
-	@NotBlank
 	@ManyToOne
 	private User user;
 	
