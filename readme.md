@@ -1,36 +1,29 @@
-# Spring PetClinic Sample Application 
+# Proyecto Samurai Sword
 
-This is a fork of https://github.com/spring-projects/spring-petclinic to be used for the DP1 course. The main changes that have been performed were:
-- Trimming several parts of the application to keep the example low
-- Reorganize some parts of the code according to best practices introduced in the course
+El proyecto trata principalmente la digitalización del juego de mesa “Samurai Sword” aportando en primer lugar una mejor disponibilidad al poder jugarlo online con amigos y el registro de partidas junto a la recopilación de estadísticas sobre el modo de juego de cada jugador. 
 
-## Understanding the Spring Petclinic application with a few diagrams
-<a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
+![Sin título-1](https://user-images.githubusercontent.com/72883340/206562968-3fe662d6-798a-4992-a21d-03f50e2a83f4.png)
 
-## Running petclinic locally
-Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
+## Explicación del juego 
+El juego comienza con el reparto de roles, estos son el Shogun(alcalde) , los Samuráis que tratarán de defender al Shogun , los Ninjas justo lo opuesto y el Ronin(al estilo mercenario) tiene un punto de estilo libre. Estas cartas no serán relevadas al resto de jugadores excepto la carta del Shogun. Cada jugador tendrá los puntos de vida y de honor correspondiente a su rol asignado.
+
+A partir del reparto de todas las cartas, comienza la partida desarrollándose en turnos sucesivos, pasando de un jugador al siguiente en el sentido de las agujas del reloj.  Los jugadores podrán usar las cartas que tengan en su mano .
+
+Con un mínimo de 4 jugadores y un máximo de 7, los jugadores tendrán que avanzar en la partida teniendo en cuenta la distancia entre ellos siendo esta 1 con los adyacentes y +1 por cada persona que le siga, tomando siempre el camino más corto.
+
+El juego finaliza cuando un jugador muere debido a la pérdida de todos los puntos de resistencia y los puntos de honor y se comenzará con un recuento de puntos según la tabla de puntuaciones del juego. Este tiene una media de partida de 30 min.
 
 
-```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
-cd spring-petclinic
-./mvnw package
-java -jar target/*.jar
-```
+## In case you find a bug/suggested improvement for Samurai Sword
+Our issue tracker is available here: https://github.com/gii-is-DP1/spring-petclinic/issues
 
 You can then access petclinic here: http://localhost:8080/
-
-<img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
 
 Or you can run it from Maven directly using the Spring Boot Maven plugin. If you do this it will pick up changes that you make in the project immediately (changes to Java source files require a compile as well - most people use an IDE for this):
 
 ```
 ./mvnw spring-boot:run
 ```
-
-## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/gii-is-DP1/spring-petclinic/issues
-
 
 ## Database configuration
 
