@@ -7,16 +7,15 @@ import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 
 public enum CardsEnum implements UseCardsInterface { // Primero estan todas las de descarte al usarlo
-    //POR TERMINAR, HACER DAIMIO
-    GOURMET("Gourmet", "Cuando consigas 3 o más dados 'ONE', recibirás 2 puntos de victoria extra") {
+    //CARTA DE EJEMPLO
+    DAIMIO("Daimio", "Hace 1 de daño a todos los jugadores") {
         @Override
-        public void effectInRoll(Player player, PlayerService playerService, MapGameRepository mapGameRepository) {
-            Roll roll = mapGameRepository.getRoll(player.getGame().getId());
-
-            Map<String, Integer> rollValues = playerService.countRollValues(roll.getValues());
-            if (rollValues.get("ones") > 2) {
-                player.setVictoryPoints(player.getVictoryPoints() + 2);
-                playerService.savePlayer(player);
+        public void effectEndTurn(Player player, PlayerService playerService, MapGameRepository mapGameRepository) {
+            for (Player play : player.getGame().getPlayers()) {
+                if (!player.equals(play)) {
+                    playerService.damagePlayer(play, 1);
+                    playerService.savePlayer(play);
+                }
             }
 
         }

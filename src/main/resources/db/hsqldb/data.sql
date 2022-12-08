@@ -61,7 +61,6 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-0
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-<<<<<<< HEAD
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 INSERT INTO games VALUES ('QWERTY', 'owner1');
@@ -103,6 +102,3 @@ INSERT INTO cards(id,name,description,cardImage,CardType,weapon_id) VALUES (1,'D
 
 INSERT INTO weapons(id,damage,range) VALUES (1,2,5), (2,1,5), (3,3,1), (4,3,3), (5,1,3),
  (6,1,4), (7,2,4), (8,2,2), (9,2,1), (10,1,1), (11,1,2), (12,3,2), (13,2,3)
-=======
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
->>>>>>> develop

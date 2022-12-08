@@ -7,9 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.samples.petclinic.gamecard.GameCard;
+import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.user.User;
 
 import lombok.Getter;
@@ -34,6 +37,12 @@ public class Game {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+  private List<Player> players;
+
+  @OneToMany(mappedBy = "game")
+  private List<GameCard> gameCards;
     
 
   
