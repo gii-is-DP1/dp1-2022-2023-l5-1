@@ -10,7 +10,4 @@ public interface HandRepository extends CrudRepository<Hand, String> {
 	
 	@Query(value = "SELECT * FROM Hand where id LIKE ?1", nativeQuery = true) 
 	Optional<Hand> findHandById(int id);
-
-	@Query("SELECT hand FROM Hand hand left join fetch hand.id WHERE hand.id =:id")
-	public Hand findById(@Param("id") int id);
 }
