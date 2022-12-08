@@ -7,7 +7,7 @@ El proyecto trata principalmente la digitalización del juego de mesa “Samurai
 ## Explicación del juego 
 El juego comienza con el reparto de roles, estos son el Shogun(alcalde) , los Samuráis que tratarán de defender al Shogun , los Ninjas justo lo opuesto y el Ronin(al estilo mercenario) tiene un punto de estilo libre. Estas cartas no serán relevadas al resto de jugadores excepto la carta del Shogun. Cada jugador tendrá los puntos de vida y de honor correspondiente a su rol asignado.
 
-A partir del reparto de todas las cartas, comienza la partida desarrollándose en turnos sucesivos, pasando de un jugador al siguiente en el sentido de las agujas del reloj.  Los jugadores podrán usar las cartas que tengan en su mano .
+A partir del reparto de todas las cartas, comienza la partida desarrollándose en turnos sucesivos, pasando de un jugador al siguiente en el sentido de las agujas del reloj.  Los jugadores podrán usar las cartas que tengan en su mano.
 
 Con un mínimo de 4 jugadores y un máximo de 7, los jugadores tendrán que avanzar en la partida teniendo en cuenta la distancia entre ellos siendo esta 1 con los adyacentes y +1 por cada persona que le siga, tomando siempre el camino más corto.
 
