@@ -31,6 +31,9 @@ public class Card extends BaseEntity{
      @Enumerated (value=EnumType.STRING)
      public CardType type;
 
+     @Enumerated(value = EnumType.STRING)
+     private CardsEnum cardEnum;
+
      @ManyToOne(optional = true)
      @JoinColumn(name="weaponid")
      public Weapon weapon;
