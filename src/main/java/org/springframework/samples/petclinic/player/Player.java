@@ -2,10 +2,14 @@ package org.springframework.samples.petclinic.player;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.samples.petclinic.equipment.Equipment;
+import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.hand.Hand;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
@@ -21,7 +25,7 @@ public class Player extends BaseEntity{
 	private String nickname;
 
 	@NotNull
-	private Integer honnor;
+	private Integer honor;
 
 	@NotNull
 	private Integer resistance;
@@ -30,6 +34,15 @@ public class Player extends BaseEntity{
 	private String rol;
 
 	@NotBlank
-	private String heroImg;
+	@OneToOne
+	private Hand hand;
+
+	@NotBlank
+	@OneToOne
+	private Equipment equipment;
+	
+	@NotBlank
+	@OneToOne
+	private Game game;
 
 }

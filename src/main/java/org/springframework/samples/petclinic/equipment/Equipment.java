@@ -24,10 +24,10 @@ public class Equipment extends BaseEntity{
     private Integer armor;
 
     @NotEmpty
-    private Integer FastDraw;
+    private Integer fastDraw;
 
     @NotEmpty
-    private Integer Focus;
+    private Integer focus;
 
     
 }

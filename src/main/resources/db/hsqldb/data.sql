@@ -62,3 +62,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
+
+INSERT INTO players(id,nickname,honor,resistance,rol,equipment_id, game_id) VALUES (1,'PepeViyuela',5,2,'Shogun',1,1),
+    (2,'LMDShow',5,3,'Ninja',2,1),
+    (3,'KojimaX',3,2,'Samurai',3,1),
+    (4,'TheRock_cousinXx',1,5,'Shogun',4,1);
+
+INSERT INTO games(id,code,has_started,is_finished) VALUES (1, 1313,TRUE,FALSE);
+
+INSERT INTO equipment(id, player_id, armor, fast_draw, focus) VALUES (1,1,3,1,2),(2,2,0,1,1),(3,3,1,0,0),(4,4,2,2,2);
