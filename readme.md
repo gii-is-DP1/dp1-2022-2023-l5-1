@@ -1,20 +1,19 @@
-# Proyecto Samurai Sword
+# Proyecto Buscaminas
 
-El proyecto trata principalmente la digitalización del juego de mesa “Samurai Sword” aportando en primer lugar una mejor disponibilidad al poder jugarlo online con amigos y el registro de partidas junto a la recopilación de estadísticas sobre el modo de juego de cada jugador. 
+El proyecto trata principalmente la digitalización del juego de mesa “Buscaminas” aportando en primer lugar una mejor disponibilidad al poder jugarlo online con amigos y el registro de partidas junto a la recopilación de estadísticas sobre el modo de juego de cada jugador. 
 
 ![Sin título-1](https://user-images.githubusercontent.com/72883340/206562968-3fe662d6-798a-4992-a21d-03f50e2a83f4.png)
 
 ## Explicación del juego 
-El juego comienza con el reparto de roles, estos son el Shogun(alcalde) , los Samuráis que tratarán de defender al Shogun , los Ninjas justo lo opuesto y el Ronin(al estilo mercenario) tiene un punto de estilo libre. Estas cartas no serán relevadas al resto de jugadores excepto la carta del Shogun. Cada jugador tendrá los puntos de vida y de honor correspondiente a su rol asignado.
+El Buscaminas es un juego de computadora que se juega en una cuadrícula rectangular, generalmente de dimensiones variables. El objetivo del juego es despejar todos los espacios sin hacer estallar las minas ocultas en la cuadrícula.
 
-A partir del reparto de todas las cartas, comienza la partida desarrollándose en turnos sucesivos, pasando de un jugador al siguiente en el sentido de las agujas del reloj.  Los jugadores podrán usar las cartas que tengan en su mano.
+Al comienzo del juego, se coloca un número específico de minas en diferentes celdas de la cuadrícula, que no son visibles para el jugador. El tamaño de la cuadrícula y el número de minas pueden variar según la configuración del juego.
 
-Con un mínimo de 4 jugadores y un máximo de 7, los jugadores tendrán que avanzar en la partida teniendo en cuenta la distancia entre ellos siendo esta 1 con los adyacentes y +1 por cada persona que le siga, tomando siempre el camino más corto.
+El jugador comienza seleccionando una celda para revelar su contenido. Si la celda contiene una mina, el juego termina y el jugador pierde. Si la celda está vacía, se muestra un número que indica la cantidad de minas adyacentes a esa celda (en las ocho celdas que la rodean). Este número sirve como pista para determinar la ubicación de las minas ocultas.
 
-El juego finaliza cuando un jugador muere debido a la pérdida de todos los puntos de resistencia y los puntos de honor y se comenzará con un recuento de puntos según la tabla de puntuaciones del juego. Este tiene una media de partida de 30 min.
+El jugador puede usar la información proporcionada por los números para deducir qué celdas están libres de minas y cuáles pueden contener minas. El objetivo es marcar todas las celdas con minas usando una bandera para evitar hacer clic accidentalmente en ellas. El jugador puede hacer clic con el botón derecho del mouse (o usar una función equivalente) en una celda para colocar o quitar una bandera. El juego continúa hasta que todas las celdas sin minas hayan sido reveladas y todas las minas estén marcadas con banderas. En ese momento, el jugador gana el juego.
 
-
-## In case you find a bug/suggested improvement for Samurai Sword
+## In case you find a bug/suggested improvement for Buscaminas
 Our issue tracker is available here: https://github.com/gii-is-DP1/spring-petclinic/issues
 
 You can then access petclinic here: http://localhost:8080/
