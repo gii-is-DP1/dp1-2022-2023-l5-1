@@ -2,7 +2,7 @@
 
 El proyecto trata principalmente la digitalización del juego de mesa “Buscaminas” aportando en primer lugar una mejor disponibilidad al poder jugarlo online con amigos y el registro de partidas junto a la recopilación de estadísticas sobre el modo de juego de cada jugador. 
 
-![Sin título-1](https://user-images.githubusercontent.com/72883340/206562968-3fe662d6-798a-4992-a21d-03f50e2a83f4.png)
+
 
 ## Explicación del juego 
 El Buscaminas es un juego de computadora que se juega en una cuadrícula rectangular, generalmente de dimensiones variables. El objetivo del juego es despejar todos los espacios sin hacer estallar las minas ocultas en la cuadrícula.
