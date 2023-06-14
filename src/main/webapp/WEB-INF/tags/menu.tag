@@ -34,6 +34,11 @@
 					<span>Find owners</span>
 				</petclinic:menuItem>
 
+				<petclinic:menuItem url="/game" active ="${name eq 'game'}" title="Start a game">
+					<span class ="glyphicon glyphicon-fire" aria-hidden="true"></span>
+					<span>Play minesweeper</span>
+				</petclinic:menuItem>
+
 				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
 					title="veterinarians">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -58,7 +63,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>ï¿½
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>

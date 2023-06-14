@@ -26,6 +26,9 @@ public class User{
 	@NotBlank
 	String name;
 	
-	boolean administrator;	
+	boolean enabled;
+
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+	private Set<Authorities> authorities;	
 	
 }
