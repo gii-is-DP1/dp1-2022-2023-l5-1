@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -30,16 +32,20 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
+
 @Controller
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+	private static final String VIEWS_OWNER_LIST = "users/listUser";
 
+	private final UserService userService;
 	private final OwnerService ownerService;
 
 	@Autowired
-	public UserController(OwnerService clinicService) {
+	public UserController(OwnerService clinicService, UserService clinicService2) {
 		this.ownerService = clinicService;
+		this.userService = clinicService2;
 	}
 
 	@InitBinder
@@ -64,6 +70,16 @@ public class UserController {
 			this.ownerService.saveOwner(owner);
 			return "redirect:/";
 		}
+	}
+
+	@GetMapping(value = { "/users" })
+	public String showVetList(Map<String, Object> model) {
+		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// objects
+		// so it is simpler for Object-Xml mapping
+		List<User> users = new ArrayList<>(this.userService.findUsers());
+		model.put("users", users);
+		return VIEWS_OWNER_LIST;
 	}
 
 }
