@@ -25,7 +25,8 @@ public class User{
 	@NotBlank
 	String password;
 
-
+	@NotBlank
+	String name;
 	
 	boolean enabled;
 
