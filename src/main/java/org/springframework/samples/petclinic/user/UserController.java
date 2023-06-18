@@ -33,7 +33,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 
@@ -41,7 +40,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
-  private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+  private static final String VIEWS_OWNER_LIST = "users/listUser";
 
 	private final UserService userService;
 	private final AuthoritiesService authoService;
