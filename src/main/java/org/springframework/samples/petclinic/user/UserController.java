@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -34,13 +36,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
+
 @Controller
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
+  private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
 
 	private final UserService userService;
-
 	private final AuthoritiesService authoService;
 
 	@Autowired
@@ -87,7 +90,7 @@ public class UserController {
 		model.put("user", user);
 		return VIEWS_OWNER_CREATE_FORM;
 	}
-	@PutMapping(value = "/users/update")
+	@PostMapping(value = "/users/update")
 	public String processUpdateForm(@Valid User user, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_FORM;
@@ -99,5 +102,15 @@ public class UserController {
 		}
 	}
 
+
+	@GetMapping(value = { "/users" })
+	public String showVetList(Map<String, Object> model) {
+		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// objects
+		// so it is simpler for Object-Xml mapping
+		List<User> users = new ArrayList<>(this.userService.findUsers());
+		model.put("users", users);
+		return VIEWS_OWNER_LIST;
+	}
 
 }
