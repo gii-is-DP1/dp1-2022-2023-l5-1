@@ -61,6 +61,8 @@ public class UserController {
 		}
 		else {
 			//creating owner, user, and authority
+			owner.getUser().setName(owner.getFirstName()+""+owner.getLastName());
+			owner.getUser().setEnabled(true);
 			this.ownerService.saveOwner(owner);
 			return "redirect:/";
 		}

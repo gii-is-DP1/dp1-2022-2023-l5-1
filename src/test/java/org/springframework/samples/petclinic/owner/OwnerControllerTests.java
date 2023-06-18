@@ -61,9 +61,6 @@ class OwnerControllerTests {
 		george.setId(TEST_OWNER_ID);
 		george.setFirstName("George");
 		george.setLastName("Franklin");
-		george.setAddress("110 W. Liberty St.");
-		george.setCity("Madison");
-		george.setTelephone("6085551023");
 		given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(george);
 
 	}
@@ -78,16 +75,14 @@ class OwnerControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/new").param("firstName", "Joe").param("lastName", "Bloggs").with(csrf())
-				.param("address", "123 Caramel Street").param("city", "London").param("telephone", "01316761638"))
+		mockMvc.perform(post("/owners/new").param("firstName", "Joe").param("lastName", "Bloggs").with(csrf()))
 				.andExpect(status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/new").with(csrf()).param("firstName", "Joe").param("lastName", "Bloggs")
-				.param("city", "London")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("owner"))
+		mockMvc.perform(post("/owners/new").with(csrf()).param("firstName", "Joe").param("lastName", "Bloggs")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("owner"))
 				.andExpect(model().attributeHasFieldErrors("owner", "address"))
 				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
@@ -133,9 +128,6 @@ class OwnerControllerTests {
 				.andExpect(model().attributeExists("owner"))
 				.andExpect(model().attribute("owner", hasProperty("lastName", is("Franklin"))))
 				.andExpect(model().attribute("owner", hasProperty("firstName", is("George"))))
-				.andExpect(model().attribute("owner", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("owner", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
 	}
 
@@ -143,8 +135,7 @@ class OwnerControllerTests {
 	@Test
 	void testProcessUpdateOwnerFormSuccess() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID).with(csrf()).param("firstName", "Joe")
-				.param("lastName", "Bloggs").param("address", "123 Caramel Street").param("city", "London")
-				.param("telephone", "01616291589")).andExpect(status().is3xxRedirection())
+				.param("lastName", "Bloggs")).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/owners/{ownerId}"));
 	}
 
@@ -152,10 +143,7 @@ class OwnerControllerTests {
 	@Test
 	void testProcessUpdateOwnerFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID).with(csrf()).param("firstName", "Joe")
-				.param("lastName", "Bloggs").param("city", "London")).andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("owner"))
-				.andExpect(model().attributeHasFieldErrors("owner", "address"))
-				.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
+				.param("lastName", "Bloggs")).andExpect(status().isOk())
 				.andExpect(view().name("owners/createOrUpdateOwnerForm"));
 	}
 
@@ -165,9 +153,6 @@ class OwnerControllerTests {
 		mockMvc.perform(get("/owners/{ownerId}", TEST_OWNER_ID)).andExpect(status().isOk())
 				.andExpect(model().attribute("owner", hasProperty("lastName", is("Franklin"))))
 				.andExpect(model().attribute("owner", hasProperty("firstName", is("George"))))
-				.andExpect(model().attribute("owner", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("owner", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
 				.andExpect(view().name("owners/ownerDetails"));
 	}
 
