@@ -39,11 +39,13 @@
 					<span>Play minesweeper</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'users'}" url="/users"
-					title="user">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>users</span>
-				</petclinic:menuItem>
+				<sec:authorize access="hasAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'users'}" url="/users"
+						title="user">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>users</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
 					title="veterinarians">
