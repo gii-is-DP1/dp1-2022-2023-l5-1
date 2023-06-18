@@ -20,26 +20,33 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.owner.OwnerService;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
 
-	private final OwnerService ownerService;
+	private final UserService userService;
+
+	private final AuthoritiesService authoService;
 
 	@Autowired
-	public UserController(OwnerService clinicService) {
-		this.ownerService = clinicService;
+	public UserController(UserService clinicService,AuthoritiesService clinicService2) {
+		this.userService = clinicService;
+		this.authoService = clinicService2;
 	}
 
 	@InitBinder
@@ -49,23 +56,48 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Owner owner = new Owner();
-		model.put("owner", owner);
+		User user = new User();
+		model.put("user", user);
 		return VIEWS_OWNER_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+	public String processCreationForm(@Valid User user, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_FORM;
 		}
 		else {
-			//creating owner, user, and authority
-			owner.getUser().setName(owner.getFirstName()+""+owner.getLastName());
-			owner.getUser().setEnabled(true);
-			this.ownerService.saveOwner(owner);
+			//creating user, user, and authority
+			user.setEnabled(true);
+			Authorities authorities= new Authorities();
+			authorities.setUser(user);
+			authorities.setAuthority("player");
+			this.userService.saveUser(user);
+			this.authoService.saveAuthorities(authorities);
+			return "redirect:/";
+		}
+	}	
+
+	@GetMapping(value = "/users/update")
+	public String initUpdateForm(Map<String, Object> model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = authentication.getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		User user = this.userService.findUser(userDetails.getUsername()).orElse(null);
+		model.put("user", user);
+		return VIEWS_OWNER_CREATE_FORM;
+	}
+	@PutMapping(value = "/users/update")
+	public String processUpdateForm(@Valid User user, BindingResult result) {
+		if (result.hasErrors()) {
+			return VIEWS_OWNER_CREATE_FORM;
+		}
+		else {
+			//creating user, user, and authority
+			this.userService.saveUser(user);
 			return "redirect:/";
 		}
 	}
+
 
 }
