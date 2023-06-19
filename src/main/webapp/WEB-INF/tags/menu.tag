@@ -90,7 +90,7 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/users/update" />"
-													class="btn btn-primary btn-block btn-sm">Update</a>
+													class="btn btn-primary btn-block btn-sm">View profile</a>
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
