@@ -34,7 +34,7 @@
 					<span>Find owners</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem url="/game" active ="${name eq 'game'}" title="Start a game">
+				<petclinic:menuItem url="/games" active ="${name eq 'games'}" title="Game menu">
 					<span class ="glyphicon glyphicon-fire" aria-hidden="true"></span>
 					<span>Play minesweeper</span>
 				</petclinic:menuItem>

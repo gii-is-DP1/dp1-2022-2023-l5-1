@@ -9,6 +9,9 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.user.User;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @MappedSuperclass
 public class AuditableEntity extends BaseEntity{
 
@@ -21,4 +24,28 @@ public class AuditableEntity extends BaseEntity{
     @NotNull
     @ManyToOne
     public User user;
+
+    public LocalDateTime getCreationDate(){
+        return this.creationDate;
+    }
+
+    public LocalDateTime getLastModified(){
+        return this.lastModified;
+    }
+
+    public User getUser(){
+        return this.user;
+    }
+
+    public void setCreationDate(LocalDateTime cd){
+        this.creationDate=cd;
+    }
+
+    public void setLastModified(LocalDateTime lm){
+        this.lastModified=lm;
+    }
+
+    public void setUser(User user){
+        this.user=user;
+    }
 }
