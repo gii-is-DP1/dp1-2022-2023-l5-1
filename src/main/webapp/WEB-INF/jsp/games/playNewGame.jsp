@@ -6,21 +6,26 @@
 
 <petclinic:layout pageName="Play game">
     <style>
+        :root{
+            --width: 800px;
+            --height: 800px;
+        }
         #board {
             width: var(--width);
             height: var(--height);
-            border: 5px solid darkgray;
+            border: 10px solid darkgray;
             background-color: lightgray;
 
-            margin: 0auto;
+            margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
         }
 
         #board div{
-            width: 18px;
-            height: 18px;
-            border: 1px solid whitesmoke;
+            box-sizing: border-box;
+            width: 50px;
+            height: 50px;
+            border: 1px solid gray;
 
             font-size: 30px;
             display: flex;
@@ -29,19 +34,19 @@
 
         }
     </style>
-
-    <h1>Mines:<c:out value="${board.minesNumber}"></c:out>></h1>
+    <h1>Mines:<c:out value="${board.minesNumber}"></c:out></h1>
     <div id="board"></div>
 </petclinic:layout>
 <script>
-    var boardStyle = document.body.style;
-    var rows=<c:out value="$board.yNumber"/>;
-    var columns=<c:out value="$board.xNumber"/>;
-    var width = columns*20;
-    var height = rows*20;
-    boardStyle.setProperty("--width", width.toString+"px");
-    boardStyle.setProperty("--height", height.toString+"px");
+    var root=document.querySelector(":root");
+    var rows="${board.rows}";
+    var columns="${board.columns}";
+    var width = (columns)*50+20;
+    var height = (rows)*50+20;
+    root.style.setProperty("--width", parseInt(width)+"px");
+    root.style.setProperty("--height", parseInt(height)+"px");
 
+    var board=[];
 
     window.onload = function(){
         startGame();
@@ -51,9 +56,12 @@
             let row=[];
             for(let c=0;c<columns;c++){
                 let tile =document.createElement("div");
-                document.getElementById("board").append("tile");
+                tile.id=r.toString()+"-"+c.toString();
+                document.getElementById("board").append(tile);
                 row.push(tile);
             }
+            board.push(row);
         }
+        console.log(board)
     }
 </script>

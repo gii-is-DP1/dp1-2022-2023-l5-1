@@ -18,11 +18,11 @@
             <div id="form" style="display: none">
                 <form:form modelAttribute="board" class="form-horizontal">
                     <div class="form-horizontal has-feedback">
-                        <label>Rows: </label>
-                        <form:input path="xNumber" value="8" type="number" min="8" max="16" size="5" name="rows" />
-                        &nbsp;&nbsp; 
                         <label>Columns: </label>
-                        <form:input path="yNumber" value="8" type="number" min="8" max="30" size="5" name="columns" />
+                        <form:input path="columns" value="8" type="number" min="8" max="30" size="5" name="columns" />
+                        &nbsp;&nbsp; 
+                        <label>Rows: </label>
+                        <form:input path="rows" value="8" type="number" min="8" max="16" size="5" name="rows" />
                         &nbsp;&nbsp; 
                         <label>Mines: </label>
                         <form:input path="minesNumber" value="10" type="number" min="10" max="99" size="5" name="mines" />

@@ -13,8 +13,8 @@ public class SquareService {
     public List<Square> initializeSquares(Board board){
         List<Square> squares =new ArrayList<Square>();
         Integer mines = board.getMinesNumber();
-        Integer rows = board.getYNumber();
-        Integer columns= board.getXNumber();
+        Integer rows = board.getRows();
+        Integer columns= board.getColumns();
     
         for(int i =0; i<rows; i++){
             for(int j=0; j<columns;j++){

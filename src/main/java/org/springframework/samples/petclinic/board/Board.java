@@ -18,12 +18,12 @@ public class Board extends AuditableEntity{
     @NotNull
     @Max(16)
     @Min(8)
-    public Integer xNumber;
+    public Integer columns;
 
     @NotNull
     @Max(30)
     @Min(8)
-    public Integer yNumber;
+    public Integer rows;
 
     @NotNull
     @Max(99)

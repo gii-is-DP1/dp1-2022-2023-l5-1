@@ -50,7 +50,7 @@ public class GameController {
             DifficultyLevel lv = DifficultyLevel.ADVANCED;
             board = boardService.boardInit(lv, name);
         }else if(difficulty.equals("Custom")){
-            board = boardService.boardInit(formBoard.getYNumber(),formBoard.getXNumber(),formBoard.getMinesNumber(),name);
+            board = boardService.boardInit(formBoard.getRows(),formBoard.getColumns(),formBoard.getMinesNumber(),name);
         }
         List<Square> squares = squareService.initializeSquares(board);
         model.put("squares", squares);
