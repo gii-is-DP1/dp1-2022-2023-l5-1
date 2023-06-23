@@ -12,8 +12,17 @@
     </h2>
     <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
+            <c:choose>
+                <c:when test="${user['new']}">
+                    <petclinic:inputField label="Username" name="username"/>
+                </c:when>
+                <c:otherwise>
+                    <h3 style="margin-left: 10%;">Username:<c:out value=" ${user.username}"/></h3> 
+                </c:otherwise>
+            </c:choose>
+
+            
             <petclinic:inputField label="Name" name="name"/>
-            <petclinic:inputField label="Username" name="username"/>
             <petclinic:inputField label="Password" name="password"/>
         </div>
         
@@ -24,7 +33,7 @@
                         <button class="btn btn-default" type="submit">Add new user</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit">Update Owner</button>
+                        <button class="btn btn-default" type="submit">Update User</button>
                     </c:otherwise>
                 </c:choose>
             </div>
