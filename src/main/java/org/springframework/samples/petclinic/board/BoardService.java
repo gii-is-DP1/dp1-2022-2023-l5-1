@@ -18,16 +18,19 @@ public class BoardService {
                 br.setYNumber(8);
                 br.setMinesNumber(10);
                 br.setFlagsNumber(10);
+                break;
             case INTERMEDIATE:
                 br.setXNumber(16);
                 br.setYNumber(16);
                 br.setMinesNumber(40);
                 br.setFlagsNumber(40);
+                break;
             case ADVANCED:
                 br.setXNumber(30);
                 br.setYNumber(16);
                 br.setMinesNumber(90);
                 br.setFlagsNumber(90);
+                break;
         }
         br.setUser(ur.findByUsername(username));
         br.setLevel(dif);

@@ -35,6 +35,7 @@ public class SquareService {
             Square sq = squares.get(index);
             if(sq.getIsMine()==false){
                 sq.setIsMine(true);
+                i++;
             }
             
         }
