@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.board.Board;
 import org.springframework.samples.petclinic.board.BoardService;
 import org.springframework.samples.petclinic.board.DifficultyLevel;
-import org.springframework.samples.petclinic.square.Square;
 import org.springframework.samples.petclinic.square.SquareService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,8 +50,8 @@ public class GameController {
         }else if(difficulty.equals("Custom")){
             board = boardService.boardInit(formBoard.getRows(),formBoard.getColumns(),formBoard.getMinesNumber(),name);
         }
-        List<Square> squares = squareService.initializeSquares(board);
-        model.put("squares", squares);
+        List<String> squares = squareService.initializeSquares(board);
+        model.put("mines", squares);
         model.put("board", board);
         return VIEWS_PLAY_GAME;
     }
