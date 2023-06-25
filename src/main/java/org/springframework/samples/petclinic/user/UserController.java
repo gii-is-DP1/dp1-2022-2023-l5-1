@@ -21,15 +21,18 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.jasper.tagplugins.jstl.core.Remove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -38,7 +41,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
-  private static final String VIEWS_OWNER_LIST = "users/listUser";
+  	private static final String VIEWS_OWNER_LIST = "users/listUser";
+	private static final String VIEWS_USER_CREATE_OR_UPDATE_FORM = "users/createOrUpdateUserForm";
+
+
 
 	private final UserService userService;
 	private final AuthoritiesService authoService;
@@ -102,12 +108,49 @@ public class UserController {
 
 	@GetMapping(value = { "/users" })
 	public String showVetList(Map<String, Object> model) {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
-		// objects
-		// so it is simpler for Object-Xml mapping
+		
 		List<User> users = new ArrayList<>(this.userService.findUsers());
+		for(User u: users){
+			for(Authorities a: u.getAuthorities()){
+				if(a.getAuthority().equals("admin")){
+					users.remove(u);
+				}
+			}
+		}
 		model.put("users", users);
 		return VIEWS_OWNER_LIST;
 	}
+
+
+	@GetMapping(value = "/users/update/{userId}")
+	public String initUpdateUserForm(@PathVariable("userId") String userId, Model model) {
+		User user = this.userService.findUser(userId).get();
+		model.addAttribute(user);
+		
+		return VIEWS_OWNER_CREATE_FORM;
+	}
+
+	@PostMapping(value = "/users/update/{userId}")
+	public String processUpdatePlayerForm(@Valid User user, BindingResult result,
+			@PathVariable("userId") String userId) {
+		if (result.hasErrors()) {
+			return VIEWS_OWNER_CREATE_FORM;
+		} else {
+			user.setId(userId);
+			user.setEnabled(true);
+
+			this.userService.saveUser(user);
+
+			return "redirect:/users";
+		}
+	}
+
+	@GetMapping(value = "users/delete/{userId}")
+	public String deleteUser(@PathVariable("userId") String userId) {
+		userService.deleteUser(userId);
+		return "redirect:/users";
+
+	}
+
 
 }

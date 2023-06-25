@@ -52,5 +52,11 @@ public class UserService {
 	@Transactional(readOnly = true)	
 	public Collection<User> findUsers() throws DataAccessException {
 		return userRepository.findAll();
+	}
+
+	@Transactional
+	public void deleteUser(String username) {
+		userRepository.deleteById(username); 
 	}	
+    	
 }

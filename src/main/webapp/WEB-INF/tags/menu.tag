@@ -28,12 +28,7 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
-				</petclinic:menuItem>
-
+				
 				<petclinic:menuItem url="/game" active ="${name eq 'game'}" title="Start a game">
 					<span class ="glyphicon glyphicon-fire" aria-hidden="true"></span>
 					<span>Play minesweeper</span>
@@ -47,11 +42,6 @@
 					</petclinic:menuItem>
 				</sec:authorize>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">

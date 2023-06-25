@@ -22,6 +22,7 @@ import lombok.Setter;
 public class User{
 	@Id
 	@NotEmpty
+	public
 	String username;
 	
 	@NotBlank
@@ -45,6 +46,10 @@ public class User{
 
 				.append("new", this.isNew()).append("name", this.getName())
 				.toString();
+	}
+
+	public void setId(String userId) {
+		this.username=userId;
 	}	
 	
 }
