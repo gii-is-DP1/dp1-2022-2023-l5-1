@@ -23,7 +23,7 @@ public class SquareService {
         //Colocación de minas
         List<String> mineList = new ArrayList<>();
         while(i<=mines){
-            double random = Math.floor(Math.random()*(squares.size()-1));
+            double random = Math.round(Math.random()*(squares.size()-1));
             int index = (int) random;
             String sq = squares.get(index);
             if(!mineList.contains(sq)){

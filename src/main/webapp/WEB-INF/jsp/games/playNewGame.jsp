@@ -118,9 +118,6 @@
                 //<div id="0-0"></div>
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + c.toString();
-                if (minesLocation.includes(tile.id)) {
-                    tile.backgroundColor = "red";
-                }
                 tile.addEventListener("click", clickTile);
                 document.getElementById("board").append(tile);
                 row.push(tile);
