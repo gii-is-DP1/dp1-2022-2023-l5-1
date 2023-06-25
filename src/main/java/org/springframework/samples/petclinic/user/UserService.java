@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.user;
 
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,15 @@ public class UserService {
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
+
+	@Transactional(readOnly = true)	
+	public Collection<User> findUsers() throws DataAccessException {
+		return userRepository.findAll();
+	}
+
+	@Transactional
+	public void deleteUser(String username) {
+		userRepository.deleteById(username); 
+	}	
+    	
 }

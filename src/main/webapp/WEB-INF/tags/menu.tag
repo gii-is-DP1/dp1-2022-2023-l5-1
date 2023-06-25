@@ -28,22 +28,19 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
-				</petclinic:menuItem>
-
 				<petclinic:menuItem url="/games" active ="${name eq 'games'}" title="Game menu">
 					<span class ="glyphicon glyphicon-fire" aria-hidden="true"></span>
 					<span>Play minesweeper</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</petclinic:menuItem>
+				<sec:authorize access="hasAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'users'}" url="/users"
+						title="user">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>users</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
@@ -63,7 +60,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>�
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -79,6 +76,10 @@
 										<div class="col-lg-8">
 											<p class="text-left">
 												<strong><sec:authentication property="name" /></strong>
+											</p>
+											<p class="text-left">
+												<a href="<c:url value="/users/update" />"
+													class="btn btn-primary btn-block btn-sm">View profile</a>
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
