@@ -31,6 +31,8 @@ public class BoardService {
                 br.setMinesNumber(90);
                 br.setFlagsNumber(90);
                 break;
+            default:
+                break;
         }
         br.setUser(ur.findByUsername(username));
         br.setLevel(dif);
