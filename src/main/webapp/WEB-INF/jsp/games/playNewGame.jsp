@@ -83,8 +83,8 @@
     </style>
 
     <h1>Mines:<c:out value="${board.minesNumber}"></c:out></h1>
-    <div id="board"></div>
-    <button id="flag-button"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></button>
+            <div id="board"></div>
+            <button id="flag-button"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></button>
 </petclinic:layout>
 
 <script>
@@ -141,7 +141,11 @@
         return;
     }
 
-        function clickTile() {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function clickTile() {
         let tile = this;
         if (gameOver || this.classList.contains("tile-clicked") || (tile.innerText != "" && !flagEnabled)) {
             return;
@@ -162,6 +166,9 @@
             // alert("GAME OVER");
             revealMines();
             gameOver = true;
+            await sleep(500);
+            alert("Game Over\n You lose");
+            location.replace("/games/loseGame");
             return;
         }
 
@@ -188,7 +195,7 @@
         return;
     }
 
-    function checkMine(r, c) {
+    async function checkMine(r, c) {
         if (r < 0 || r >= rows || c < 0 || c >= columns) {
             return;
         }
@@ -239,6 +246,9 @@
             gameOver = true;
             success = true;
             revealMines();
+            await sleep(500);
+            alert("Game Over\n You win");
+            location.replace("/games/winGame");
         }
     }
 

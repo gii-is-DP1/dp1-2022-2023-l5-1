@@ -21,6 +21,9 @@ public class GameController {
 
     private static final String VIEWS_GAMES ="games/menu";
     private static final String VIEWS_PLAY_GAME="games/playNewGame";
+    private static final String VIEWS_GAME_RULES="games/gameRules";
+    private static final String VIEWS_WIN_GAME="games/winGame";
+    private static final String VIEWS_LOSE_GAME="games/loseGame";
 
     @Autowired
     private  SquareService squareService;
@@ -30,6 +33,21 @@ public class GameController {
     @GetMapping(value="/games")
     public ModelAndView gameMenu(Board board, HttpServletRequest request){
         return new ModelAndView(VIEWS_GAMES);
+    }
+
+    @GetMapping(value="/gameRules")
+    public ModelAndView gameRules(){
+        return new ModelAndView(VIEWS_GAME_RULES);
+    }
+
+    @GetMapping(value="/games/winGame")
+    public ModelAndView winGame(){
+        return new ModelAndView(VIEWS_WIN_GAME);
+    }
+
+    @GetMapping(value="/games/loseGame")
+    public ModelAndView loseGame(){
+        return new ModelAndView(VIEWS_LOSE_GAME);
     }
     
     @GetMapping(value="/games/playNewGame")
