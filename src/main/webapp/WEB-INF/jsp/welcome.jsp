@@ -9,7 +9,7 @@
         <h2><fmt:message key="welcome"/></h2>
         <div class="row">
             <div class="col-md-12">
-                <spring:url value="/resources/images/spring-pivotal-logo.png" htmlEscape="true" var="bombaImage"/>
+                <spring:url value="/resources/images/cosa.png" htmlEscape="true" var="bombaImage"/>
                 <img class="img-responsive" src="${bombaImage}"/>
             </div>
         </div>

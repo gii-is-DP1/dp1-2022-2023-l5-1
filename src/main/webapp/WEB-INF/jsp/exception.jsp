@@ -3,12 +3,13 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="error">
+    <center>
 
-    <spring:url value="/resources/images/bombatriste.jpg" var="bombImage"/>
-    <img src="${bombImage}"/>
+        <spring:url value="/resources/images/bombatriste.jpg" var="bombImage"/>
+        <img src="${bombImage}"/>
 
-    <h2>Something happened...</h2>
+        <h2>Something happened...</h2>
 
-    <p>${exception.message}</p>
-
+        <p>${exception.message}</p>
+    </center>
 </petclinic:layout>
