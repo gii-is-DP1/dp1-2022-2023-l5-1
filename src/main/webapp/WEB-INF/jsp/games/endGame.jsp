@@ -15,7 +15,14 @@
     </style>
 
     <h1>Game Over</h1>
-    <h2>You win</h2>
+    <c:choose>
+        <c:when test="${success}">
+            <h2>You win</h2>
+        </c:when>
+        <c:otherwise>
+            <h2>You lose</h2>
+        </c:otherwise>
+    </c:choose>
     <a href="/games">
         <button>Restart Game</button>
     </a>

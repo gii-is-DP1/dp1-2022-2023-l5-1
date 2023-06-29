@@ -83,6 +83,7 @@
     </style>
 
     <h1>Mines:<c:out value="${board.minesNumber}"></c:out></h1>
+            <div id="result"> </div>
             <div id="board"></div>
             <button id="flag-button"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></button>
 </petclinic:layout>
@@ -90,6 +91,7 @@
 <script>
     var root=document.querySelector(":root");
     var rows="${board.rows}";
+    var id="${game.getId()}";
     var columns="${board.columns}";
     var minesLocation = "${mines}";
     var minesCount = "${mines.size()}"
@@ -106,6 +108,11 @@
 
     window.onload = function(){
         startGame();
+    }
+
+    function endGame() {
+        var url = '/games/endGame?id='+ id + '&success=' + success;
+        location.replace(url);
     }
 
     function startGame() {
@@ -168,7 +175,7 @@
             gameOver = true;
             await sleep(500);
             alert("Game Over\n You lose");
-            location.replace("/games/loseGame");
+            endGame();
             return;
         }
 
@@ -248,7 +255,7 @@
             revealMines();
             await sleep(500);
             alert("Game Over\n You win");
-            location.replace("/games/winGame");
+            endGame();
         }
     }
 

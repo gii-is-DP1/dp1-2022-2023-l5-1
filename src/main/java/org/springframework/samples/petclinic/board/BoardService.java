@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 public class BoardService {
 
     @Autowired
+    private BoardRepository boardRepository;
+
+    @Autowired
     private UserRepository ur;
 
     public Board boardInit(DifficultyLevel dif, String username){
@@ -48,5 +51,14 @@ public class BoardService {
         br.setUser(ur.findByUsername(username));
         br.setLevel(DifficultyLevel.CUSTOM);
         return br;
+    }
+
+    public void save(Board board) {
+        boardRepository.save(board);
+    }
+
+    public Board getBoard(Integer boardId) {
+        Board board = this.boardRepository.findBoardById(boardId);
+        return board;
     }
 }
