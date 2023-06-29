@@ -83,9 +83,10 @@
     </style>
 
     <h1>Mines:<c:out value="${board.minesNumber}"></c:out></h1>
-            <div id="result"> </div>
-            <div id="board"></div>
-            <button id="flag-button"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></button>
+    <div id="board"></div>
+    <button id="flag-button"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></button>
+    <button id="restart-button">Restart Game</button>
+    <button id="finish-button">Finish Game</button>   
 </petclinic:layout>
 
 <script>
@@ -108,6 +109,8 @@
 
     window.onload = function(){
         startGame();
+        document.getElementById("restart-button").addEventListener("click", restartGame);
+        document.getElementById("finish-button").addEventListener("click", finishGame);
     }
 
     function endGame() {
@@ -259,6 +262,18 @@
         }
     }
 
+    function restartGame() {
+    location.reload(); // Recargar la página para reiniciar el juego
+    }
+
+    function finishGame() {
+    // Avisar al usuario de que al terminar antes de tiempo no se guardará el progreso en la partida
+    var confirmed = confirm("Are you sure you want to finish the game prematurely? Your progress in the current game will be lost!");
+    // Redireccionar a la página de inicio
+    if (confirmed) {
+        window.location.replace("/");
+        }
+    }  
 
     function checkTile(r, c) {
         if (r < 0 || r >= rows || c < 0 || c >= columns) {
