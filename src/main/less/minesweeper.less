@@ -13,54 +13,54 @@
  */
 @icon-font-path:    "../../webjars/bootstrap/fonts/";
 
-@spring-green:      #77DD77; // Pastel Green
-@spring-dark-green: #228B22; // Forest Green
-@spring-brown:      #8B7355; // Tan
-@spring-grey:       #A9A9A9; // Dark Gray
-@spring-light-grey: #778899; // Light Slate Gray
+@pastel-green:      #77DD77; // Pastel Green
+@forest-green: #228B22; // Forest Green
+@turquoisse:      #000000; // Tan
+@dark-gray:       #A9A9A9; // Dark Gray
+@light-gray: #778899; // Light Slate Gray
 
-@body-bg:                           @spring-light-grey;
-@text-color:                        @spring-brown;
-@link-color:                        @spring-dark-green;
-@link-hover-color:                  @spring-dark-green;
+@body-bg:                           @light-gray;
+@text-color:                        @turquoisse;
+@link-color:                        @forest-green;
+@link-hover-color:                  @forest-green;
 
-@navbar-default-link-color:         @spring-light-grey;
-@navbar-default-link-active-color:  @spring-light-grey;
-@navbar-default-link-hover-color:   @spring-light-grey;
-@navbar-default-link-hover-bg:      @spring-green;
-@navbar-default-toggle-icon-bar-bg: @spring-light-grey;
+@navbar-default-link-color:         @light-gray;
+@navbar-default-link-active-color:  @light-gray;
+@navbar-default-link-hover-color:   @light-gray;
+@navbar-default-link-hover-bg:      @pastel-green;
+@navbar-default-toggle-icon-bar-bg: @light-gray;
 @navbar-default-toggle-hover-bg:    transparent;
-@navbar-default-link-active-bg:     @spring-green;
+@navbar-default-link-active-bg:     @pastel-green;
 
 @border-radius-base:             0;
 @border-radius-large:            0;
 @border-radius-small:            0;
 
-@btn-default-color:              @spring-light-grey;
-@btn-default-bg:                 @spring-brown;
-@btn-default-border:             @spring-green;
+@btn-default-color:              @light-gray;
+@btn-default-bg:                 @turquoisse;
+@btn-default-border:             @pastel-green;
 
-@nav-tabs-active-link-hover-color:        @spring-light-grey;
-@nav-tabs-active-link-hover-bg:           @spring-brown;
-@nav-tabs-active-link-hover-border-color: @spring-brown;
-@nav-tabs-border-color:                   @spring-brown;
+@nav-tabs-active-link-hover-color:        @light-gray;
+@nav-tabs-active-link-hover-bg:           @turquoisse;
+@nav-tabs-active-link-hover-border-color: @turquoisse;
+@nav-tabs-border-color:                   @turquoisse;
 
-@pagination-active-bg:                    @spring-brown;
-@pagination-active-border:                @spring-green;
-@table-border-color:                      @spring-brown;
+@pagination-active-bg:                    @turquoisse;
+@pagination-active-border:                @pastel-green;
+@table-border-color:                      @turquoisse;
 
 .table > thead > tr > th {
-  background-color: lighten(@spring-brown, 3%);
-  color: @spring-light-grey;
+  background-color: lighten(@turquoisse, 3%);
+  color: @light-gray;
 }
 
 .table-filter {
-  background-color: @spring-brown;
+  background-color: @turquoisse;
   padding: 9px 12px;
 }
 
 .nav > li > a {
-  color: @spring-grey;
+  color: @dark-gray;
 }
 
 .btn-default {
@@ -76,8 +76,8 @@
   &:active,
   &.active,
   .open .dropdown-toggle& {
-    background-color: @spring-brown;
-    border-color: @spring-brown;
+    background-color: @turquoisse;
+    border-color: @turquoisse;
   }
 }
 
@@ -125,8 +125,8 @@ h1 {
 }
 
 .splash {
-  background: @spring-green;
-  color: @spring-brown;
+  background: @pastel-green;
+  color: @turquoisse;
   display: none;
 }
 
@@ -196,12 +196,12 @@ table td.action-column {
 }
 
 .container-details-table th {
-  background-color: lighten(@spring-brown, 3%);
-  color: @spring-light-grey;
+  background-color: lighten(@turquoisse, 3%);
+  color: @light-gray;
 }
 
 .status-help-content-table td {
-  color: @spring-brown;
+  color: @turquoisse;
 }
 
 .alert-success {
@@ -231,7 +231,7 @@ table td.action-column {
 }
 
 hr {
-  border-top: 1px dotted @spring-brown;
+  border-top: 1px dotted @turquoisse;
 }
 
 @import "typography.less";

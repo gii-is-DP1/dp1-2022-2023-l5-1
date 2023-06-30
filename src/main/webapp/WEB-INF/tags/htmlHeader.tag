@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%--
-MineSweeper :: a Spring Framework demonstration
+MineSweeper
 --%>
 
 <head>
@@ -14,7 +14,7 @@ MineSweeper :: a Spring Framework demonstration
     <spring:url value="/resources/images/bomba1.png" var="favicon"/>
     <link rel="shortcut icon" type="image/x-icon" href="${favicon}">
 
-    <title>MineSweeper :: a Spring Framework demonstration</title>
+    <title>Minesweeper</title>
 
     <%-- CSS generated from LESS --%>
     <spring:url value="/resources/css/minesweeper.css" var="minesweeperCss"/>
