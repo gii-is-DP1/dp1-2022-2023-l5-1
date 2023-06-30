@@ -65,7 +65,7 @@
 				<sec:authorize access="hasAuthority('admin')">
 					<minesweeper:menuItem active="${name eq 'sagas'}" url="/sagas"
 						title="saga">
-						<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
 						<span>sagas</span>
 					</minesweeper:menuItem>
 				</sec:authorize>
