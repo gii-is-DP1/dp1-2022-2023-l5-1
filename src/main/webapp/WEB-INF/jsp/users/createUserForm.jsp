@@ -12,16 +12,7 @@
     </h2>
     <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
-            <c:choose>
-                <c:when test="${user['new']}">
-                    <petclinic:inputField label="Username" name="username"/>
-                </c:when>
-                <c:otherwise>
-                    <h3 style="margin-left: 10%;">Username:<c:out value=" ${user.username}"/></h3> 
-                </c:otherwise>
-            </c:choose>
-
-            
+            <petclinic:inputField label="Username" name="username"/>
             <petclinic:inputField label="Name" name="name"/>
             <petclinic:inputField label="Password" name="password"/>
         </div>
@@ -40,3 +31,17 @@
         </div>
     </form:form>
 </petclinic:layout>
+
+<script>
+    var newUser = "${user['new']}";
+
+    function makeReadOnly(id) {
+        document.getElementById(id).readOnly = true;
+    }
+
+    window.onload = function() {
+        if(newUser == "false") {
+            makeReadOnly('username');
+        }
+    }
+</script>
