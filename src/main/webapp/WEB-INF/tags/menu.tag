@@ -46,6 +46,30 @@
 					</minesweeper:menuItem>
 				</sec:authorize>
 
+				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'genres'}" url="/genres"
+						title="genre">
+						<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+						<span>genres</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'platforms'}" url="/platforms"
+						title="platform">
+						<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+						<span>platforms</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'sagas'}" url="/sagas"
+						title="saga">
+						<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+						<span>sagas</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
 
 				<minesweeper:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
