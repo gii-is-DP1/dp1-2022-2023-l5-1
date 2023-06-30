@@ -4,17 +4,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="users">
+<minesweeper:layout pageName="users">
     <h2>
         <c:if test="${user['new']}">New </c:if> User
     </h2>
     <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Username" name="username"/>
-            <petclinic:inputField label="Name" name="name"/>
-            <petclinic:inputField label="Password" name="password"/>
+            <minesweeper:inputField label="Username" name="username"/>
+            <minesweeper:inputField label="Name" name="name"/>
+            <minesweeper:inputField label="Password" name="password"/>
         </div>
         
         <div class="form-group">
@@ -30,7 +30,7 @@
             </div>
         </div>
     </form:form>
-</petclinic:layout>
+</minesweeper:layout>
 
 <script>
     var newUser = "${user['new']}";

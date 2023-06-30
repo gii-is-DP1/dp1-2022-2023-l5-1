@@ -2,10 +2,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags" %>
 <% application.setAttribute("succes", "Fail"); %>
 
-<petclinic:layout pageName="Play game">
+<minesweeper:layout pageName="Play game">
     <style>
         body{
             font-family: Arial, Helvetica, sans-serif;
@@ -87,7 +87,7 @@
     <button id="flag-button"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></button>
     <button id="restart-button">Restart Game</button>
     <button id="finish-button">Finish Game</button>   
-</petclinic:layout>
+</minesweeper:layout>
 
 <script>
     var root=document.querySelector(":root");

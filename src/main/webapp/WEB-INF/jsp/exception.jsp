@@ -1,8 +1,8 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="error">
+<minesweeper:layout pageName="error">
     <center>
 
         <spring:url value="/resources/images/bombatriste.jpg" var="bombImage"/>
@@ -12,4 +12,4 @@
 
         <p>${exception.message}</p>
     </center>
-</petclinic:layout>
+</minesweeper:layout>

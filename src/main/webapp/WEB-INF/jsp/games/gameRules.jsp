@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="Game Rules">
+<minesweeper:layout pageName="Game Rules">
     <head>
         <title>Minesweeper</title>
       </head>
@@ -42,4 +42,4 @@
           <li>The time taken to complete the game can be recorded as a measure of performance, but there is no official scoring in Minesweeper.</li>
         </ul>
       </body>
-</petclinic:layout>
+</minesweeper:layout>

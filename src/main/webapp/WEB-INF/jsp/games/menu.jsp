@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="Game menu">
+<minesweeper:layout pageName="Game menu">
     <center>
     <h2>Game menu:</h2>
     <h3>Select difficulty</h3>
@@ -36,7 +36,7 @@
             </div>
         </form>
     </center>
-</petclinic:layout>
+</minesweeper:layout>
 
 <script>
     const custom = document.querySelector("input[value='Custom']");

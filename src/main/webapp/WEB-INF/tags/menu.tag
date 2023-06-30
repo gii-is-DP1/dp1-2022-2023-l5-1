@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
@@ -22,36 +22,36 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
+				<minesweeper:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
-				</petclinic:menuItem>
+				</minesweeper:menuItem>
 
-				<petclinic:menuItem url="/games" active ="${name eq 'games'}" title="Game menu">
+				<minesweeper:menuItem url="/games" active ="${name eq 'games'}" title="Game menu">
 					<span class ="glyphicon glyphicon-fire" aria-hidden="true"></span>
 					<span>Play minesweeper</span>
-				</petclinic:menuItem>
+				</minesweeper:menuItem>
 
-				<petclinic:menuItem url="/gameRules" active ="${name eq 'gameRules'}" title="Game Rules">
+				<minesweeper:menuItem url="/gameRules" active ="${name eq 'gameRules'}" title="Game Rules">
 					<span class ="glyphicon glyphicon-book" aria-hidden="true"></span>
 					<span>Game Rules</span>
-				</petclinic:menuItem>
+				</minesweeper:menuItem>
 
 				<sec:authorize access="hasAuthority('admin')">
-					<petclinic:menuItem active="${name eq 'users'}" url="/users"
+					<minesweeper:menuItem active="${name eq 'users'}" url="/users"
 						title="user">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>users</span>
-					</petclinic:menuItem>
+					</minesweeper:menuItem>
 				</sec:authorize>
 
 
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
+				<minesweeper:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
-				</petclinic:menuItem>
+				</minesweeper:menuItem>
 
 			</ul>
 

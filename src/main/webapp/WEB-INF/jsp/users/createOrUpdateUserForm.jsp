@@ -8,7 +8,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="users">
+<minesweeper:layout pageName="users">
 
 	<<h2>
 		<c:if test="${user['new']}">New </c:if>
@@ -48,4 +48,4 @@
 			</div>
 		</div>
 	</form:form>>
-</petclinic:layout>
+</minesweeper:layout>

@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="users">
+<minesweeper:layout pageName="users">
     <h2 style="margin-left: 50%;">User List</h2>
 
     <table id="usersTable" style="background-color: rgba(94, 176, 253, 0.562);" class="table">
@@ -39,4 +39,4 @@
         </c:forEach>
         </tbody>
     </table>
-</petclinic:layout>
+</minesweeper:layout>
