@@ -6,8 +6,8 @@
 
 <minesweeper:layout pageName="Game menu">
     <center>
-    <h2>Game menu:</h2>
-    <h3>Select difficulty</h3>
+        <h2>Game menu:</h2>
+        <h3>Select difficulty</h3>
         <form method="get" action="/games/playNewGame" class="form-horizontal" id="select-game-form">
                 
             <div class="form-horizontal has-feedback">
@@ -39,8 +39,20 @@
 </minesweeper:layout>
 
 <script>
+    const begginner = document.querySelector("input[value='Beginner']");
+    const intermediate = document.querySelector("input[value='Intermediate']");
+    const advanced = document.querySelector("input[value='Advanced']");
     const custom = document.querySelector("input[value='Custom']");
     var form = document.getElementById('form');
+    begginner.onclick = function () {
+		form.style.display = "none";
+	};
+    intermediate.onclick = function () {
+		form.style.display = "none";
+	};
+    advanced.onclick = function () {
+		form.style.display = "none";
+	};
     custom.onclick = function () {
 		form.style.display = "block";
 	};
