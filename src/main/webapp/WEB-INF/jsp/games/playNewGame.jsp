@@ -92,6 +92,7 @@
 <script>
     var root=document.querySelector(":root");
     var rows="${board.rows}";
+    var id="${game.getId()}";
     var columns="${board.columns}";
     var minesLocation = "${mines}";
     var minesCount = "${mines.size()}"
@@ -110,6 +111,11 @@
         startGame();
         document.getElementById("restart-button").addEventListener("click", restartGame);
         document.getElementById("finish-button").addEventListener("click", finishGame);
+    }
+
+    function endGame() {
+        var url = '/games/endGame?id='+ id + '&success=' + success;
+        location.replace(url);
     }
 
     function startGame() {
@@ -145,7 +151,11 @@
         return;
     }
 
-        function clickTile() {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function clickTile() {
         let tile = this;
         if (gameOver || this.classList.contains("tile-clicked") || (tile.innerText != "" && !flagEnabled)) {
             return;
@@ -166,6 +176,9 @@
             // alert("GAME OVER");
             revealMines();
             gameOver = true;
+            await sleep(500);
+            alert("Game Over\n You lose");
+            endGame();
             return;
         }
 
@@ -192,7 +205,7 @@
         return;
     }
 
-    function checkMine(r, c) {
+    async function checkMine(r, c) {
         if (r < 0 || r >= rows || c < 0 || c >= columns) {
             return;
         }
@@ -243,6 +256,9 @@
             gameOver = true;
             success = true;
             revealMines();
+            await sleep(500);
+            alert("Game Over\n You win");
+            endGame();
         }
     }
 

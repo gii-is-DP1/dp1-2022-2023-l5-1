@@ -1,12 +1,10 @@
 package org.springframework.samples.petclinic.game;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-
-import org.springframework.samples.petclinic.board.Board;
-import org.springframework.samples.petclinic.model.AuditableEntity;
+import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,19 +12,15 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Game extends AuditableEntity{
+public class Game extends BaseEntity{
+
+    @NotNull
+    @ManyToOne
+    public User user;
+
     @NotNull
     public Boolean inProgress;
 
-    @NotNull
-    @Positive
-    public Float time;
+    public Boolean success;
 
-    @NotNull
-    @Positive
-    public Integer numberOfClicks;
-
-    @OneToOne
-    @NotNull
-    public Board board;
 }
