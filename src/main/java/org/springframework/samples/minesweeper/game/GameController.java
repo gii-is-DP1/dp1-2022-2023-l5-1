@@ -70,26 +70,28 @@ public class GameController {
         if(oldGame != null) {
             this.gameService.deleteGame(oldGame);
         }
+        DifficultyLevel lv;
         Board board=null;
         if(difficulty.equals("Beginner")){
-            DifficultyLevel lv = DifficultyLevel.BEGGINER;
+            lv = DifficultyLevel.BEGGINER;
             board = boardService.boardInit(lv, name);
         }else if(difficulty.equals("Intermediate")){
-            DifficultyLevel lv = DifficultyLevel.INTERMEDIATE;
+            lv = DifficultyLevel.INTERMEDIATE;
             board = boardService.boardInit(lv, name);
         }else if(difficulty.equals("Advanced")){
-            DifficultyLevel lv = DifficultyLevel.ADVANCED;
+            lv = DifficultyLevel.ADVANCED;
             board = boardService.boardInit(lv, name);
-        }else if(difficulty.equals("Custom")){
+        } else {
+            lv = DifficultyLevel.CUSTOM;
             board = boardService.boardInit(formBoard.getRows(),formBoard.getColumns(),formBoard.getMinesNumber(),name);
         }
         Pair<List<String>,Boolean> pair = gameService.initializeSquares(board);
         List<String> squares = pair.getFirst();
         Boolean error = pair.getSecond();
-        boardService.save(board);
         Game game = new Game();
         game.setInProgress(true);
         game.setUser(user);
+        game.setDifficulty(lv);
         this.gameService.saveGame(game);
         model.put("error", error);
         model.put("mines", squares);
