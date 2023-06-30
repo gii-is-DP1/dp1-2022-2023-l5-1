@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.util.Pair;
 import org.springframework.samples.minesweeper.board.Board;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +20,12 @@ public class GameService {
 		this.gameRepository = gameRepository;
 	}
 
-    public List<String> initializeSquares(Board board){
+    public Pair<List<String>, Boolean> initializeSquares(Board board){
         List<String> squares =new ArrayList<String>();
         Integer mines = board.getMinesNumber();
         Integer rows = board.getRows();
         Integer columns= board.getColumns();
+        Boolean excessive = false;
     
         for(int i =0; i<rows; i++){
             for(int j=0; j<columns;j++){
@@ -33,6 +35,11 @@ public class GameService {
         Integer i= 1;
         //Colocación de minas
         List<String> mineList = new ArrayList<>();
+        Integer maxMines = (int) Math.floor(0.9*columns*rows);
+        if(mines >= maxMines) {
+            mines = maxMines;
+            excessive = true;
+        }
         while(i<=mines){
             double random = Math.round(Math.random()*(squares.size()-1));
             int index = (int) random;
@@ -43,7 +50,7 @@ public class GameService {
             }
             
         }
-        return mineList;
+        return Pair.of(mineList, excessive);
     }
 
     @Transactional

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.samples.minesweeper.board.Board;
 import org.springframework.samples.minesweeper.board.BoardService;
 import org.springframework.samples.minesweeper.board.DifficultyLevel;
@@ -82,12 +83,15 @@ public class GameController {
         }else if(difficulty.equals("Custom")){
             board = boardService.boardInit(formBoard.getRows(),formBoard.getColumns(),formBoard.getMinesNumber(),name);
         }
-        List<String> squares = gameService.initializeSquares(board);
+        Pair<List<String>,Boolean> pair = gameService.initializeSquares(board);
+        List<String> squares = pair.getFirst();
+        Boolean error = pair.getSecond();
         boardService.save(board);
         Game game = new Game();
         game.setInProgress(true);
         game.setUser(user);
         this.gameService.saveGame(game);
+        model.put("error", error);
         model.put("mines", squares);
         model.put("board", board);
         model.put("game", game);

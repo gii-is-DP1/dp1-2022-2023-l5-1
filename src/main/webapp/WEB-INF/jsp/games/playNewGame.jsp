@@ -105,9 +105,13 @@
     var gameOver = false;
     var flagEnabled = false;
     var flagCount = 0;
+    var error = "${error}";
     var board=[];
 
     window.onload = function(){
+        if(error=="true") {
+            alert("Mines has been reduced to 90% of maximum mines");
+        };
         startGame();
         document.getElementById("restart-button").addEventListener("click", restartGame);
         document.getElementById("finish-button").addEventListener("click", finishGame);
