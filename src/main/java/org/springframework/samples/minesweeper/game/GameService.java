@@ -2,6 +2,8 @@ package org.springframework.samples.minesweeper.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -70,4 +72,12 @@ public class GameService {
         gameRepository.delete(game);
     }
     
+    public Collection<Game> getActiveGames(){
+        return gameRepository.findAllActiveGames();
+    }
+
+    public Collection<Game> getFinishGames(){
+        return gameRepository.findAllFinishGames();
+
+    }
 }
