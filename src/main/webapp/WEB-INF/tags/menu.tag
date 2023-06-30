@@ -46,6 +46,23 @@
 					</minesweeper:menuItem>
 				</sec:authorize>
 
+				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'games'}" url="/games/activeGames"
+						title="game">
+						<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+						<span>Active Games</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'games'}" url="/games/finishGames"
+						title="game">
+						<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+						<span>Finished Games</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
+
 
 				<minesweeper:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
