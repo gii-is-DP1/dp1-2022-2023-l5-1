@@ -14,7 +14,7 @@
         </c:otherwise>
     </c:choose>
 
-    <table id="gamesTable" style="background-color: rgba(94, 176, 253, 0.562);" class="table">
+    <table id="gamesTable" style="background-color: rgba(250, 153, 25, 0.562);" class="table">
         <thead>
         <tr>
             <th>Username</th>
