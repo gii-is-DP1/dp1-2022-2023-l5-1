@@ -33,6 +33,11 @@
 					<span>Play minesweeper</span>
 				</petclinic:menuItem>
 
+				<petclinic:menuItem url="/gameRules" active ="${name eq 'gameRules'}" title="Game Rules">
+					<span class ="glyphicon glyphicon-book" aria-hidden="true"></span>
+					<span>Game Rules</span>
+				</petclinic:menuItem>
+
 				<sec:authorize access="hasAuthority('admin')">
 					<petclinic:menuItem active="${name eq 'users'}" url="/users"
 						title="user">
