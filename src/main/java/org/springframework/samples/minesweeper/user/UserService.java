@@ -17,6 +17,7 @@ package org.springframework.samples.minesweeper.user;
 
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,10 @@ public class UserService {
 	@Transactional
 	public void deleteUser(String username) {
 		userRepository.deleteById(username); 
+	}
+
+    public List<User> getAllPlayers() {
+		return userRepository.findAllPlayers();
 	}	
     	
 }

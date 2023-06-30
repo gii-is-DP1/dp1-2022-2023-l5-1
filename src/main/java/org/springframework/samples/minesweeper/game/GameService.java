@@ -69,5 +69,13 @@ public class GameService {
     public void deleteGame(Game game) {
         gameRepository.delete(game);
     }
+
+    public void deleteAllGames(List<Game> games) {
+        gameRepository.deleteAll(games);
+    }
+
+    public List<Game> getAllGameByUsername(String userId) {
+        return gameRepository.findAllByUsername(userId);
+    }
     
 }

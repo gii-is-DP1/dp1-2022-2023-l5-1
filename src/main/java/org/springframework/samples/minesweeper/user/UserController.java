@@ -23,6 +23,8 @@ import javax.validation.Valid;
 
 import org.apache.jasper.tagplugins.jstl.core.Remove;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.minesweeper.game.Game;
+import org.springframework.samples.minesweeper.game.GameService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,11 +50,13 @@ public class UserController {
 
 	private final UserService userService;
 	private final AuthoritiesService authoService;
+	private final GameService gameService;
 
 	@Autowired
-	public UserController(UserService clinicService,AuthoritiesService clinicService2) {
+	public UserController(UserService clinicService,AuthoritiesService clinicService2,GameService clinicService3) {
 		this.userService = clinicService;
 		this.authoService = clinicService2;
+		this.gameService = clinicService3;
 	}
 
 	@InitBinder
@@ -109,14 +113,7 @@ public class UserController {
 	@GetMapping(value = { "/users" })
 	public String showVetList(Map<String, Object> model) {
 		
-		List<User> users = new ArrayList<>(this.userService.findUsers());
-		for(User u: users){
-			for(Authorities a: u.getAuthorities()){
-				if(a.getAuthority().equals("admin")){
-					users.remove(u);
-				}
-			}
-		}
+		List<User> users = new ArrayList<>(this.userService.getAllPlayers());
 		model.put("users", users);
 		return VIEWS_OWNER_LIST;
 	}
@@ -147,6 +144,8 @@ public class UserController {
 
 	@GetMapping(value = "users/delete/{userId}")
 	public String deleteUser(@PathVariable("userId") String userId) {
+		List<Game> game = gameService.getAllGameByUsername(userId);
+		gameService.deleteAllGames(game);
 		userService.deleteUser(userId);
 		return "redirect:/users";
 
