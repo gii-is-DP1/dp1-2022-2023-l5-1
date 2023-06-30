@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.core.style.ToStringCreator;
 
@@ -32,6 +33,9 @@ public class User{
 	String name;
 	
 	boolean enabled;
+
+	@NotNull
+	boolean hardcoregamer;
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
 	private Set<Authorities> authorities;

@@ -1,6 +1,8 @@
 package org.springframework.samples.minesweeper.game;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ public class GameController {
     private static final String VIEWS_PLAY_GAME="games/playNewGame";
     private static final String VIEWS_GAME_RULES="games/gameRules";
     private static final String VIEWS_END_GAME="games/endGame";
+    private static final String VIEWS_EXCESSIVE_GAMING="games/excessiveGame";
 
     private  GameService gameService;
 
@@ -41,7 +44,15 @@ public class GameController {
 
     @GetMapping(value="/games")
     public ModelAndView gameMenu(Board board, HttpServletRequest request){
-        return new ModelAndView(VIEWS_GAMES);
+        Principal player = request.getUserPrincipal();
+        String name = player.getName();
+        Integer recentGames = gameService.getRecentGamesByUsername(name);
+        String url = VIEWS_GAMES;
+        User user = userService.findUser(name).get();
+        if(recentGames==2 && !user.isHardcoregamer()) {
+            url = VIEWS_EXCESSIVE_GAMING;
+        }
+        return new ModelAndView(url);
     }
 
     @GetMapping(value="/gameRules")
@@ -70,31 +81,37 @@ public class GameController {
         if(oldGame != null) {
             this.gameService.deleteGame(oldGame);
         }
+        DifficultyLevel lv;
         Board board=null;
         if(difficulty.equals("Beginner")){
-            DifficultyLevel lv = DifficultyLevel.BEGGINER;
+            lv = DifficultyLevel.BEGGINER;
             board = boardService.boardInit(lv, name);
         }else if(difficulty.equals("Intermediate")){
-            DifficultyLevel lv = DifficultyLevel.INTERMEDIATE;
+            lv = DifficultyLevel.INTERMEDIATE;
             board = boardService.boardInit(lv, name);
         }else if(difficulty.equals("Advanced")){
-            DifficultyLevel lv = DifficultyLevel.ADVANCED;
+            lv = DifficultyLevel.ADVANCED;
             board = boardService.boardInit(lv, name);
-        }else if(difficulty.equals("Custom")){
+        } else {
+            lv = DifficultyLevel.CUSTOM;
             board = boardService.boardInit(formBoard.getRows(),formBoard.getColumns(),formBoard.getMinesNumber(),name);
         }
         Pair<List<String>,Boolean> pair = gameService.initializeSquares(board);
         List<String> squares = pair.getFirst();
         Boolean error = pair.getSecond();
-        boardService.save(board);
+        LocalDateTime date = LocalDateTime.now();
         Game game = new Game();
+        game.setCreationDate(date);
         game.setInProgress(true);
         game.setUser(user);
+        game.setDifficulty(lv);
         this.gameService.saveGame(game);
+        model.put("hardcore", user.isHardcoregamer());
         model.put("error", error);
         model.put("mines", squares);
         model.put("board", board);
         model.put("game", game);
+        model.put("difficulty", lv);
         return VIEWS_PLAY_GAME;
     }
 }

@@ -95,7 +95,8 @@
     var id="${game.getId()}";
     var columns="${board.columns}";
     var minesLocation = "${mines}";
-    var minesCount = "${mines.size()}"
+    var minesCount = "${mines.size()}";
+    var difficulty = "${difficulty}";
     var success = false;
     var width = (columns)*50+20;
     var height = (rows)*50+20;
@@ -107,11 +108,15 @@
     var flagCount = 0;
     var error = "${error}";
     var board=[];
+    var hardcore = "${hardcore}";
 
-    window.onload = function(){
+    window.onload = async function(){
         if(error=="true") {
             alert("Mines has been reduced to 90% of maximum mines");
         };
+        if(hardcore == "false") {
+            finishCasualGame();
+        }
         startGame();
         document.getElementById("restart-button").addEventListener("click", restartGame);
         document.getElementById("finish-button").addEventListener("click", finishGame);
@@ -120,6 +125,19 @@
     function endGame() {
         var url = '/games/endGame?id='+ id + '&success=' + success;
         location.replace(url);
+    }
+
+    async function finishCasualGame() { 
+        var delay = 60000;
+        if(difficulty == "INTERMEDIATE") {
+            delay = 180000;
+        } else if(difficulty == "ADVANCED" || difficulty == "CUSTOM") {
+            delay = 300000;
+        }
+        await sleep(delay);
+        revealMines();
+        alert("You have spent too much time in the game, the game will finish now.");
+        endGame();
     }
 
     function startGame() {
@@ -267,7 +285,7 @@
     }
 
     function restartGame() {
-    location.reload(); // Recargar la página para reiniciar el juego
+    location.replace("/games"); // Recargar la página para reiniciar el juego
     }
 
     function finishGame() {
