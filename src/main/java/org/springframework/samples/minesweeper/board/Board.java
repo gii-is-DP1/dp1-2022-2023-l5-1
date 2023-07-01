@@ -16,12 +16,12 @@ import lombok.Setter;
 public class Board extends AuditableEntity{
 
     @NotNull
-    @Max(16)
+    @Max(30)
     @Min(8)
     public Integer columns;
 
     @NotNull
-    @Max(30)
+    @Max(16)
     @Min(8)
     public Integer rows;
 

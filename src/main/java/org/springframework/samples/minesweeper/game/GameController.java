@@ -1,15 +1,18 @@
 package org.springframework.samples.minesweeper.game;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.samples.minesweeper.board.Board;
 import org.springframework.samples.minesweeper.board.BoardService;
 import org.springframework.samples.minesweeper.board.DifficultyLevel;
+import org.springframework.samples.minesweeper.user.Authorities;
 import org.springframework.samples.minesweeper.user.User;
 import org.springframework.samples.minesweeper.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,7 @@ public class GameController {
     private static final String VIEWS_PLAY_GAME="games/playNewGame";
     private static final String VIEWS_GAME_RULES="games/gameRules";
     private static final String VIEWS_END_GAME="games/endGame";
+    private static final String VIEWS_GAMES_LIST="games/listGame";
 
     private  GameService gameService;
 
@@ -82,15 +86,37 @@ public class GameController {
         }else if(difficulty.equals("Custom")){
             board = boardService.boardInit(formBoard.getRows(),formBoard.getColumns(),formBoard.getMinesNumber(),name);
         }
-        List<String> squares = gameService.initializeSquares(board);
+        Pair<List<String>,Boolean> pair = gameService.initializeSquares(board);
+        List<String> squares = pair.getFirst();
+        Boolean error = pair.getSecond();
         boardService.save(board);
         Game game = new Game();
         game.setInProgress(true);
         game.setUser(user);
         this.gameService.saveGame(game);
+        model.put("error", error);
         model.put("mines", squares);
         model.put("board", board);
         model.put("game", game);
         return VIEWS_PLAY_GAME;
     }
+
+    @GetMapping(value = { "/games/activeGames" })
+	public String showActiveGamesList(Map<String, Object> model) {
+		
+		List<Game> games = new ArrayList<>(this.gameService.getActiveGames());
+
+		model.put("games", games);
+        model.put("active",true);
+		return VIEWS_GAMES_LIST;
+	}
+    @GetMapping(value = { "/games/finishGames" })
+	public String showFinishGamesList(Map<String, Object> model) {
+		
+		List<Game> games = new ArrayList<>(this.gameService.getFinishGames());
+
+		model.put("games", games);
+        model.put("active",false);
+		return VIEWS_GAMES_LIST;
+	}
 }
