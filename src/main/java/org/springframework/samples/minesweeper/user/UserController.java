@@ -111,7 +111,7 @@ public class UserController {
 
 
 	@GetMapping(value = { "/users" })
-	public String showVetList(Map<String, Object> model) {
+	public String showUserList(Map<String, Object> model) {
 		
 		List<User> users = new ArrayList<>(this.userService.getAllPlayers());
 		model.put("users", users);

@@ -5,7 +5,7 @@
 <minesweeper:layout pageName="error">
     <center>
 
-        <spring:url value="/resources/images/bombatriste.jpg" var="bombImage"/>
+        <spring:url value="/resources/images/bombatriste1.png" var="bombImage"/>
         <img src="${bombImage}"/>
 
         <h2>Something happened...</h2>

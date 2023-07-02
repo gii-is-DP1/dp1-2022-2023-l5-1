@@ -26,5 +26,5 @@ public class Game extends BaseEntity{
     public Boolean success;
 
     public DifficultyLevel difficulty;
-    
+
 }
