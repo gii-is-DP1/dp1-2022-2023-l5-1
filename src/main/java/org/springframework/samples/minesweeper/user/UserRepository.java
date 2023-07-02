@@ -1,6 +1,7 @@
 package org.springframework.samples.minesweeper.user;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,7 @@ public interface UserRepository extends  CrudRepository<User, String>{
 	
     @Query("SELECT user FROM User user WHERE user.username LIKE :username")
     public User findByUsername(@Param("username")String username);
+
+    @Query("SELECT DISTINCT authorities.user FROM Authorities authorities WHERE authorities.authority = 'player'")
+    List<User> findAllPlayers();
 }

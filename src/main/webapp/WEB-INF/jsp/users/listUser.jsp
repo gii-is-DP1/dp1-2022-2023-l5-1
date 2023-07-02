@@ -11,10 +11,8 @@
         <thead>
         <tr>
             <th>Username</th>
-            <th>Rank</th>
             <th>Update User</th>
             <th>Delete User</th>
-            <th>Delete User Stats</th>
         </tr>
         </thead>
         <tbody>
@@ -24,16 +22,10 @@
                     <c:out value="${user.username}"/>
                 </td>
                 <td>
-                    RANGO
-                </td>
-                <td>
                     <a href="users/update/${user.username}" class="btn btn-primary" role="button">Edit</a>
                 </td>
                 <td>
                     <a href="users/delete/${user.username}"  class="btn btn-danger" role="button">Delete</a>
-                </td>
-                <td>
-                    BOTON
                 </td>
             </tr>
         </c:forEach>

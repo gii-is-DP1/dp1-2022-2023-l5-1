@@ -74,6 +74,14 @@ public class GameService {
         gameRepository.delete(game);
     }
 
+    public void deleteAllGames(List<Game> games) {
+        gameRepository.deleteAll(games);
+    }
+
+    public List<Game> getAllGameByUsername(String userId) {
+        return gameRepository.findAllByUsername(userId);
+    }
+
     public Integer getRecentGamesByUsername(String username) {
        Integer res = 0;
        LocalDateTime now = LocalDateTime.now();
