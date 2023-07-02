@@ -1,5 +1,7 @@
 package org.springframework.samples.minesweeper.game;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
@@ -78,6 +80,20 @@ public class GameService {
 
     public List<Game> getAllGameByUsername(String userId) {
         return gameRepository.findAllByUsername(userId);
+    }
+
+    public Integer getRecentGamesByUsername(String username) {
+       Integer res = 0;
+       LocalDateTime now = LocalDateTime.now();
+        List<Game> games = gameRepository.findAllGamesByUsername(username);
+        for (Game game: games) {
+            Long time = Duration.between(now, game.getCreationDate()).toHours();
+            if (time <= 24) {
+                res++;
+            }
+        }
+        
+        return res;
     }
     
     public Collection<Game> getActiveGames(){

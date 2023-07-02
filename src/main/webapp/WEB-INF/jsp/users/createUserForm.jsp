@@ -6,6 +6,25 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="minesweeper" tagdir="/WEB-INF/tags" %>
 
+
+<style>
+    .text {
+        text-align: right;
+        margin-bottom: 0;
+        padding-top: 7px;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+        float: left;
+    }
+    .checkbox {
+    width: 100%;
+    height: 25px;
+    align-items: left;
+}
+</style>
+
 <minesweeper:layout pageName="users">
     <h2>
         <c:if test="${user['new']}">New </c:if> User
@@ -15,6 +34,15 @@
             <minesweeper:inputField label="Username" name="username"/>
             <minesweeper:inputField label="Name" name="name"/>
             <minesweeper:inputField label="Password" name="password"/>
+            <spring:bind path="hardcoregamer">
+                <div >
+                    <label class="col-sm-2 control-label">Hard-Core</label>
+                    <div class="controls">
+                        <form:checkbox path="hardcoregamer" class="checkbox"/>
+                        <span class="help-inline">${status.errorMessage}</span>
+                    </div>
+                </div>
+            </spring:bind>
         </div>
         
         <div class="form-group">
