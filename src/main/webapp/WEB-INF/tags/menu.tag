@@ -47,6 +47,30 @@
 				</sec:authorize>
 
 				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'genres'}" url="/genres"
+						title="genre">
+						<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+						<span>genres</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'platforms'}" url="/platforms"
+						title="platform">
+						<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+						<span>platforms</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'sagas'}" url="/sagas"
+						title="saga">
+						<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+						<span>sagas</span>
+					</minesweeper:menuItem>
+				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('admin')">
 					<minesweeper:menuItem active="${name eq 'games'}" url="/games/activeGames"
 						title="game">
 						<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
