@@ -15,7 +15,10 @@
  */
 package org.springframework.samples.minesweeper.user;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -25,38 +28,74 @@ import org.apache.jasper.tagplugins.jstl.core.Remove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.minesweeper.game.Game;
 import org.springframework.samples.minesweeper.game.GameService;
+import org.springframework.samples.minesweeper.genre.Genre;
+import org.springframework.samples.minesweeper.genre.GenreService;
+import org.springframework.samples.minesweeper.platform.Platform;
+import org.springframework.samples.minesweeper.platform.PlatformService;
+import org.springframework.samples.minesweeper.saga.Saga;
+import org.springframework.samples.minesweeper.saga.SagaService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 
 
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
-  	private static final String VIEWS_OWNER_LIST = "users/listUser";
-	private static final String VIEWS_USER_CREATE_OR_UPDATE_FORM = "users/createOrUpdateUserForm";
+	private static final String VIEWS_USER_CREATE_FORM = "users/createUserForm";
+  	private static final String VIEWS_USER_LIST = "users/listUser";
+	private static final String VIEWS_USER_PROFILE = "users/viewProfile";
+	
 
 
 
 	private final UserService userService;
 	private final AuthoritiesService authoService;
 	private final GameService gameService;
+	private final SagaService sagaService;
+	private final GenreService genreService;
+	private final PlatformService platformService;
+
+	
+	@ModelAttribute("sagas")
+	public Collection<Saga> populateSagas() {
+		return this.sagaService.findSagas();
+	}
+	@ModelAttribute("genres")
+	public Collection<Genre> populateGenres() {
+		return this.genreService.findGenres();
+	}
+	@ModelAttribute("platforms")
+	public Collection<Platform> populatePlatforms() {
+		return this.platformService.findPlatforms();
+	}
+
+	
 
 	@Autowired
-	public UserController(UserService clinicService,AuthoritiesService clinicService2,GameService clinicService3) {
-		this.userService = clinicService;
-		this.authoService = clinicService2;
-		this.gameService = clinicService3;
+	public UserController(UserService us,AuthoritiesService as,GameService gs, SagaService ss,
+		GenreService gens, PlatformService ps) {
+		this.userService = us;
+		this.authoService = as;
+		this.gameService = gs;
+		this.sagaService = ss;
+		this.genreService = gens;
+		this.platformService = ps;
 	}
 
 	@InitBinder
@@ -68,13 +107,24 @@ public class UserController {
 	public String initCreationForm(Map<String, Object> model) {
 		User user = new User();
 		model.put("user", user);
-		return VIEWS_OWNER_CREATE_FORM;
+		return VIEWS_USER_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
+		try {
+			URL url = new URL(user.getProfilePicture());
+			BufferedImage image = ImageIO.read(url);
+			if(image==null){
+				result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
+		}
+
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			return VIEWS_USER_CREATE_FORM;
 		}
 		else {
 			//creating user, user, and authority
@@ -95,12 +145,23 @@ public class UserController {
 		UserDetails userDetails = (UserDetails) principal;
 		User user = this.userService.findUser(userDetails.getUsername()).orElse(null);
 		model.put("user", user);
-		return VIEWS_OWNER_CREATE_FORM;
+		return VIEWS_USER_CREATE_FORM;
 	}
 	@PostMapping(value = "/users/update")
 	public String processUpdateForm(@Valid User user, BindingResult result) {
+		try {
+			URL url = new URL(user.getProfilePicture());
+			BufferedImage image = ImageIO.read(url);
+			if(image==null){
+				result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
+		}
+
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			return VIEWS_USER_CREATE_FORM;
 		}
 		else {
 			//creating user, user, and authority
@@ -115,7 +176,14 @@ public class UserController {
 		
 		List<User> users = new ArrayList<>(this.userService.getAllPlayers());
 		model.put("users", users);
-		return VIEWS_OWNER_LIST;
+		return VIEWS_USER_LIST;
+	}
+
+	@GetMapping(value="users/profile/{userId}")
+	public String showUserProfile(@PathVariable("userId") String userId, Map<String, Object> model){
+		User user = this.userService.findUser(userId).get();
+		model.put("user",user);
+		return VIEWS_USER_PROFILE;
 	}
 
 
@@ -124,14 +192,14 @@ public class UserController {
 		User user = this.userService.findUser(userId).get();
 		model.addAttribute(user);
 		
-		return VIEWS_OWNER_CREATE_FORM;
+		return VIEWS_USER_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/update/{userId}")
 	public String processUpdatePlayerForm(@Valid User user, BindingResult result,
 			@PathVariable("userId") String userId) {
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			return VIEWS_USER_CREATE_FORM;
 		} else {
 			user.setId(userId);
 			user.setEnabled(true);

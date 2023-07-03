@@ -38,13 +38,13 @@
 					<span>Game Rules</span>
 				</minesweeper:menuItem>
 
-				<sec:authorize access="hasAuthority('admin')">
-					<minesweeper:menuItem active="${name eq 'users'}" url="/users"
-						title="user">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-						<span>users</span>
-					</minesweeper:menuItem>
-				</sec:authorize>
+				
+				<minesweeper:menuItem active="${name eq 'users'}" url="/users"
+					title="user">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>users</span>
+				</minesweeper:menuItem>
+				
 
 				<sec:authorize access="hasAuthority('admin')">
 					<minesweeper:menuItem active="${name eq 'genres'}" url="/genres"
