@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 
 import org.springframework.samples.minesweeper.model.BaseEntity;
+import org.springframework.samples.minesweeper.model.NamedEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +16,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="platforms")
-public class Platform extends BaseEntity {
-	
-	@NotBlank
-	String name;
+public class Platform extends NamedEntity {
 
 }

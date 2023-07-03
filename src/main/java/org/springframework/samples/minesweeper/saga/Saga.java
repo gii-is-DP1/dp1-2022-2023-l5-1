@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 
 import org.springframework.samples.minesweeper.model.BaseEntity;
+import org.springframework.samples.minesweeper.model.NamedEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="sagas")
-public class Saga extends BaseEntity {
-	
-	@NotBlank
-	String name;
+public class Saga extends NamedEntity {
 
+	
 }
