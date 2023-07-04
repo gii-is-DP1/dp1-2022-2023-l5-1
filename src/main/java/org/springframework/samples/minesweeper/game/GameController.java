@@ -2,7 +2,6 @@ package org.springframework.samples.minesweeper.game;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
+import org.springframework.samples.minesweeper.audit.Audit;
+import org.springframework.samples.minesweeper.audit.AuditService;
 import org.springframework.samples.minesweeper.board.Board;
 import org.springframework.samples.minesweeper.board.BoardService;
 import org.springframework.samples.minesweeper.board.DifficultyLevel;
-import org.springframework.samples.minesweeper.user.Authorities;
 import org.springframework.samples.minesweeper.user.User;
 import org.springframework.samples.minesweeper.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -38,11 +38,14 @@ public class GameController {
 
     private  UserService userService;
 
+    private AuditService auditService;
+
     @Autowired
-	public GameController(GameService clinicService, BoardService clinicService2, UserService clinicService3) {
+	public GameController(GameService clinicService, BoardService clinicService2, UserService clinicService3, AuditService clinicService4) {
 		this.gameService = clinicService;
 		this.boardService = clinicService2;
 		this.userService = clinicService3;
+        this.auditService = clinicService4;
 	}
 
     @GetMapping(value="/games")
@@ -64,7 +67,7 @@ public class GameController {
     }
 
     @GetMapping(value="/games/endGame")
-    public String createGame(@RequestParam String id, @RequestParam String success, Map<String, Object> model) {
+    public String createGame(@RequestParam String id, @RequestParam String success, @RequestParam String audit_id,Map<String, Object> model) {
         Integer gameId = Integer.valueOf(id);
         Boolean gameSuccess = Boolean.parseBoolean(success);
         Game game = gameService.getGameById(gameId);
@@ -72,6 +75,12 @@ public class GameController {
         game.setSuccess(gameSuccess);
         this.gameService.saveGame(game);
         model.put("success", gameSuccess);
+        Integer auditId = Integer.valueOf(audit_id);
+        Audit audit = auditService.findAuditById(auditId).get();
+        audit.setInProgress(false);
+        audit.setSuccess(gameSuccess);
+        audit.setEndDate(LocalDateTime.now());
+        auditService.save(audit);
         return VIEWS_END_GAME;
     }
     
@@ -83,6 +92,10 @@ public class GameController {
         Game oldGame = this.gameService.getActiveGameByUsername(user.getUsername());
         if(oldGame != null) {
             this.gameService.deleteGame(oldGame);
+        }
+        Audit oldAudit = this.auditService.findActiveAuditByUsername(user.getUsername());
+        if(oldAudit != null) {
+            this.auditService.deleteAudit(oldAudit);
         }
         DifficultyLevel lv;
         Board board=null;
@@ -109,12 +122,19 @@ public class GameController {
         game.setUser(user);
         game.setDifficulty(lv);
         this.gameService.saveGame(game);
+        Audit audit = new Audit();
+        audit.setStartDate(date);
+        audit.setUser(user);
+        audit.setInProgress(true);
+        audit.setDifficulty(lv);
+        this.auditService.save(audit);
         model.put("hardcore", user.isHardcoregamer());
         model.put("error", error);
         model.put("mines", squares);
         model.put("board", board);
         model.put("game", game);
         model.put("difficulty", lv);
+        model.put("audit",audit);
         return VIEWS_PLAY_GAME;
     }
 

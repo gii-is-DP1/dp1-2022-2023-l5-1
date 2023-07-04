@@ -71,6 +71,14 @@
 				</sec:authorize>
 
 				<sec:authorize access="hasAuthority('admin')">
+					<minesweeper:menuItem active="${name eq 'audits'}"
+						url="/audits" title="audits">
+						<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+						<span>Audits</span>
+					</minesweeper:menuItem>				
+				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('admin')">
 					<minesweeper:menuItem active="${name eq 'games'}" url="/games/activeGames"
 						title="game">
 						<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
