@@ -71,6 +71,7 @@ public class GameController {
         Integer gameId = Integer.valueOf(id);
         Boolean gameSuccess = Boolean.parseBoolean(success);
         Game game = gameService.getGameById(gameId);
+        game.setLastModified(LocalDateTime.now());
         game.setInProgress(false);
         game.setSuccess(gameSuccess);
         this.gameService.saveGame(game);

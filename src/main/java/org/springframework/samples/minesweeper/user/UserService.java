@@ -22,6 +22,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.minesweeper.game.Game;
+import org.springframework.samples.minesweeper.model.AuditableEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +52,11 @@ public class UserService {
 		return userRepository.findById(username);
 	}
 
+	@Transactional(readOnly = true)
+	public User findUserByUsername(String username) throws DataAccessException {
+		return userRepository.findByUsername(username);
+	}
+
 	@Transactional(readOnly = true)	
 	public Collection<User> findUsers() throws DataAccessException {
 		return userRepository.findAll();
@@ -62,6 +69,14 @@ public class UserService {
 
     public List<User> getAllPlayers() {
 		return userRepository.findAllPlayers();
+	}
+		
+	public List<User> getAllAdmins() {
+		return userRepository.findAllAdmins();
+	}
+
+	public List<Game> getAllGameByUsername(User user) {
+		return userRepository.findAllGamesByPlayer(user);
 	}	
     	
 }

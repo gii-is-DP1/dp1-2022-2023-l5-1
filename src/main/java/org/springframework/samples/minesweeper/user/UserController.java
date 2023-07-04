@@ -17,6 +17,9 @@ package org.springframework.samples.minesweeper.user;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,12 +27,14 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import javax.servlet.http.HttpServletRequest;
 import org.apache.jasper.tagplugins.jstl.core.Remove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.minesweeper.game.Game;
 import org.springframework.samples.minesweeper.game.GameService;
 import org.springframework.samples.minesweeper.genre.Genre;
 import org.springframework.samples.minesweeper.genre.GenreService;
+import org.springframework.samples.minesweeper.model.AuditableEntity;
 import org.springframework.samples.minesweeper.platform.Platform;
 import org.springframework.samples.minesweeper.platform.PlatformService;
 import org.springframework.samples.minesweeper.saga.Saga;
@@ -112,15 +117,16 @@ public class UserController {
 
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
-		try {
-			URL url = new URL(user.getProfilePicture());
-			BufferedImage image = ImageIO.read(url);
-			if(image==null){
-				result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+		if(user.getProfilePicture()==null){
+			try {
+				URL url = new URL(user.getProfilePicture());
+				BufferedImage image = ImageIO.read(url);
+				if(image==null){
+					result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+				}
+			} catch (IOException e) {
+				result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 		}
 
 		if (result.hasErrors()) {
@@ -149,15 +155,16 @@ public class UserController {
 	}
 	@PostMapping(value = "/users/update")
 	public String processUpdateForm(@Valid User user, BindingResult result) {
-		try {
-			URL url = new URL(user.getProfilePicture());
-			BufferedImage image = ImageIO.read(url);
-			if(image==null){
-				result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+		if(user.getProfilePicture()==null){
+			try {
+				URL url = new URL(user.getProfilePicture());
+				BufferedImage image = ImageIO.read(url);
+				if(image==null){
+					result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+				}
+			} catch (IOException e) {
+				result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 		}
 
 		if (result.hasErrors()) {
@@ -172,10 +179,15 @@ public class UserController {
 
 
 	@GetMapping(value = { "/users" })
-	public String showUserList(Map<String, Object> model) {
-		
+	public String showUserList(HttpServletRequest req, Map<String, Object> model) {
+		Principal player = req.getUserPrincipal();
+        String name = player.getName();
+        User user = userService.findUser(name).get();
+		List<User> admins = userService.getAllAdmins();
+		Boolean admin = admins.contains(user);
 		List<User> users = new ArrayList<>(this.userService.getAllPlayers());
 		model.put("users", users);
+		model.put("admin",admin);
 		return VIEWS_USER_LIST;
 	}
 
@@ -183,6 +195,27 @@ public class UserController {
 	public String showUserProfile(@PathVariable("userId") String userId, Map<String, Object> model){
 		User user = this.userService.findUser(userId).get();
 		model.put("user",user);
+		List<Game> gamesOfPlayer = this.userService.getAllGameByUsername(user);
+		if(gamesOfPlayer.size()==0){
+		model.put("totalDurationPlayerGames", 0);
+		model.put("averageDurationPlayerGames", 0);
+
+		return VIEWS_USER_PROFILE;
+		}
+		int averageDurationPlayerGames;
+		int totalDurationPlayerGames;
+		Duration totalDuration = Duration.ZERO;
+		for (Game game : gamesOfPlayer) {
+    		LocalDateTime creationDate = game.getCreationDate();
+    		LocalDateTime lastModified = game.getLastModified();
+    		Duration difference = Duration.between(creationDate, lastModified);
+    		totalDuration = totalDuration.plus(difference);
+		}
+		totalDurationPlayerGames = (int)totalDuration.toSeconds();
+		averageDurationPlayerGames = totalDurationPlayerGames / (int) gamesOfPlayer.size();
+		model.put("totalDurationPlayerGames", totalDurationPlayerGames);
+		model.put("averageDurationPlayerGames", averageDurationPlayerGames);
+
 		return VIEWS_USER_PROFILE;
 	}
 

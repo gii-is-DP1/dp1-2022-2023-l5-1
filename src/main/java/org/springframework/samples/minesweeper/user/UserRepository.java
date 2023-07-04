@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.minesweeper.game.Game;
 
 public interface UserRepository extends  CrudRepository<User, String>{
 	Collection<User> findAll() throws DataAccessException;
@@ -16,4 +17,10 @@ public interface UserRepository extends  CrudRepository<User, String>{
 
     @Query("SELECT DISTINCT authorities.user FROM Authorities authorities WHERE authorities.authority = 'player'")
     List<User> findAllPlayers();
+
+    @Query("SELECT DISTINCT authorities.user FROM Authorities authorities WHERE authorities.authority = 'admin'")
+    List<User> findAllAdmins();
+
+    @Query("SELECT game FROM Game game WHERE game.user LIKE :user")
+    List<Game> findAllGamesByPlayer(@Param("user")User user);
 }

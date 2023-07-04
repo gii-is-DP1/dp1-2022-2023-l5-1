@@ -82,7 +82,8 @@
         }
     </style>
 
-    <h1>Mines:<c:out value="${board.minesNumber}"></c:out></h1>
+    <h1>Mines: <c:out value="${board.minesNumber}"></c:out></h1>
+    <h1> Flags: <div id="flags" style="display: contents;"></div></h1>
     <div id="board"></div>
     <button id="flag-button"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></button>
     <button id="restart-button">Restart Game</button>
@@ -109,6 +110,7 @@
     var error = "${error}";
     var board=[];
     var hardcore = "${hardcore}";
+    document.getElementById("flags").innerHTML = minesCount;
 
     window.onload = async function(){
         if(error=="true") {
@@ -142,7 +144,6 @@
 
     function startGame() {
         document.getElementById("flag-button").addEventListener("click", setFlag);
-
         //populate our board
         for (let r = 0; r < rows; r++) {
             let row = [];
@@ -169,6 +170,7 @@
         else {
             flagEnabled = true;
             document.getElementById("flag-button").style.backgroundColor = "darkgray";
+
         }
         return;
     }
@@ -189,8 +191,9 @@
             }
             else if (tile.innerText == "x") {
                 tile.innerText = "";
-                flagCount--
+                flagCount--;
             }
+            document.getElementById("flags").innerHTML = minesCount-flagCount;
             return;
         }
 
@@ -209,7 +212,6 @@
         let r = parseInt(coords[0]);
         let c = parseInt(coords[1]);
         checkMine(r, c);
-
     }
 
     function revealMines() {
