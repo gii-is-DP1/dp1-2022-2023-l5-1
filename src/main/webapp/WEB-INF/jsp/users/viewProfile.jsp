@@ -17,6 +17,10 @@
     <m>${user.saga.name}</m>
     <h3>Favourite platform:</h3>
     <m>${user.platform.name}</m>
+    <h3>Total time played:</h3>
+    <td style="font-size:20px;text-align:center"><c:out value="${totalDurationPlayerGames}" /> Seconds Played</td>
+    <h3>Average time played:</h3>
+    <td style="font-size:20px;text-align:center"><c:out value="${averageDurationPlayerGames}" /> Seconds Played</td>
     <h3>Profile picture:</h3>
     <img src="${user.profilePicture}" alt="Image">
 </minesweeper:layout>
