@@ -1,5 +1,7 @@
 package org.springframework.samples.minesweeper.game;
 
+import java.time.Duration;
+
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
@@ -20,5 +22,10 @@ public class Game extends AuditableEntity{
     public Boolean success;
 
     public DifficultyLevel difficulty;
+
+    public Integer getDuration() {
+        Long time = Duration.between(this.getCreationDate(),this.getLastModified()).toSeconds();
+        return Integer.valueOf(time.toString());
+    } 
 
 }

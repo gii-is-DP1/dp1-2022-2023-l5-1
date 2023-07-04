@@ -38,6 +38,10 @@ public class GameController {
 
     private  UserService userService;
 
+    int averageDurationPlayerGames;
+    
+    int totalDurationPlayerGames;
+
     @Autowired
 	public GameController(GameService clinicService, BoardService clinicService2, UserService clinicService3) {
 		this.gameService = clinicService;
@@ -68,6 +72,7 @@ public class GameController {
         Integer gameId = Integer.valueOf(id);
         Boolean gameSuccess = Boolean.parseBoolean(success);
         Game game = gameService.getGameById(gameId);
+        game.setLastModified(LocalDateTime.now());
         game.setInProgress(false);
         game.setSuccess(gameSuccess);
         this.gameService.saveGame(game);

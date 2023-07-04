@@ -18,6 +18,8 @@ package org.springframework.samples.minesweeper.user;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +34,7 @@ import org.springframework.samples.minesweeper.game.Game;
 import org.springframework.samples.minesweeper.game.GameService;
 import org.springframework.samples.minesweeper.genre.Genre;
 import org.springframework.samples.minesweeper.genre.GenreService;
+import org.springframework.samples.minesweeper.model.AuditableEntity;
 import org.springframework.samples.minesweeper.platform.Platform;
 import org.springframework.samples.minesweeper.platform.PlatformService;
 import org.springframework.samples.minesweeper.saga.Saga;
@@ -192,6 +195,27 @@ public class UserController {
 	public String showUserProfile(@PathVariable("userId") String userId, Map<String, Object> model){
 		User user = this.userService.findUser(userId).get();
 		model.put("user",user);
+		List<Game> gamesOfPlayer = this.userService.getAllGameByUsername(user);
+		if(gamesOfPlayer.size()==0){
+		model.put("totalDurationPlayerGames", 0);
+		model.put("averageDurationPlayerGames", 0);
+
+		return VIEWS_USER_PROFILE;
+		}
+		int averageDurationPlayerGames;
+		int totalDurationPlayerGames;
+		Duration totalDuration = Duration.ZERO;
+		for (Game game : gamesOfPlayer) {
+    		LocalDateTime creationDate = game.getCreationDate();
+    		LocalDateTime lastModified = game.getLastModified();
+    		Duration difference = Duration.between(creationDate, lastModified);
+    		totalDuration = totalDuration.plus(difference);
+		}
+		totalDurationPlayerGames = (int)totalDuration.toSeconds();
+		averageDurationPlayerGames = totalDurationPlayerGames / (int) gamesOfPlayer.size();
+		model.put("totalDurationPlayerGames", totalDurationPlayerGames);
+		model.put("averageDurationPlayerGames", averageDurationPlayerGames);
+
 		return VIEWS_USER_PROFILE;
 	}
 
