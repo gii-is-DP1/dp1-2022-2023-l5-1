@@ -112,15 +112,16 @@ public class UserController {
 
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
-		try {
-			URL url = new URL(user.getProfilePicture());
-			BufferedImage image = ImageIO.read(url);
-			if(image==null){
-				result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+		if(user.getProfilePicture()==null){
+			try {
+				URL url = new URL(user.getProfilePicture());
+				BufferedImage image = ImageIO.read(url);
+				if(image==null){
+					result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+				}
+			} catch (IOException e) {
+				result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 		}
 
 		if (result.hasErrors()) {
@@ -149,15 +150,16 @@ public class UserController {
 	}
 	@PostMapping(value = "/users/update")
 	public String processUpdateForm(@Valid User user, BindingResult result) {
-		try {
-			URL url = new URL(user.getProfilePicture());
-			BufferedImage image = ImageIO.read(url);
-			if(image==null){
-				result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+		if(user.getProfilePicture()==null){
+			try {
+				URL url = new URL(user.getProfilePicture());
+				BufferedImage image = ImageIO.read(url);
+				if(image==null){
+					result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+				}
+			} catch (IOException e) {
+				result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 		}
 
 		if (result.hasErrors()) {
