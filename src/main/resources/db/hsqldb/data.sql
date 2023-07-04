@@ -15,7 +15,7 @@ INSERT INTO sagas VALUES (3,'Battlefield');
 INSERT INTO users(username,password,name,enabled,hardcoregamer,biography,birth_date,location,genre_id,saga_id,platform_id,profile_picture) VALUES ('admin1','4dm1n','Admin',TRUE,TRUE,'Gamer desde los 5','2001-01-15','Sevilla',1,1,1,'https://i.pinimg.com/550x/be/e6/fb/bee6fb846be933f3f7e041db460faf89.jpg');
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 
-INSERT INTO users(username,password,name,enabled,hardcoregamer,biography,birth_date,location,genre_id,saga_id,platform_id,profile_picture) VALUES ('player1','player1','Pepe',TRUE,FALSE,'Jugador apasidonado','2001-01-16','Huelva',1,2,3,'https://i.redd.it/4al31h1ehd431.png');
+INSERT INTO users(username,password,name,enabled,hardcoregamer,biography,birth_date,location,genre_id,saga_id,platform_id,profile_picture) VALUES ('player1','player1','Pepe',TRUE,FALSE,'Jugador apasidonado','2001-01-16','Huelva',2,2,3,'https://i.redd.it/4al31h1ehd431.png');
 INSERT INTO authorities(id,username,authority) VALUES (2,'player1','player');
 
 INSERT INTO users(username,password,name,enabled,hardcoregamer,biography,birth_date,location,genre_id,saga_id,platform_id,profile_picture) VALUES ('player2','player2','Paco',TRUE,TRUE,'Fan de los Zelda','2001-01-17','Malaga',1,2,2,'https://pbs.twimg.com/profile_images/1661045343587270657/fcwQSEQB_400x400.jpg');
