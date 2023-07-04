@@ -16,4 +16,7 @@ public interface UserRepository extends  CrudRepository<User, String>{
 
     @Query("SELECT DISTINCT authorities.user FROM Authorities authorities WHERE authorities.authority = 'player'")
     List<User> findAllPlayers();
+
+    @Query("SELECT DISTINCT authorities.user FROM Authorities authorities WHERE authorities.authority = 'admin'")
+    List<User> findAllAdmins();
 }

@@ -62,6 +62,10 @@ public class UserService {
 
     public List<User> getAllPlayers() {
 		return userRepository.findAllPlayers();
+	}
+		
+	public List<User> getAllAdmins() {
+		return userRepository.findAllAdmins();
 	}	
     	
 }
