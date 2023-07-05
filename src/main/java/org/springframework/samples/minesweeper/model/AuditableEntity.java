@@ -9,40 +9,37 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.minesweeper.user.User;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @MappedSuperclass
 public class AuditableEntity extends BaseEntity{
 
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
-    public LocalDateTime creationDate;
+    public LocalDateTime start;
 
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
-    public LocalDateTime lastModified;
+    public LocalDateTime end;
 
     @NotNull
     @ManyToOne
     public User user;
 
-    public LocalDateTime getCreationDate(){
-        return this.creationDate;
+    public LocalDateTime getStart(){
+        return this.start;
     }
 
-    public LocalDateTime getLastModified(){
-        return this.lastModified;
+    public LocalDateTime getEnd(){
+        return this.end;
     }
 
     public User getUser(){
         return this.user;
     }
 
-    public void setCreationDate(LocalDateTime cd){
-        this.creationDate=cd;
+    public void setStart(LocalDateTime s){
+        this.start=s;
     }
 
-    public void setLastModified(LocalDateTime lm){
-        this.lastModified=lm;
+    public void setEnd(LocalDateTime e){
+        this.end=e;
     }
 
     public void setUser(User user){

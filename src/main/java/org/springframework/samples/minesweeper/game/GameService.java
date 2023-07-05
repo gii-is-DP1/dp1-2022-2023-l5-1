@@ -87,7 +87,7 @@ public class GameService {
        LocalDateTime now = LocalDateTime.now();
         List<Game> games = gameRepository.findAllGamesByUsername(username);
         for (Game game: games) {
-            Long time = Duration.between(now, game.getCreationDate()).toHours();
+            Long time = Duration.between(now, game.getStart()).toHours();
             if (time <= 24) {
                 res++;
             }

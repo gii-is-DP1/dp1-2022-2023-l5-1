@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.minesweeper.user;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
 import java.time.Duration;
@@ -28,13 +27,11 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import javax.servlet.http.HttpServletRequest;
-import org.apache.jasper.tagplugins.jstl.core.Remove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.minesweeper.game.Game;
 import org.springframework.samples.minesweeper.game.GameService;
 import org.springframework.samples.minesweeper.genre.Genre;
 import org.springframework.samples.minesweeper.genre.GenreService;
-import org.springframework.samples.minesweeper.model.AuditableEntity;
 import org.springframework.samples.minesweeper.platform.Platform;
 import org.springframework.samples.minesweeper.platform.PlatformService;
 import org.springframework.samples.minesweeper.saga.Saga;
@@ -206,9 +203,9 @@ public class UserController {
 		int totalDurationPlayerGames;
 		Duration totalDuration = Duration.ZERO;
 		for (Game game : gamesOfPlayer) {
-    		LocalDateTime creationDate = game.getCreationDate();
-    		LocalDateTime lastModified = game.getLastModified();
-    		Duration difference = Duration.between(creationDate, lastModified);
+    		LocalDateTime start = game.getStart();
+    		LocalDateTime end = game.getEnd();
+    		Duration difference = Duration.between(start, end);
     		totalDuration = totalDuration.plus(difference);
 		}
 		totalDurationPlayerGames = (int)totalDuration.toSeconds();

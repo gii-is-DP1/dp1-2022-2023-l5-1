@@ -2,7 +2,6 @@ package org.springframework.samples.minesweeper.genre;
 
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

@@ -71,7 +71,10 @@ public class GameController {
         Integer gameId = Integer.valueOf(id);
         Boolean gameSuccess = Boolean.parseBoolean(success);
         Game game = gameService.getGameById(gameId);
-        game.setLastModified(LocalDateTime.now());
+        if(game.getInProgress()==false) {
+            return "redirect:/oups";
+        }
+        game.setEnd(LocalDateTime.now());
         game.setInProgress(false);
         game.setSuccess(gameSuccess);
         this.gameService.saveGame(game);
@@ -118,7 +121,7 @@ public class GameController {
         Boolean error = pair.getSecond();
         LocalDateTime date = LocalDateTime.now();
         Game game = new Game();
-        game.setCreationDate(date);
+        game.setStart(date);
         game.setInProgress(true);
         game.setUser(user);
         game.setDifficulty(lv);

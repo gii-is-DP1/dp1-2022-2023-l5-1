@@ -24,7 +24,7 @@ public class Game extends AuditableEntity{
     public DifficultyLevel difficulty;
 
     public Integer getDuration() {
-        Long time = Duration.between(this.getCreationDate(),this.getLastModified()).toSeconds();
+        Long time = Duration.between(this.getStart(),this.getEnd()).toSeconds();
         return Integer.valueOf(time.toString());
     } 
 
