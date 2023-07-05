@@ -125,7 +125,7 @@
     }
 
     function endGame() {
-        var url = '/games/endGame?id='+ id + '&success=' + success;
+        var url = '/games/endGame?id='+ id + '&success=' + success +'&audit_id=${audit.id}';
         location.replace(url);
     }
 

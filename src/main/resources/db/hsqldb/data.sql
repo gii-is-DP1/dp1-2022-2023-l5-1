@@ -24,4 +24,10 @@ INSERT INTO authorities(id,username,authority) VALUES (3,'player2','player');
 INSERT INTO users(username,password,name,enabled,hardcoregamer,biography,birth_date,location,genre_id,saga_id,platform_id,profile_picture) VALUES ('player3','player3','Curro',TRUE,FALSE,'Tears of the kingdom videojuego del siglo','2001-01-18','Cordoba',3,3,3,'https://avatarfiles.alphacoders.com/103/thumb-103373.png');
 INSERT INTO authorities(id,username,authority) VALUES (4,'player3','player');
 
+INSERT INTO audits(id,start_date,end_date,user_username,in_progress,success,difficulty)
+VALUES (1,'2022-06-27 10:11:37','2022-06-27 10:11:47','player1',FALSE,TRUE,0);
+
+INSERT INTO audits(id,start_date,end_date,user_username,in_progress,success,difficulty)
+VALUES (2,'2022-06-27 10:11:37',null,'player2',TRUE,null,1);
+
 
