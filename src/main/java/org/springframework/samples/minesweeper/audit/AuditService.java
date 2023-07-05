@@ -40,4 +40,12 @@ public class AuditService {
 	public void deleteAudit(Audit audit) {
 		auditRepository.delete(audit);
 	}
+
+    public List<Audit> getAllAuditByUsername(String userId) {
+        return auditRepository.findAllAuditByUsername(userId);
+    }
+
+	public void deleteAllAudit(List<Audit> audit) {
+		auditRepository.deleteAll(audit);
+	}
 }

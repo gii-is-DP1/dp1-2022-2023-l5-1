@@ -13,4 +13,8 @@ public interface AuditRepository extends CrudRepository<Audit, Integer> {
 	
 	@Query("SELECT audit FROM Audit audit WHERE audit.inProgress=true AND audit.user.username = :username")
     public Audit findActiveAuditByUsername(String username);
+
+	@Query("SELECT audit FROM Audit audit WHERE audit.user.username = :username")
+    public List<Audit> findAllAuditByUsername(String username);
+	
 }

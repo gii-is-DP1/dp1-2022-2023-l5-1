@@ -28,6 +28,8 @@ import javax.validation.Valid;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.minesweeper.audit.Audit;
+import org.springframework.samples.minesweeper.audit.AuditService;
 import org.springframework.samples.minesweeper.game.Game;
 import org.springframework.samples.minesweeper.game.GameService;
 import org.springframework.samples.minesweeper.genre.Genre;
@@ -72,6 +74,7 @@ public class UserController {
 	private final SagaService sagaService;
 	private final GenreService genreService;
 	private final PlatformService platformService;
+	private final AuditService auditService;
 
 	
 	@ModelAttribute("sagas")
@@ -91,13 +94,14 @@ public class UserController {
 
 	@Autowired
 	public UserController(UserService us,AuthoritiesService as,GameService gs, SagaService ss,
-		GenreService gens, PlatformService ps) {
+		GenreService gens, PlatformService ps, AuditService ads) {
 		this.userService = us;
 		this.authoService = as;
 		this.gameService = gs;
 		this.sagaService = ss;
 		this.genreService = gens;
 		this.platformService = ps;
+		this.auditService = ads;
 	}
 
 	@InitBinder
@@ -243,7 +247,9 @@ public class UserController {
 	@GetMapping(value = "users/delete/{userId}")
 	public String deleteUser(@PathVariable("userId") String userId) {
 		List<Game> game = gameService.getAllGameByUsername(userId);
+		List<Audit> audit = auditService.getAllAuditByUsername(userId);
 		gameService.deleteAllGames(game);
+		auditService.deleteAllAudit(audit);
 		userService.deleteUser(userId);
 		return "redirect:/users";
 
