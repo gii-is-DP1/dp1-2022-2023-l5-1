@@ -112,15 +112,15 @@ public class UserController {
 
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
-		if(user.getProfilePicture()==null){
+		if(!user.getProfilePicture().equals("")){
 			try {
 				URL url = new URL(user.getProfilePicture());
 				BufferedImage image = ImageIO.read(url);
 				if(image==null){
-					result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
+					result.addError(new ObjectError("profilePicture", "The URL doesn't correspond to a valid image"));
 				}
 			} catch (IOException e) {
-				result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
+				result.addError(new ObjectError("profilePicture", "Error al leer la URL de la imagen"));
 			}
 		}
 
@@ -150,7 +150,7 @@ public class UserController {
 	}
 	@PostMapping(value = "/users/update")
 	public String processUpdateForm(@Valid User user, BindingResult result) {
-		if(user.getProfilePicture()==null){
+		if(!user.getProfilePicture().equals("")){
 			try {
 				URL url = new URL(user.getProfilePicture());
 				BufferedImage image = ImageIO.read(url);
