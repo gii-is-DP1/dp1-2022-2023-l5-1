@@ -27,6 +27,8 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.minesweeper.audit.Audit;
 import org.springframework.samples.minesweeper.audit.AuditService;
@@ -56,8 +58,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 @Controller
 public class UserController {
 
@@ -141,6 +145,9 @@ public class UserController {
 			authorities.setAuthority("player");
 			this.userService.saveUser(user);
 			this.authoService.saveAuthorities(authorities);
+
+			log.info("Usuario creado correctamente con nombre {}", user.getName());
+
 			return "redirect:/";
 		}
 	}	

@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class GameController {
 
@@ -58,6 +61,7 @@ public class GameController {
         if(recentGames==2 && !user.isHardcoregamer()) {
             url = VIEWS_EXCESSIVE_GAMING;
         }
+        log.info("Mostrando correctamente el menú de iniciar partida");
         return new ModelAndView(url);
     }
 
@@ -139,6 +143,7 @@ public class GameController {
         model.put("game", game);
         model.put("difficulty", lv);
         model.put("audit",audit);
+        log.info("Partida {} del usuario {} creada correctamente", game.getId(), game.getUser().getName());
         return VIEWS_PLAY_GAME;
     }
 
