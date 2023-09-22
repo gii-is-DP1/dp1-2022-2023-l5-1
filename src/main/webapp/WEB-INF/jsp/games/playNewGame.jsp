@@ -91,18 +91,27 @@
 </minesweeper:layout>
 
 <script>
+    // Select the root element of the document
     var root=document.querySelector(":root");
+
+    // Get some data variables from the game context like rows, id,column...
     var rows="${board.rows}";
     var id="${game.getId()}";
     var columns="${board.columns}";
     var minesLocation = "${mines}";
     var minesCount = "${mines.size()}";
     var difficulty = "${difficulty}";
+
+    //Variable state
     var success = false;
     var width = (columns)*50+20;
     var height = (rows)*50+20;
+
+    //Set custom properties
     root.style.setProperty("--width", parseInt(width)+"px");
     root.style.setProperty("--height", parseInt(height)+"px");
+    
+    //Varibles related to the game state
     var tilesClicked = 0;
     var gameOver = false;
     var flagEnabled = false;
@@ -110,16 +119,24 @@
     var error = "${error}";
     var board=[];
     var hardcore = "${hardcore}";
+
+    //Update the html content
     document.getElementById("flags").innerHTML = minesCount;
 
     window.onload = async function(){
-        if(error=="true") {
-            alert("Mines has been reduced to 90% of maximum mines");
-        };
+        // Check if an error occurred, if it occurs show the next alert.
+        if(error == "true") {
+            alert("Mines have been reduced to 90% of the maximum allowed.");
+        }
+
+        // If it is not a hardcore game, finish the casual game.
         if(hardcore == "false") {
             finishCasualGame();
         }
+
         startGame();
+
+        // Add restart button and a finish button
         document.getElementById("restart-button").addEventListener("click", restartGame);
         document.getElementById("finish-button").addEventListener("click", finishGame);
     }
@@ -129,6 +146,7 @@
         location.replace(url);
     }
 
+    // If the game duration > recommended the game finish
     async function finishCasualGame() { 
         var delay = 60000;
         if(difficulty == "INTERMEDIATE") {
@@ -142,141 +160,117 @@
         endGame();
     }
 
+
     function startGame() {
         document.getElementById("flag-button").addEventListener("click", setFlag);
-        //populate our board
-        for (let r = 0; r < rows; r++) {
+        let r = 0;
+        while (r < rows) {
             let row = [];
-            for (let c = 0; c < columns; c++) {
-                //<div id="0-0"></div>
+            let c = 0;
+            while (c < columns) {
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + c.toString();
                 tile.addEventListener("click", clickTile);
                 document.getElementById("board").append(tile);
                 row.push(tile);
+                c++;
             }
             board.push(row);
+            r++;
         }
 
         console.log(board);
         return;
     }
 
+    //TO SET FLAG
     function setFlag() {
-        if (flagEnabled) {
-            flagEnabled = false;
-            document.getElementById("flag-button").style.backgroundColor = "lightgray";
-        }
-        else {
-            flagEnabled = true;
-            document.getElementById("flag-button").style.backgroundColor = "darkgray";
-
-        }
-        return;
+        const flagButton = document.getElementById("flag-button");
+        flagEnabled = !flagEnabled;
+        flagButton.style.backgroundColor = flagEnabled ? "darkgray" : "lightgray";
     }
 
+    //Sleep time
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+
+    //When clic the title
     async function clickTile() {
+
         let tile = this;
-        if (gameOver || this.classList.contains("tile-clicked") || (tile.innerText != "" && !flagEnabled)) {
-            return;
-        }
-        if (flagEnabled) {
-            if (tile.innerText == "") {
-                tile.innerText = "x";
-                flagCount++;
-            }
-            else if (tile.innerText == "x") {
-                tile.innerText = "";
-                flagCount--;
-            }
-            document.getElementById("flags").innerHTML = minesCount-flagCount;
+
+        // Check if the game is over, tile is already clicked, or flags are not enabled and there is text on the tile
+        if (gameOver || tile.classList.contains("tile-clicked") || (tile.innerText != "" && !flagEnabled)) {
             return;
         }
 
+        // Handle flag placement or removal when flags are enabled
+        if (flagEnabled) {
+            if (tile.innerText == "") {
+                tile.innerText = "x"; 
+                flagCount++;
+            } else if (tile.innerText == "x") {
+                tile.innerText = ""; // Remove the flag
+                flagCount--;
+            }
+            //Update the flag counter
+            document.getElementById("flags").innerHTML = minesCount - flagCount;
+            return;
+        }
+
+        // Check if the tile contains a mine
         if (minesLocation.includes(tile.id)) {
-            // alert("GAME OVER");
             revealMines();
             gameOver = true;
             await sleep(500);
-            alert("Game Over\n You lose");
+            alert("Game Over\nYou lose");
             endGame();
             return;
         }
 
-
-        let coords = tile.id.split("-"); // "0-0" -> ["0", "0"]
+        // Split the tile's ID to get its row and column coordinates
+        let coords = tile.id.split("-");
         let r = parseInt(coords[0]);
         let c = parseInt(coords[1]);
+
         checkMine(r, c);
     }
 
+
+    //Reveal mine if player click on a tile that contains mine
     function revealMines() {
-        for (let r= 0; r < rows; r++) {
-            for (let c = 0; c < columns; c++) {
-                let tile = board[r][c];
+        board.forEach((row, r) => {
+            row.forEach((tile, c) => {
                 if (minesLocation.includes(tile.id) && (tile.innerText == "x" || success)) {
                     tile.style.backgroundColor = "green";
                 } else if (minesLocation.includes(tile.id) && tile.innerText != "x") {
                     tile.innerText = "x";
                     tile.style.backgroundColor = "red";
                 }
-            }
-        }
+            });
+        });
         return;
     }
 
     async function checkMine(r, c) {
-        if (r < 0 || r >= rows || c < 0 || c >= columns) {
-            return;
-        }
-        if (board[r][c].classList.contains("tile-clicked")) {
+        if (isOutOfBounds(r, c) || isTileClicked(r, c)) {
             return;
         }
 
         board[r][c].classList.add("tile-clicked");
         tilesClicked += 1;
 
-        let minesFound = 0;
-
-        //top 3
-        minesFound += checkTile(r-1, c-1);      //top left
-        minesFound += checkTile(r-1, c);        //top 
-        minesFound += checkTile(r-1, c+1);      //top right
-
-        //left and right
-        minesFound += checkTile(r, c-1);        //left
-        minesFound += checkTile(r, c+1);        //right
-
-        //bottom 3
-        minesFound += checkTile(r+1, c-1);      //bottom left
-        minesFound += checkTile(r+1, c);        //bottom 
-        minesFound += checkTile(r+1, c+1);      //bottom right
+        const minesFound = countMinesAround(r, c);
 
         if (minesFound > 0) {
-            board[r][c].innerText = minesFound;
-            board[r][c].classList.add("x" + minesFound.toString());
-        }
-        else {
-            //top 3
-            checkMine(r-1, c-1);    //top left
-            checkMine(r-1, c);      //top
-            checkMine(r-1, c+1);    //top right
-
-            //left and right
-            checkMine(r, c-1);      //left
-            checkMine(r, c+1);      //right
-
-            //bottom 3
-            checkMine(r+1, c-1);    //bottom left
-            checkMine(r+1, c);      //bottom
-            checkMine(r+1, c+1);    //bottom right
+            revealTileNumber(r, c, minesFound);
+        } else {
+            revealAdjacentTiles(r, c);
         }
 
-        if (tilesClicked == rows * columns - minesCount) {
+        if (tilesClicked === rows * columns - minesCount) {
             gameOver = true;
             success = true;
             revealMines();
@@ -286,14 +280,53 @@
         }
     }
 
+    function isOutOfBounds(r, c) {
+        return r < 0 || r >= rows || c < 0 || c >= columns;
+    }
+
+    function isTileClicked(r, c) {
+        return board[r][c].classList.contains("tile-clicked");
+    }
+
+    function countMinesAround(r, c) {
+        let minesFound = 0;
+        const offsets = [-1, 0, 1];
+
+        for (const dr of offsets) {
+            for (const dc of offsets) {
+                if (dr === 0 && dc === 0) continue;
+                minesFound += checkTile(r + dr, c + dc);
+            }
+        }
+
+        return minesFound;
+    }
+
+    function revealTileNumber(r, c, number) {
+        board[r][c].innerText = number;
+        board[r][c].classList.add("x" + number.toString());
+    }
+
+    function revealAdjacentTiles(r, c) {
+        const offsets = [-1, 0, 1];
+
+        for (const dr of offsets) {
+            for (const dc of offsets) {
+                if (dr === 0 && dc === 0) continue;
+                checkMine(r + dr, c + dc);
+            }
+        }
+    }
+
+
     function restartGame() {
-    location.replace("/games"); // Recargar la página para reiniciar el juego
+    location.replace("/games"); //Return to restart game
     }
 
     function finishGame() {
-    // Avisar al usuario de que al terminar antes de tiempo no se guardará el progreso en la partida
+    //warn to the player that the player want to leave without save the progress
     var confirmed = confirm("Are you sure you want to finish the game prematurely? Your progress in the current game will be lost!");
-    // Redireccionar a la página de inicio
+    // Redirect to the homepage
     if (confirmed) {
         window.location.replace("/");
         }
