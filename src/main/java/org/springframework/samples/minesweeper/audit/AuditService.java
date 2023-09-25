@@ -29,6 +29,7 @@ public class AuditService {
 		return auditRepository.findById(id);
 	}
 	
+	@Transactional
 	public void save(Audit audit) {
 		auditRepository.save(audit);
 	}
@@ -37,6 +38,7 @@ public class AuditService {
         return auditRepository.findActiveAuditByUsername(username);
     }
 
+	@Transactional
 	public void deleteAudit(Audit audit) {
 		auditRepository.delete(audit);
 	}
