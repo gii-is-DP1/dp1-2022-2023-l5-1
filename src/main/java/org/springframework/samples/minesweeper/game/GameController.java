@@ -72,7 +72,7 @@ public class GameController {
         Boolean gameSuccess = Boolean.parseBoolean(success);
         Game game = gameService.getGameById(gameId);
         if(game.getInProgress()==false) {
-            return "redirect:/oups";
+            return "redirectp:/ous";
         }
         game.setEnd(LocalDateTime.now());
         game.setInProgress(false);
@@ -151,6 +151,7 @@ public class GameController {
         model.put("active",true);
 		return VIEWS_GAMES_LIST;
 	}
+    
     @GetMapping(value = { "/games/finishGames" })
 	public String showFinishGamesList(Map<String, Object> model) {
 		
