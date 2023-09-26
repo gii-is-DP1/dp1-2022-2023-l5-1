@@ -70,10 +70,12 @@ public class GameService {
         return gameRepository.findActiveGameByUsername((username));
     }
 
+    @Transactional
     public void deleteGame(Game game) {
         gameRepository.delete(game);
     }
 
+    @Transactional
     public void deleteAllGames(List<Game> games) {
         gameRepository.deleteAll(games);
     }

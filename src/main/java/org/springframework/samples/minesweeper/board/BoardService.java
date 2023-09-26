@@ -3,6 +3,7 @@ package org.springframework.samples.minesweeper.board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.minesweeper.user.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BoardService {
@@ -53,6 +54,7 @@ public class BoardService {
         return br;
     }
 
+    @Transactional
     public void save(Board board) {
         boardRepository.save(board);
     }
