@@ -163,20 +163,20 @@
 
     function initializeGameBoard() {
         document.getElementById("flag-button").addEventListener("click", putFlag);
-        let r = 0;
-        while (r < totalrows) {
+        let rows = 0;
+        while (rows < totalrows) {
             let row = [];
-            let c = 0;
-            while (c < totalcolumns) {
+            let column = 0;
+            while (column < totalcolumns) {
                 let square = document.createElement("div");
-                square.id = r.toString() + "-" + c.toString();
+                square.id = rows.toString() + "-" + column.toString();
                 square.addEventListener("click", clickSquare);
                 document.getElementById("board").append(square);
                 row.push(square);
-                c++;
+                column++;
             }
             board.push(row);
-            r++;
+            rows++;
         }
 
         console.log(board);
@@ -232,17 +232,17 @@
 
         // Split the square's ID to get its row and column coordinates
         let coords = square.id.split("-");
-        let r = parseInt(coords[0]);
-        let c = parseInt(coords[1]);
+        let rows = parseInt(coords[0]);
+        let column = parseInt(coords[1]);
 
-        revealMine(r, c);
+        revealMine(rows, column);
     }
 
 
     //Reveal mine if player click on a square that contains mine
     function showMines() {
-        board.forEach((row, r) => {
-            row.forEach((square, c) => {
+        board.forEach((row, rows) => {
+            row.forEach((square, column) => {
                 if (minesPosition.includes(square.id) && (square.innerText == "x" || success)) {
                     square.style.backgroundColor = "green";
                 } else if (minesPosition.includes(square.id) && square.innerText != "x") {
@@ -254,20 +254,20 @@
         return;
     }
 
-    async function revealMine(r, c) {
-        if (isOutOfBounds(r, c) || isSquareClicked(r, c)) {
+    async function revealMine(rows, column) {
+        if (isOutOfBounds(rows, column) || isSquareClicked(rows, column)) {
             return;
         }
 
-        board[r][c].classList.add("square-clicked");
+        board[rows][column].classList.add("square-clicked");
         squareClicked += 1;
 
-        const minesFound = calculateAdjacentMines(r, c);
+        const minesFound = calculateAdjacentMines(rows, column);
 
         if (minesFound > 0) {
-            revealSquareNumber(r, c, minesFound);
+            revealSquareNumber(rows, column, minesFound);
         } else {
-            revealAdjacentSquare(r, c);
+            revealAdjacentSquare(rows, column);
         }
 
         if (squareClicked === totalrows * totalcolumns - numberOfMines) {
@@ -280,40 +280,40 @@
         }
     }
 
-    function isOutOfBounds(r, c) {
-        return r < 0 || r >= totalrows || c < 0 || c >= totalcolumns;
+    function isOutOfBounds(rows, column) {
+        return rows < 0 || rows >= totalrows || column < 0 || column >= totalcolumns;
     }
 
-    function isSquareClicked(r, c) {
-        return board[r][c].classList.contains("square-clicked");
+    function isSquareClicked(rows, column) {
+        return board[rows][column].classList.contains("square-clicked");
     }
 
-    function calculateAdjacentMines(r, c) {
+    function calculateAdjacentMines(rows, column) {
         let minesFound = 0;
         const offsets = [-1, 0, 1];
 
         for (const dr of offsets) {
             for (const dc of offsets) {
                 if (dr === 0 && dc === 0) continue;
-                minesFound += checkSquare(r + dr, c + dc);
+                minesFound += checkSquare(rows + dr, column + dc);
             }
         }
 
         return minesFound;
     }
 
-    function revealSquareNumber(r, c, number) {
-        board[r][c].innerText = number;
-        board[r][c].classList.add("x" + number.toString());
+    function revealSquareNumber(rows, column, number) {
+        board[rows][column].innerText = number;
+        board[rows][column].classList.add("x" + number.toString());
     }
 
-    function revealAdjacentSquare(r, c) {
+    function revealAdjacentSquare(rows, column) {
         const offsets = [-1, 0, 1];
 
         for (const dr of offsets) {
             for (const dc of offsets) {
                 if (dr === 0 && dc === 0) continue;
-                revealMine(r + dr, c + dc);
+                revealMine(rows + dr, column + dc);
             }
         }
     }
@@ -332,11 +332,11 @@
         }
     }  
 
-    function checkSquare(r, c) {
-        if (r < 0 || r >= totalrows || c < 0 || c >= totalcolumns) {
+    function checkSquare(rows, column) {
+        if (rows < 0 || rows >= totalrows || column < 0 || column >= totalcolumns) {
             return 0;
         }
-        if (minesPosition.includes(r.toString() + "-" + c.toString())) {
+        if (minesPosition.includes(rows.toString() + "-" + column.toString())) {
             return 1;
         }
         return 0;
