@@ -45,7 +45,7 @@
             background-color: lightgray;
             border: none;
         }
-        .tile-clicked {
+        .square-clicked {
             background-color: darkgrey;
         }
 
@@ -94,34 +94,34 @@
     // Select the root element of the document
     var root=document.querySelector(":root");
 
-    // Get some data variables from the game context like rows, id,column...
-    var rows="${board.rows}";
+    // Get some data variables from the game context like totalrows, id,column...
+    var totalrows="${board.rows}";
     var id="${game.getId()}";
-    var columns="${board.columns}";
-    var minesLocation = "${mines}";
-    var minesCount = "${mines.size()}";
+    var totalcolumns="${board.columns}";
+    var minesPosition = "${mines}";
+    var numberOfMines = "${mines.size()}";
     var difficulty = "${difficulty}";
 
     //Variable state
     var success = false;
-    var width = (columns)*50+20;
-    var height = (rows)*50+20;
+    var width = (totalcolumns)*50+20;
+    var height = (totalrows)*50+20;
 
     //Set custom properties
     root.style.setProperty("--width", parseInt(width)+"px");
     root.style.setProperty("--height", parseInt(height)+"px");
     
     //Varibles related to the game state
-    var tilesClicked = 0;
+    var squareClicked = 0;
     var gameOver = false;
-    var flagEnabled = false;
-    var flagCount = 0;
+    var flaggingAllowed = false;
+    var numberOfFlag = 0;
     var error = "${error}";
     var board=[];
     var hardcore = "${hardcore}";
 
     //Update the html content
-    document.getElementById("flags").innerHTML = minesCount;
+    document.getElementById("flags").innerHTML = numberOfMines;
 
     window.onload = async function(){
         // Check if an error occurred, if it occurs show the next alert.
@@ -131,10 +131,10 @@
 
         // If it is not a hardcore game, finish the casual game.
         if(hardcore == "false") {
-            finishCasualGame();
+            checkGameDurationAndFinish();
         }
 
-        startGame();
+        initializeGameBoard();
 
         // Add restart button and a finish button
         document.getElementById("restart-button").addEventListener("click", restartGame);
@@ -142,37 +142,37 @@
     }
 
     function endGame() {
-        var url = '/games/endGame?id='+ id + '&success=' + success +'&audit_id=${audit.id}';
-        location.replace(url);
+        var link = '/games/endGame?id='+ id + '&success=' + success +'&audit_id=${audit.id}';
+        location.replace(link);
     }
 
     // If the game duration > recommended the game finish
     async function finishCasualGame() { 
-        var delay = 60000;
+        var delay1 = 60000;
         if(difficulty == "INTERMEDIATE") {
             delay = 180000;
         } else if(difficulty == "ADVANCED" || difficulty == "CUSTOM") {
             delay = 300000;
         }
-        await sleep(delay);
-        revealMines();
+        await delay(delay1);
+        showMines();
         alert("You have spent too much time in the game, the game will finish now.");
         endGame();
     }
 
 
-    function startGame() {
-        document.getElementById("flag-button").addEventListener("click", setFlag);
+    function initializeGameBoard() {
+        document.getElementById("flag-button").addEventListener("click", putFlag);
         let r = 0;
-        while (r < rows) {
+        while (r < totalrows) {
             let row = [];
             let c = 0;
-            while (c < columns) {
-                let tile = document.createElement("div");
-                tile.id = r.toString() + "-" + c.toString();
-                tile.addEventListener("click", clickTile);
-                document.getElementById("board").append(tile);
-                row.push(tile);
+            while (c < totalcolumns) {
+                let square = document.createElement("div");
+                square.id = r.toString() + "-" + c.toString();
+                square.addEventListener("click", clickSquare);
+                document.getElementById("board").append(square);
+                row.push(square);
                 c++;
             }
             board.push(row);
@@ -184,136 +184,136 @@
     }
 
     //TO SET FLAG
-    function setFlag() {
+    function putFlag() {
         const flagButton = document.getElementById("flag-button");
-        flagEnabled = !flagEnabled;
-        flagButton.style.backgroundColor = flagEnabled ? "darkgray" : "lightgray";
+        flaggingAllowed = !flaggingAllowed;
+        flagButton.style.backgroundColor = flaggingAllowed ? "darkgray" : "lightgray";
     }
 
     //Sleep time
-    function sleep(ms) {
+    function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 
     //When clic the title
-    async function clickTile() {
+    async function clickSquare() {
 
-        let tile = this;
+        let square = this;
 
-        // Check if the game is over, tile is already clicked, or flags are not enabled and there is text on the tile
-        if (gameOver || tile.classList.contains("tile-clicked") || (tile.innerText != "" && !flagEnabled)) {
+        // Check if the game is over, square is already clicked, or flags are not enabled and there is text on the square
+        if (gameOver || square.classList.contains("square-clicked") || (square.innerText != "" && !flaggingAllowed)) {
             return;
         }
 
         // Handle flag placement or removal when flags are enabled
-        if (flagEnabled) {
-            if (tile.innerText == "") {
-                tile.innerText = "x"; 
-                flagCount++;
-            } else if (tile.innerText == "x") {
-                tile.innerText = ""; // Remove the flag
-                flagCount--;
+        if (flaggingAllowed) {
+            if (square.innerText == "") {
+                square.innerText = "x"; 
+                numberOfFlag++;
+            } else if (square.innerText == "x") {
+                square.innerText = ""; // Remove the flag
+                numberOfFlag--;
             }
             //Update the flag counter
-            document.getElementById("flags").innerHTML = minesCount - flagCount;
+            document.getElementById("flags").innerHTML = numberOfMines - numberOfFlag;
             return;
         }
 
-        // Check if the tile contains a mine
-        if (minesLocation.includes(tile.id)) {
-            revealMines();
+        // Check if the square contains a mine
+        if (minesPosition.includes(square.id)) {
+            showMines();
             gameOver = true;
-            await sleep(500);
+            await delay(500);
             alert("Game Over\nYou lose");
             endGame();
             return;
         }
 
-        // Split the tile's ID to get its row and column coordinates
-        let coords = tile.id.split("-");
+        // Split the square's ID to get its row and column coordinates
+        let coords = square.id.split("-");
         let r = parseInt(coords[0]);
         let c = parseInt(coords[1]);
 
-        checkMine(r, c);
+        revealMine(r, c);
     }
 
 
-    //Reveal mine if player click on a tile that contains mine
-    function revealMines() {
+    //Reveal mine if player click on a square that contains mine
+    function showMines() {
         board.forEach((row, r) => {
-            row.forEach((tile, c) => {
-                if (minesLocation.includes(tile.id) && (tile.innerText == "x" || success)) {
-                    tile.style.backgroundColor = "green";
-                } else if (minesLocation.includes(tile.id) && tile.innerText != "x") {
-                    tile.innerText = "x";
-                    tile.style.backgroundColor = "red";
+            row.forEach((square, c) => {
+                if (minesPosition.includes(square.id) && (square.innerText == "x" || success)) {
+                    square.style.backgroundColor = "green";
+                } else if (minesPosition.includes(square.id) && square.innerText != "x") {
+                    square.innerText = "x";
+                    square.style.backgroundColor = "red";
                 }
             });
         });
         return;
     }
 
-    async function checkMine(r, c) {
-        if (isOutOfBounds(r, c) || isTileClicked(r, c)) {
+    async function revealMine(r, c) {
+        if (isOutOfBounds(r, c) || isSquareClicked(r, c)) {
             return;
         }
 
-        board[r][c].classList.add("tile-clicked");
-        tilesClicked += 1;
+        board[r][c].classList.add("square-clicked");
+        squareClicked += 1;
 
-        const minesFound = countMinesAround(r, c);
+        const minesFound = calculateAdjacentMines(r, c);
 
         if (minesFound > 0) {
-            revealTileNumber(r, c, minesFound);
+            revealSquareNumber(r, c, minesFound);
         } else {
-            revealAdjacentTiles(r, c);
+            revealAdjacentSquare(r, c);
         }
 
-        if (tilesClicked === rows * columns - minesCount) {
+        if (squareClicked === totalrows * totalcolumns - numberOfMines) {
             gameOver = true;
             success = true;
-            revealMines();
-            await sleep(500);
+            showMines();
+            await delay(500);
             alert("Game Over\n You win");
             endGame();
         }
     }
 
     function isOutOfBounds(r, c) {
-        return r < 0 || r >= rows || c < 0 || c >= columns;
+        return r < 0 || r >= totalrows || c < 0 || c >= totalcolumns;
     }
 
-    function isTileClicked(r, c) {
-        return board[r][c].classList.contains("tile-clicked");
+    function isSquareClicked(r, c) {
+        return board[r][c].classList.contains("square-clicked");
     }
 
-    function countMinesAround(r, c) {
+    function calculateAdjacentMines(r, c) {
         let minesFound = 0;
         const offsets = [-1, 0, 1];
 
         for (const dr of offsets) {
             for (const dc of offsets) {
                 if (dr === 0 && dc === 0) continue;
-                minesFound += checkTile(r + dr, c + dc);
+                minesFound += checkSquare(r + dr, c + dc);
             }
         }
 
         return minesFound;
     }
 
-    function revealTileNumber(r, c, number) {
+    function revealSquareNumber(r, c, number) {
         board[r][c].innerText = number;
         board[r][c].classList.add("x" + number.toString());
     }
 
-    function revealAdjacentTiles(r, c) {
+    function revealAdjacentSquare(r, c) {
         const offsets = [-1, 0, 1];
 
         for (const dr of offsets) {
             for (const dc of offsets) {
                 if (dr === 0 && dc === 0) continue;
-                checkMine(r + dr, c + dc);
+                revealMine(r + dr, c + dc);
             }
         }
     }
@@ -332,11 +332,11 @@
         }
     }  
 
-    function checkTile(r, c) {
-        if (r < 0 || r >= rows || c < 0 || c >= columns) {
+    function checkSquare(r, c) {
+        if (r < 0 || r >= totalrows || c < 0 || c >= totalcolumns) {
             return 0;
         }
-        if (minesLocation.includes(r.toString() + "-" + c.toString())) {
+        if (minesPosition.includes(r.toString() + "-" + c.toString())) {
             return 1;
         }
         return 0;
