@@ -148,13 +148,13 @@
 
     // If the game duration > recommended the game finish
     async function finishCasualGame() { 
-        var delay1 = 60000;
+        var delay = 60000;
         if(difficulty == "INTERMEDIATE") {
             delay = 180000;
         } else if(difficulty == "ADVANCED" || difficulty == "CUSTOM") {
             delay = 300000;
         }
-        await delay(delay1);
+        await delay1(delay);
         showMines();
         alert("You have spent too much time in the game, the game will finish now.");
         endGame();
@@ -191,7 +191,7 @@
     }
 
     //Sleep time
-    function delay(ms) {
+    function delay1(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
@@ -224,7 +224,7 @@
         if (minesPosition.includes(square.id)) {
             showMines();
             gameOver = true;
-            await delay(500);
+            await delay1(500);
             alert("Game Over\nYou lose");
             endGame();
             return;
@@ -274,7 +274,7 @@
             gameOver = true;
             success = true;
             showMines();
-            await delay(500);
+            await delay1(500);
             alert("Game Over\n You win");
             endGame();
         }
