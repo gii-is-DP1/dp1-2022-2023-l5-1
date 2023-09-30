@@ -72,7 +72,7 @@ public class GameController {
         Boolean gameSuccess = Boolean.parseBoolean(success);
         Game game = gameService.getGameById(gameId);
         if(game.getInProgress()==false) {
-            return "redirectp:/ous";
+            return "redirect:/oups";
         }
         game.setEnd(LocalDateTime.now());
         game.setInProgress(false);
