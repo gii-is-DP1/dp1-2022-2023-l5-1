@@ -151,6 +151,7 @@ public class GameController {
         model.put("active",true);
 		return VIEWS_GAMES_LIST;
 	}
+    
     @GetMapping(value = { "/games/finishGames" })
 	public String showFinishGamesList(Map<String, Object> model) {
 		
