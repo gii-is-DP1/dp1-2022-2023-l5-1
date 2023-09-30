@@ -34,6 +34,7 @@
             <minesweeper:inputField label="Username" name="username"/>
             <minesweeper:inputField label="Name" name="name"/>
             <minesweeper:inputField label="Password" name="password"/>
+            <input type="hidden" name="version" value="${user.version}"/>
             <spring:bind path="hardcoregamer">
                 <div >
                     <label class="col-sm-2 control-label">Hard-Core</label>
@@ -46,7 +47,7 @@
             <h3>User profile information</h3>
             <xs>The only mandatory information is the location</xs>
             <minesweeper:inputField label="Biography" name="biography"/>
-            <minesweeper:inputField label="Date of birth" name="birthDate"/>
+            <minesweeper:inputField label="Date of birth" name="birthDate" placeholder="dd/MM/yyyy"/>
             <minesweeper:inputField label="Location" name="location"/>
             <div class="control-group1">
                 <minesweeper:selectField name="genre" label="Favourite genre" names="${genres}" size="3" itemValue="id" itemLabel="name"/>

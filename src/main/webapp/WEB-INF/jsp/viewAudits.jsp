@@ -62,8 +62,14 @@
 			</c:if>
 				
 				<c:forEach begin="0" end="${totalPages}" var="i">
-			
-					<td><a href="/audits?page=${i}">${i}</a></td>
+					<c:choose>
+						<c:when test="${i.equals(pageNumber)}">
+							<td><b href="/audits?page=${i}">&nbsp ${i} &nbsp</b></td>
+						</c:when>
+						<c:otherwise>
+							<td><a href="/audits?page=${i}">&nbsp ${i} &nbsp</a></td>
+						</c:otherwise>
+					</c:choose>
 
 				</c:forEach>
 				
