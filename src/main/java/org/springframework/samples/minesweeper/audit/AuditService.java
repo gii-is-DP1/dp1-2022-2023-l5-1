@@ -43,10 +43,12 @@ public class AuditService {
 		auditRepository.delete(audit);
 	}
 
+    @Transactional
     public List<Audit> getAllAuditByUsername(String userId) {
         return auditRepository.findAllAuditByUsername(userId);
     }
 
+    @Transactional
 	public void deleteAllAudit(List<Audit> audit) {
 		auditRepository.deleteAll(audit);
 	}
