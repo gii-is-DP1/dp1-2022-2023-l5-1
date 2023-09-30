@@ -14,6 +14,7 @@ public class BoardService {
     @Autowired
     private UserRepository ur;
 
+    @Transactional
     public Board boardInit(DifficultyLevel dif, String username){
         Board br= new Board();
         switch(dif){
@@ -43,6 +44,7 @@ public class BoardService {
         return br;
     }
 
+    @Transactional
     public Board boardInit(Integer rows, Integer columns, Integer mines, String username){
         Board br= new Board();
         br.setColumns(columns);
@@ -59,6 +61,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
+    @Transactional
     public Board getBoard(Integer boardId) {
         Board board = this.boardRepository.findBoardById(boardId);
         return board;
