@@ -2,6 +2,7 @@ package org.springframework.samples.minesweeper.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public class AuditableEntity extends BaseEntity{
     public LocalDateTime end;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public User user;
 
     public LocalDateTime getStart(){

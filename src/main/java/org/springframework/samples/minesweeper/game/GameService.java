@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 import org.springframework.samples.minesweeper.board.Board;
 import org.springframework.stereotype.Service;
@@ -105,5 +106,18 @@ public class GameService {
     public Collection<Game> getFinishGames(){
         return gameRepository.findAllFinishGames();
 
+    }
+
+    public List<Game> getActiveGamesOrdered(Integer page, Pageable p){
+        return gameRepository.findAllActiveGamesOrdered(p);
+    }
+
+    public List<Game> getFinishGamesOrdered(Integer page, Pageable p){
+        return gameRepository.findAllFinishGamesOrdered(p);
+
+    }
+
+    public Collection<Game> findGames(){
+        return (Collection<Game>) gameRepository.findAll();
     }
 }

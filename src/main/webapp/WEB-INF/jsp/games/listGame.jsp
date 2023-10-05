@@ -25,7 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${games}" var="game">
+        <c:forEach items="${itemsListed}" var="game">
             <tr>
                 <td>
                     <c:out value="${game.user.username}"/>
@@ -48,5 +48,49 @@
             </tr>
         </c:forEach>
         </tbody>
+    </table>
+    <table border="1" cellpadding="5" cellspacing="5">
+
+        <tr>
+        <c:if test="${hasPrevious}">
+            <c:choose>
+                <c:when test="${active}">
+                    <td><a href="/games/activeGames?page=${pageNumber - 1}"
+                        class="btn btn-default">Previous</a></td>
+                </c:when>
+                <c:otherwise>
+                    <td><a href="/games/finishGames?page=${pageNumber - 1}"
+                        class="btn btn-default">Previous</a></td>
+                </c:otherwise>
+            </c:choose>
+        
+        </c:if>
+            
+            <c:forEach begin="0" end="${totalPages}" var="i">
+                <c:choose>
+                    <c:when test="${i.equals(pageNumber)}">
+                        <td><b>&nbsp ${i} &nbsp</b></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td><a>&nbsp ${i} &nbsp</a></td>
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+            
+        <c:if test="${pageNumber != totalPages}">
+            <c:choose>
+                <c:when test="${active}">
+                    <td><a href="/games/activeGames?page=${pageNumber + 1}"
+                        class="btn btn-default">Next</a></td>
+                </c:when>
+                <c:otherwise>
+                    <td><a href="/games/finishGames?page=${pageNumber + 1}"
+                        class="btn btn-default">Next</a></td>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
+        
+        </tr>
     </table>
 </minesweeper:layout>

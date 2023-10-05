@@ -3,6 +3,7 @@ package org.springframework.samples.minesweeper.game;
 import java.util.List;
 import java.util.Collection;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -26,5 +27,12 @@ public interface GameRepository extends  CrudRepository<Game, String>{
 
     @Query("SELECT g FROM Game g WHERE g.inProgress=false")
     Collection<Game> findAllFinishGames();
+
+    @Query("SELECT g FROM Game g WHERE g.inProgress=true ORDER BY g.id DESC")
+    List<Game> findAllActiveGamesOrdered(Pageable p);
+
+    @Query("SELECT g FROM Game g WHERE g.inProgress=false ORDER BY g.id DESC")
+    List<Game> findAllFinishGamesOrdered(Pageable p);
+    
     
 }

@@ -15,12 +15,15 @@ import org.springframework.samples.minesweeper.audit.AuditService;
 import org.springframework.samples.minesweeper.board.Board;
 import org.springframework.samples.minesweeper.board.BoardService;
 import org.springframework.samples.minesweeper.board.DifficultyLevel;
+import org.springframework.samples.minesweeper.customComponents.PaginatingUtil;
 import org.springframework.samples.minesweeper.user.User;
 import org.springframework.samples.minesweeper.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 @Controller
 public class GameController {
@@ -40,12 +43,15 @@ public class GameController {
 
     private AuditService auditService;
 
+    private PaginatingUtil paginatingUtil;
+
     @Autowired
-	public GameController(GameService clinicService, BoardService clinicService2, UserService clinicService3, AuditService clinicService4) {
+	public GameController(GameService clinicService, BoardService clinicService2, UserService clinicService3, AuditService clinicService4, PaginatingUtil paginatingUtil) {
 		this.gameService = clinicService;
 		this.boardService = clinicService2;
 		this.userService = clinicService3;
         this.auditService = clinicService4;
+        this.paginatingUtil=paginatingUtil;
 	}
 
     @GetMapping(value="/games")
@@ -143,22 +149,20 @@ public class GameController {
     }
 
     @GetMapping(value = { "/games/activeGames" })
-	public String showActiveGamesList(Map<String, Object> model) {
-		
-		List<Game> games = new ArrayList<>(this.gameService.getActiveGames());
-
-		model.put("games", games);
-        model.put("active",true);
+	public String showActiveGamesList(Map<String, Object> model,@PageableDefault(page = 0, size = 5)Pageable pageable) {
+		Boolean isActive = true;
+		String type = "game";
+		this.paginatingUtil.prepareModelForPagination(model, pageable, type, isActive);
+        model.put("active",isActive);
 		return VIEWS_GAMES_LIST;
 	}
     
     @GetMapping(value = { "/games/finishGames" })
-	public String showFinishGamesList(Map<String, Object> model) {
-		
-		List<Game> games = new ArrayList<>(this.gameService.getFinishGames());
-
-		model.put("games", games);
-        model.put("active",false);
+	public String showFinishGamesList(Map<String, Object> model, @PageableDefault(page = 0, size = 5)Pageable pageable) {
+		Boolean isActive = false;
+		String type = "game";
+		this.paginatingUtil.prepareModelForPagination(model, pageable, type, isActive);
+        model.put("active",isActive);
 		return VIEWS_GAMES_LIST;
 	}
 }
