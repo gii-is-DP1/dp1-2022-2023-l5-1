@@ -6,10 +6,18 @@ public enum DifficultyLevel {
     public static DifficultyLevel parse(String difficulty){
         DifficultyLevel res= null;
         switch(difficulty){
-            case "Beginner": res=DifficultyLevel.BEGINNER;
-            case "Intermediate": res=DifficultyLevel.INTERMEDIATE;
-            case "Advanced": res=DifficultyLevel.ADVANCED;
-            case "Custom": res=DifficultyLevel.CUSTOM;
+            case "Beginner": 
+                res=DifficultyLevel.BEGINNER;
+                break;
+            case "Intermediate":
+                res=DifficultyLevel.INTERMEDIATE;
+                break;
+            case "Advanced":
+                res=DifficultyLevel.ADVANCED;
+                break;
+            case "Custom":
+                res=DifficultyLevel.CUSTOM;
+                break;
         }
         return res;
     }
