@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.samples.minesweeper.customComponents.PaginatingUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,17 +27,21 @@ public class GenreController {
 
 	private final GenreService genreService;
 
+	private final PaginatingUtil paginatingUtil;
+
 	@Autowired
-	public GenreController(GenreService clinicService) {
+	public GenreController(GenreService clinicService, PaginatingUtil pu) {
 		this.genreService = clinicService;
+		this.paginatingUtil = pu;
 	}
+
     
     @GetMapping(value = { "/genres" })
-	public String showGenreList(Map<String, Object> model) {
-		
-		List<Genre> genres = new ArrayList<>(this.genreService.findGenres());
-
-		model.put("genres", genres);
+	public String showGenreList(Map<String, Object> model,HttpServletRequest request, @PageableDefault(page = 0, size = 5)@SortDefault.SortDefaults({
+		@SortDefault(sort = "id", direction = Sort.Direction.ASC),
+		@SortDefault(sort = "name", direction = Sort.Direction.DESC)})Pageable pageable) {
+		String type = "genres";
+		this.paginatingUtil.prepareModelForPagination(model, pageable, type,null);
 		return VIEWS_GENRE_LIST;
 	}
 

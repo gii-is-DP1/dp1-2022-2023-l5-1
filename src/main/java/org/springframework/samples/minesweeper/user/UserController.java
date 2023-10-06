@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.minesweeper.audit.Audit;
 import org.springframework.samples.minesweeper.audit.AuditService;
+import org.springframework.samples.minesweeper.customComponents.PaginatingUtil;
 import org.springframework.samples.minesweeper.game.Game;
 import org.springframework.samples.minesweeper.game.GameService;
 import org.springframework.samples.minesweeper.genre.Genre;
@@ -53,6 +54,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -77,6 +83,7 @@ public class UserController {
 	private final GenreService genreService;
 	private final PlatformService platformService;
 	private final AuditService auditService;
+	private final PaginatingUtil paginatingUtil;
 
 	
 	@ModelAttribute("sagas")
@@ -96,7 +103,7 @@ public class UserController {
 
 	@Autowired
 	public UserController(UserService us,AuthoritiesService as,GameService gs, SagaService ss,
-		GenreService gens, PlatformService ps, AuditService ads) {
+		GenreService gens, PlatformService ps, AuditService ads, PaginatingUtil pu) {
 		this.userService = us;
 		this.authoService = as;
 		this.gameService = gs;
@@ -104,6 +111,7 @@ public class UserController {
 		this.genreService = gens;
 		this.platformService = ps;
 		this.auditService = ads;
+		this.paginatingUtil = pu;
 	}
 
 	@InitBinder
@@ -188,14 +196,14 @@ public class UserController {
 
 
 	@GetMapping(value = { "/users" })
-	public String showUserList(HttpServletRequest req, Map<String, Object> model) {
+	public String showUserList(HttpServletRequest req, Map<String, Object> model, @PageableDefault(page = 0, size = 5)Pageable pageable) {
 		Principal player = req.getUserPrincipal();
         String name = player.getName();
         User user = userService.findUser(name).get();
 		List<User> admins = userService.getAllAdmins();
 		Boolean admin = admins.contains(user);
-		List<User> users = new ArrayList<>(this.userService.getAllPlayers());
-		model.put("users", users);
+		String type = "user";
+		this.paginatingUtil.prepareModelForPagination(model, pageable, type,null);
 		model.put("admin",admin);
 		return VIEWS_USER_LIST;
 	}

@@ -7,6 +7,11 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.samples.minesweeper.customComponents.PaginatingUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,18 +25,21 @@ public class PlatformController {
 	private static final String VIEWS_PLATFORM_UPDATE_FORM = "platforms/updatePlatformForm";
 
 	private final PlatformService platformService;
+	private final PaginatingUtil paginatingUtil;
 
 	@Autowired
-	public PlatformController(PlatformService clinicService) {
+	public PlatformController(PlatformService clinicService, PaginatingUtil pu) {
 		this.platformService = clinicService;
+		this.paginatingUtil = pu;
 	}
     
     @GetMapping(value = { "/platforms" })
-	public String showPlatformList(Map<String, Object> model) {
+	public String showPlatformList(Map<String, Object> model,@PageableDefault(page = 0, size = 5)@SortDefault.SortDefaults({
+		@SortDefault(sort = "id", direction = Sort.Direction.ASC),
+		@SortDefault(sort = "name", direction = Sort.Direction.DESC)})Pageable pageable) {
 		
-		List<Platform> platforms = new ArrayList<>(this.platformService.findPlatforms());
-
-		model.put("platforms", platforms);
+		String type = "platforms";
+		this.paginatingUtil.prepareModelForPagination(model, pageable, type,null);
 		return VIEWS_PLATFORM_LIST;
 	}
 

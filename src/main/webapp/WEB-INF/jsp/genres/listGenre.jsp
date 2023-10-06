@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${genres}" var="genre">
+        <c:forEach items="${itemsListed}" var="genre">
             <tr>
                 <td>
                     <c:out value="${genre.name}"/>
@@ -26,5 +26,33 @@
             </tr>
         </c:forEach>
         </tbody>
+    </table>
+    <table border="1" cellpadding="5" cellspacing="5">
+
+        <tr>
+        <c:if test="${hasPrevious}">
+        <td><a href="/genres?page=${pageNumber - 1}"
+                class="btn btn-default">Previous</a></td>
+        
+        </c:if>
+            
+            <c:forEach begin="0" end="${totalPages}" var="i">
+                <c:choose>
+                    <c:when test="${i.equals(pageNumber)}">
+                        <td><b href="/genres?page=${i}">&nbsp ${i} &nbsp</b></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td><a href="/genres?page=${i}">&nbsp ${i} &nbsp</a></td>
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+            
+        <c:if test="${pageNumber != totalPages}">
+        <td><a href="/genres?page=${pageNumber + 1}" 
+                class="btn btn-default">Next</a></td>
+        </c:if>
+        
+        </tr>
     </table>
 </minesweeper:layout>

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +24,7 @@ public interface UserRepository extends  CrudRepository<User, String>{
 
     @Query("SELECT game FROM Game game WHERE game.user LIKE :user")
     List<Game> findAllGamesByPlayer(@Param("user")User user);
+
+    @Query("SELECT u FROM User u JOIN u.authorities a WHERE a.authority = 'player' ORDER BY u.username DESC")
+    List<User> findAllPlayersSorted(Pageable pageable);
 }
