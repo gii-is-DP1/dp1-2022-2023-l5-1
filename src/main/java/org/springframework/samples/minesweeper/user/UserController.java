@@ -163,7 +163,6 @@ public class UserController {
 		UserDetails userDetails = (UserDetails) principal;
 		User user = this.userService.findUser(userDetails.getUsername()).orElse(null);
 		model.put("user", user);
-		log.info("Actualizando usuario {}  ", user.getName());
 		return VIEWS_USER_CREATE_FORM;
 	}
 	@PostMapping(value = "/users/update")
@@ -216,7 +215,6 @@ public class UserController {
 		if(gamesOfPlayer.size()==0){
 		model.put("totalDurationPlayerGames", 0);
 		model.put("averageDurationPlayerGames", 0);
-		log.info("Mostrando el perfil del usuario {}",user.getName());
 		return VIEWS_USER_PROFILE;
 		}
 		int averageDurationPlayerGames;
