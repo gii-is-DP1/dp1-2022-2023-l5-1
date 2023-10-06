@@ -34,7 +34,6 @@ public class PlatformController {
 		List<Platform> platforms = new ArrayList<>(this.platformService.findPlatforms());
 
 		model.put("platforms", platforms);
-		log.info("Mostrando las plataformas: {} {} {}",platforms.get(0),platforms.get(1),platforms.get(2));
 		return VIEWS_PLATFORM_LIST;
 	}
 

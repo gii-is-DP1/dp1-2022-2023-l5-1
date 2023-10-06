@@ -36,7 +36,6 @@ public class AuditController {
 		Double totalPages = Math.ceil(auditService.findAll().size()/(auditsPerPage+1));
 		model.put("totalPages", totalPages);
 		model.put("audits", results);
-		log.info("Auditorias obtenidas correctamente");
 		return VIEWS_ADMIN_AUDITS;
 	}
 }

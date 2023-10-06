@@ -118,7 +118,6 @@ public class UserController {
 	public String initCreationForm(Map<String, Object> model) {
 		User user = new User();
 		model.put("user", user);
-		log.info("Mostrando formulario de creación de usuario");
 		return VIEWS_USER_CREATE_FORM;
 	}
 
@@ -139,7 +138,7 @@ public class UserController {
 		}
 
 		if (result.hasErrors()) {
-			log.error("Error en la creación de usuario");
+			log.error("Error en la creacion de usuario");
 			return VIEWS_USER_CREATE_FORM;
 		}
 		else {
@@ -206,7 +205,6 @@ public class UserController {
 		List<User> users = new ArrayList<>(this.userService.getAllPlayers());
 		model.put("users", users);
 		model.put("admin",admin);
-		log.info("Mostrando la lista de usuarios: {}", users.stream().map(p->p.getName()).collect(Collectors.toList()));
 		return VIEWS_USER_LIST;
 	}
 
@@ -234,7 +232,6 @@ public class UserController {
 		averageDurationPlayerGames = totalDurationPlayerGames / (int) gamesOfPlayer.size();
 		model.put("totalDurationPlayerGames", totalDurationPlayerGames);
 		model.put("averageDurationPlayerGames", averageDurationPlayerGames);
-		log.info("Mostrando el perfil del usuario {}",user.getName());
 		return VIEWS_USER_PROFILE;
 	}
 

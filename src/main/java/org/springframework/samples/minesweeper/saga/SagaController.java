@@ -34,7 +34,6 @@ public class SagaController {
 		List<Saga> sagas = new ArrayList<>(this.sagaService.findSagas());
 
 		model.put("sagas", sagas);
-		log.info("Mostrando correctamente la lista de sagas");
 		return VIEWS_SAGA_LIST;
 	}
 

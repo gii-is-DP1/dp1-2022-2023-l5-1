@@ -61,13 +61,11 @@ public class GameController {
         if(recentGames==2 && !user.isHardcoregamer()) {
             url = VIEWS_EXCESSIVE_GAMING;
         }
-        log.info("Mostrando correctamente el menu de iniciar partida");
         return new ModelAndView(url);
     }
 
     @GetMapping(value="/gameRules")
     public ModelAndView gameRules(){
-        log.info("Mostrando correctamente las reglas del Buscaminas");
         return new ModelAndView(VIEWS_GAME_RULES);
     }
 
@@ -156,7 +154,6 @@ public class GameController {
 
 		model.put("games", games);
         model.put("active",true);
-        log.info("{} partidas mostrandose correctamente", games.size());
 		return VIEWS_GAMES_LIST;
 	}
     @GetMapping(value = { "/games/finishGames" })
@@ -166,7 +163,6 @@ public class GameController {
 
 		model.put("games", games);
         model.put("active",false);
-        log.info("{} partida(s) finalizadas mostrandose correctamente", games.size());
 		return VIEWS_GAMES_LIST;
 	}
 }
