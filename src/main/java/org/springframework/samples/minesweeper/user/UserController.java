@@ -21,6 +21,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -163,7 +165,7 @@ public class UserController {
 		return VIEWS_USER_CREATE_FORM;
 	}
 	@PostMapping(value = "/users/update")
-	public String processUpdateForm(@Valid User user, BindingResult result) {
+	public String processUpdateForm(@Valid User user, BindingResult result, @RequestParam(value="version", required = false) Integer version) {
 		if(!user.getProfilePicture().equals("")){
 			try {
 				URL url = new URL(user.getProfilePicture());
@@ -174,6 +176,12 @@ public class UserController {
 			} catch (IOException e) {
 				result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 			}
+		}
+
+		if(user.getVersion()!=version){
+			Map<String, Object> model = new HashMap<String,Object>();
+			model.put("message","Concurrent modification of user! Try again!");
+			return initUpdateForm(model);
 		}
 
 		if (result.hasErrors()) {

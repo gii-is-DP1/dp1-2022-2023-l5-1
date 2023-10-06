@@ -11,12 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.URL;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.minesweeper.genre.Genre;
 import org.springframework.samples.minesweeper.platform.Platform;
 import org.springframework.samples.minesweeper.saga.Saga;
@@ -47,6 +49,7 @@ public class User{
 
 	String biography;
 
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	LocalDate birthDate;
 
 	@NotBlank
@@ -66,6 +69,9 @@ public class User{
 
 	@URL
 	String profilePicture;
+
+	@Version
+	Integer version;
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
 	private Set<Authorities> authorities;

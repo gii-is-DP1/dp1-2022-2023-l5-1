@@ -58,10 +58,9 @@ public class GameController {
     public ModelAndView gameMenu(Board board, HttpServletRequest request){
         Principal player = request.getUserPrincipal();
         String name = player.getName();
-        Integer recentGames = gameService.getRecentGamesByUsername(name);
         String url = VIEWS_GAMES;
         User user = userService.findUser(name).get();
-        if(recentGames==2 && !user.isHardcoregamer()) {
+        if(gameService.checkGamesLimit(user)) {
             url = VIEWS_EXCESSIVE_GAMING;
         }
         return new ModelAndView(url);
@@ -107,20 +106,12 @@ public class GameController {
         if(oldAudit != null) {
             this.auditService.deleteAudit(oldAudit);
         }
-        DifficultyLevel lv;
+        DifficultyLevel lv = DifficultyLevel.parse(difficulty);
         Board board=null;
-        if(difficulty.equals("Beginner")){
-            lv = DifficultyLevel.BEGGINER;
-            board = boardService.boardInit(lv, name);
-        }else if(difficulty.equals("Intermediate")){
-            lv = DifficultyLevel.INTERMEDIATE;
-            board = boardService.boardInit(lv, name);
-        }else if(difficulty.equals("Advanced")){
-            lv = DifficultyLevel.ADVANCED;
-            board = boardService.boardInit(lv, name);
-        } else {
-            lv = DifficultyLevel.CUSTOM;
+        if(lv.equals(DifficultyLevel.CUSTOM)){
             board = boardService.boardInit(formBoard.getRows(),formBoard.getColumns(),formBoard.getMinesNumber(),name);
+        }else{
+            board = boardService.boardInit(lv, name);
         }
         Pair<List<String>,Boolean> pair = gameService.initializeSquares(board);
         List<String> squares = pair.getFirst();
