@@ -18,7 +18,7 @@ public class BoardService {
     public Board boardInit(DifficultyLevel dif, String username){
         Board br= new Board();
         switch(dif){
-            case BEGGINER:
+            case BEGINNER:
                 br.setColumns(8);
                 br.setRows(8);
                 br.setMinesNumber(10);
