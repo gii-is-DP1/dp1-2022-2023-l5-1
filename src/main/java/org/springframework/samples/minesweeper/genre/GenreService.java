@@ -33,6 +33,7 @@ public class GenreService {
 		genreRepository.save(genre);
 	}
 	
+	@Transactional(readOnly = true)
 	public Genre findGenre(String genre) {
 		return genreRepository.findGenreById(Integer.valueOf(genre));
 	}

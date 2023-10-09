@@ -217,8 +217,10 @@ public class UserController {
         User user = userService.findUser(name).get();
 		List<User> admins = userService.getAllAdmins();
 		Boolean admin = admins.contains(user);
-		String type = "user";
-		this.paginatingUtil.prepareModelForPagination(model, pageable, type,null);
+		Integer page=0;
+		List ls = userService.getAllUsersOrdered(page, pageable);
+        Integer totalElements = userService.findUsers().size();
+		this.paginatingUtil.prepareModelForPagination(model, pageable, ls, totalElements);
 		model.put("admin",admin);
 		return VIEWS_USER_LIST;
 	}

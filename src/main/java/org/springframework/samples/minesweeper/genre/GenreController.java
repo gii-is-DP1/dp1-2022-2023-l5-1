@@ -40,8 +40,10 @@ public class GenreController {
 	public String showGenreList(Map<String, Object> model,HttpServletRequest request, @PageableDefault(page = 0, size = 5)@SortDefault.SortDefaults({
 		@SortDefault(sort = "id", direction = Sort.Direction.ASC),
 		@SortDefault(sort = "name", direction = Sort.Direction.DESC)})Pageable pageable) {
-		String type = "genres";
-		this.paginatingUtil.prepareModelForPagination(model, pageable, type,null);
+		Integer page = 0;
+		List ls=genreService.getAllGenresOrdered(page, pageable);
+        Integer totalElements = genreService.findGenres().size();
+		this.paginatingUtil.prepareModelForPagination(model, pageable, ls, totalElements);
 		return VIEWS_GENRE_LIST;
 	}
 

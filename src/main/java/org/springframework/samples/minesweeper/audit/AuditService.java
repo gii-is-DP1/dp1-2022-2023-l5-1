@@ -14,7 +14,7 @@ public class AuditService {
 	@Autowired
 	private AuditRepository auditRepository;
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Audit> findAll() throws DataAccessException {
 		return (List<Audit>) auditRepository.findAll();
 	}
@@ -34,6 +34,7 @@ public class AuditService {
 		auditRepository.save(audit);
 	}
 
+	@Transactional(readOnly = true)
     public Audit findActiveAuditByUsername(String username) {
         return auditRepository.findActiveAuditByUsername(username);
     }
@@ -43,7 +44,7 @@ public class AuditService {
 		auditRepository.delete(audit);
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Audit> getAllAuditByUsername(String userId) {
         return auditRepository.findAllAuditByUsername(userId);
     }

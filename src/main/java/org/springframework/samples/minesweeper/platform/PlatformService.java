@@ -30,6 +30,7 @@ public class PlatformService {
 		platformRepository.save(platform);
 	}
 	
+	@Transactional(readOnly = true)
 	public Platform findPlatform(String platform) {
 		return platformRepository.findPlatformById(Integer.valueOf(platform));
 	}
@@ -39,6 +40,7 @@ public class PlatformService {
 		return (Collection<Platform>) platformRepository.findAll();
 	}
 
+	@Transactional(readOnly = true)
     public List<Platform> getAllPlatformOrdered(Integer page, Pageable p) {
         return platformRepository.getAllPlatformOrdered(p);
     }
