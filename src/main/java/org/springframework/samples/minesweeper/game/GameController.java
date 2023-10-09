@@ -25,6 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class GameController {
 
@@ -90,6 +93,7 @@ public class GameController {
         audit.setSuccess(gameSuccess);
         audit.setEndDate(LocalDateTime.now());
         auditService.save(audit);
+        log.info("Partida {} finalizada", game.getId());
         return VIEWS_END_GAME;
     }
     
@@ -136,6 +140,7 @@ public class GameController {
         model.put("game", game);
         model.put("difficulty", lv);
         model.put("audit",audit);
+        log.info("Partida {} del usuario {} creada correctamente", game.getId(), game.getUser().getName());
         return VIEWS_PLAY_GAME;
     }
 

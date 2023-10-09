@@ -17,7 +17,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class PlatformController {
 
@@ -47,6 +49,7 @@ public class PlatformController {
 	public String initUpdateForm(Map<String, Object> model, @RequestParam() String platformId) {
         Platform platform = this.platformService.findPlatform(platformId);
 		model.put("platform", platform);
+		log.info("Actualizando la plataforma {}",platform.getName());
 		return VIEWS_PLATFORM_UPDATE_FORM;
 	}
 	@PostMapping(value = "/platforms/update")
@@ -58,6 +61,7 @@ public class PlatformController {
             Integer id = Integer.valueOf(platformId);
             platform.setId(id);
 			this.platformService.savePlatform(platform);
+			log.info("Plataforma actualizada a {}",platform.getName());
 			return "redirect:/platforms";
 		}
 	}

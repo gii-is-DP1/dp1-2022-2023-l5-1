@@ -24,10 +24,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.minesweeper.audit.Audit;
 import org.springframework.samples.minesweeper.audit.AuditService;
@@ -64,8 +67,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 @Controller
 public class UserController {
 
@@ -133,14 +138,17 @@ public class UserController {
 				URL url = new URL(user.getProfilePicture());
 				BufferedImage image = ImageIO.read(url);
 				if(image==null){
+					log.error("Error en la creación de usuario: fallo en la lectura de la URL de la imagen");
 					result.addError(new ObjectError("profilePicture", "The URL doesn't correspond to a valid image"));
 				}
 			} catch (IOException e) {
+				log.error("Error en la creación de usuario: fallo en la lectura de la URL de la imagen");
 				result.addError(new ObjectError("profilePicture", "Error al leer la URL de la imagen"));
 			}
 		}
 
 		if (result.hasErrors()) {
+			log.error("Error en la creacion de usuario");
 			return VIEWS_USER_CREATE_FORM;
 		}
 		else {
@@ -151,6 +159,9 @@ public class UserController {
 			authorities.setAuthority("player");
 			this.userService.saveUser(user);
 			this.authoService.saveAuthorities(authorities);
+
+			log.info("Usuario con nombre {} creado correctamente ", user.getName());
+
 			return "redirect:/";
 		}
 	}	
@@ -171,9 +182,11 @@ public class UserController {
 				URL url = new URL(user.getProfilePicture());
 				BufferedImage image = ImageIO.read(url);
 				if(image==null){
+					log.error("Error en la actualización de usuario: fallo en la lectura de la URL de la imagen");
 					result.addError(new ObjectError("user", "The URL doesn't correspond to a valid image"));
 				}
 			} catch (IOException e) {
+				log.error("Error en la actualización de usuario: fallo en la lectura de la URL de la imagen");
 				result.addError(new ObjectError("user", "Error al leer la URL de la imagen"));
 			}
 		}
@@ -185,11 +198,13 @@ public class UserController {
 		}
 
 		if (result.hasErrors()) {
+			log.error("Error en la actualización de usuario");
 			return VIEWS_USER_CREATE_FORM;
 		}
 		else {
 			//creating user, user, and authority
 			this.userService.saveUser(user);
+			log.info("Usuario {} actualizado correctamente", user.getName());
 			return "redirect:/";
 		}
 	}
@@ -216,7 +231,6 @@ public class UserController {
 		if(gamesOfPlayer.size()==0){
 		model.put("totalDurationPlayerGames", 0);
 		model.put("averageDurationPlayerGames", 0);
-
 		return VIEWS_USER_PROFILE;
 		}
 		int averageDurationPlayerGames;
@@ -232,7 +246,6 @@ public class UserController {
 		averageDurationPlayerGames = totalDurationPlayerGames / (int) gamesOfPlayer.size();
 		model.put("totalDurationPlayerGames", totalDurationPlayerGames);
 		model.put("averageDurationPlayerGames", averageDurationPlayerGames);
-
 		return VIEWS_USER_PROFILE;
 	}
 
@@ -241,7 +254,7 @@ public class UserController {
 	public String initUpdateUserForm(@PathVariable("userId") String userId, Model model) {
 		User user = this.userService.findUser(userId).get();
 		model.addAttribute(user);
-		
+		log.info("Actualizando usuario {}",user.getName());
 		return VIEWS_USER_CREATE_FORM;
 	}
 
@@ -249,13 +262,14 @@ public class UserController {
 	public String processUpdatePlayerForm(@Valid User user, BindingResult result,
 			@PathVariable("userId") String userId) {
 		if (result.hasErrors()) {
+			log.error("Error al actualizar usuario {}",user.getName());
 			return VIEWS_USER_CREATE_FORM;
 		} else {
 			user.setId(userId);
 			user.setEnabled(true);
 
 			this.userService.saveUser(user);
-
+			log.info("Actualizado usuario {}",user.getName());
 			return "redirect:/users";
 		}
 	}
@@ -267,6 +281,7 @@ public class UserController {
 		gameService.deleteAllGames(game);
 		auditService.deleteAllAudit(audit);
 		userService.deleteUser(userId);
+		log.info("Usuario eliminado correctamente");
 		return "redirect:/users";
 
 	}

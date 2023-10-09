@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<property name="LOG_DIR" value="./logs" />
+
+	<appender name="ConsoleAppender"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				%d{ISO8601} %-5level [%t] %C{1.}: %msg%n%throwable
+			</pattern>
+		</layout>
+	</appender>
+
+	<appender name="RollingFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR}/spring-logger.log</file>
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d %p %C{1.} [%t] %m%n</pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/archived/spring-logger-%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!cuando el archivo alcanza 70MB>
+				<maxFileSize>70MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!conserva 30 días como mucho>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- Registramos todo a nivel INFO -->
+	<root level="info">
+		<appender-ref ref="ConsoleAppender" />
+	</root>
+</config>

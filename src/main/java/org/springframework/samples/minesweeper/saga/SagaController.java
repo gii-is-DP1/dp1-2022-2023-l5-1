@@ -18,7 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class SagaController {
 
@@ -48,6 +50,7 @@ public class SagaController {
 	public String initUpdateForm(Map<String, Object> model, @RequestParam() String sagaId) {
         Saga saga = this.sagaService.findSaga(sagaId);
 		model.put("saga", saga);
+		log.info("Actualizando la saga {}",saga.getName());
 		return VIEWS_SAGA_UPDATE_FORM;
 	}
 	@PostMapping(value = "/sagas/update")
@@ -59,6 +62,7 @@ public class SagaController {
             Integer id = Integer.valueOf(sagaId);
             saga.setId(id);
 			this.sagaService.saveSaga(saga);
+			log.info("Saga actualizada a {}",saga.getName());
 			return "redirect:/sagas";
 		}
 	}
