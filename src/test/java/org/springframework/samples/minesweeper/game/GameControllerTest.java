@@ -12,6 +12,10 @@ import org.springframework.samples.minesweeper.audit.Audit;
 import org.springframework.samples.minesweeper.audit.AuditService;
 import org.springframework.samples.minesweeper.board.BoardService;
 import org.springframework.samples.minesweeper.configuration.SecurityConfiguration;
+import org.springframework.samples.minesweeper.customComponents.PaginatingUtil;
+import org.springframework.samples.minesweeper.genre.GenreService;
+import org.springframework.samples.minesweeper.platform.PlatformService;
+import org.springframework.samples.minesweeper.saga.SagaService;
 import org.springframework.samples.minesweeper.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -32,6 +36,7 @@ import java.util.Optional;
 
 
 @WebMvcTest(controllers = GameController.class,
+includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = PaginatingUtil.class),
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration = SecurityConfiguration.class)
 @AutoConfigureMockMvc
@@ -51,6 +56,17 @@ public class GameControllerTest {
 
     @MockBean
     private AuditService auditService;
+
+    @MockBean
+    private GenreService genreService;
+
+    @MockBean
+    private PlatformService platformService;
+
+    @MockBean
+    private SagaService sagaService;
+
+
 
     
 
