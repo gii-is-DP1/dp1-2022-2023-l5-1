@@ -53,23 +53,8 @@ public class GameControllerTest {
 
     @MockBean
     private UserService userService;
-
     @MockBean
     private AuditService auditService;
-
-    @MockBean
-    private GenreService genreService;
-
-    @MockBean
-    private PlatformService platformService;
-
-    @MockBean
-    private SagaService sagaService;
-
-
-
-    
-
 
     @Test
 	@WithMockUser(username="admin1",authorities={"admin"})
