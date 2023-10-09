@@ -30,6 +30,7 @@ public class SagaService {
 		sagaRepository.save(saga);
 	}
 	
+	@Transactional(readOnly = true)
 	public Saga findSaga(String saga) {
 		return sagaRepository.findSagaById(Integer.valueOf(saga));
 	}
@@ -39,6 +40,7 @@ public class SagaService {
 		return (Collection<Saga>) sagaRepository.findAll();
 	}
 
+	@Transactional(readOnly = true)
     public List<Saga> getAllSagasOrdered(Integer page, Pageable p) {
         return sagaRepository.getAllSagasOrdered(p);
     }

@@ -61,7 +61,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Board getBoard(Integer boardId) {
         Board board = this.boardRepository.findBoardById(boardId);
         return board;

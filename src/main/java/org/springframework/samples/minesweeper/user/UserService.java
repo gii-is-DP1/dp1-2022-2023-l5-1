@@ -48,6 +48,7 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
+	@Transactional(readOnly = true)
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
@@ -67,18 +68,22 @@ public class UserService {
 		userRepository.deleteById(username); 
 	}
 
+	@Transactional(readOnly = true)
     public List<User> getAllPlayers() {
 		return userRepository.findAllPlayers();
 	}
-		
+	
+	@Transactional(readOnly = true)
 	public List<User> getAllAdmins() {
 		return userRepository.findAllAdmins();
 	}
 
+	@Transactional(readOnly = true)
 	public List<Game> getAllGameByUsername(User user) {
 		return userRepository.findAllGamesByPlayer(user);
 	}	
-    	
+    
+	@Transactional(readOnly = true)
 	public List<User> getAllUsersOrdered(Integer page,Pageable pageable) throws DataAccessException{
 		return userRepository.findAllPlayersSorted(pageable);
 	}

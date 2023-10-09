@@ -146,19 +146,21 @@ public class GameController {
 
     @GetMapping(value = { "/games/activeGames" })
 	public String showActiveGamesList(Map<String, Object> model,@PageableDefault(page = 0, size = 5)Pageable pageable) {
-		Boolean isActive = true;
-		String type = "game";
-		this.paginatingUtil.prepareModelForPagination(model, pageable, type, isActive);
-        model.put("active",isActive);
+		Integer page =0;
+        List ls=gameService.getActiveGamesOrdered(page, pageable);
+		Integer totalElements = gameService.getActiveGames().size();
+        this.paginatingUtil.prepareModelForPagination(model, pageable, ls, totalElements);
+        model.put("active",true);
 		return VIEWS_GAMES_LIST;
 	}
     
     @GetMapping(value = { "/games/finishGames" })
 	public String showFinishGamesList(Map<String, Object> model, @PageableDefault(page = 0, size = 5)Pageable pageable) {
-		Boolean isActive = false;
-		String type = "game";
-		this.paginatingUtil.prepareModelForPagination(model, pageable, type, isActive);
-        model.put("active",isActive);
+        Integer page = 0;
+        List ls=gameService.getFinishGamesOrdered(page, pageable);
+        Integer totalElements = gameService.getFinishGames().size();
+		this.paginatingUtil.prepareModelForPagination(model, pageable, ls, totalElements);
+        model.put("active",false);
 		return VIEWS_GAMES_LIST;
 	}
 }

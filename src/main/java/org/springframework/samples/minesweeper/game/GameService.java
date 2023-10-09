@@ -66,10 +66,12 @@ public class GameService {
         return gameRepository.save(game);
     }
 
+    @Transactional(readOnly = true)
     public Game getGameById(Integer gameId) {
         return gameRepository.findGameById((gameId));
     }
 
+    @Transactional(readOnly = true)
     public Game getActiveGameByUsername(String username) {
         return gameRepository.findActiveGameByUsername((username));
     }
@@ -84,10 +86,12 @@ public class GameService {
         gameRepository.deleteAll(games);
     }
 
+    @Transactional(readOnly = true)
     public List<Game> getAllGameByUsername(String userId) {
         return gameRepository.findAllByUsername(userId);
     }
 
+    @Transactional(readOnly = true)
     public Integer getRecentGamesByUsername(String username) {
        Integer res = 0;
        LocalDateTime now = LocalDateTime.now();
@@ -102,25 +106,29 @@ public class GameService {
         return res;
     }
     
+    @Transactional(readOnly = true)
     public Collection<Game> getActiveGames(){
         return gameRepository.findAllActiveGames();
     }
 
+    @Transactional(readOnly = true)
     public Collection<Game> getFinishGames(){
         return gameRepository.findAllFinishGames();
 
     }
 
-
+    @Transactional(readOnly = true)
     public List<Game> getActiveGamesOrdered(Integer page, Pageable p){
         return gameRepository.findAllActiveGamesOrdered(p);
     }
 
+    @Transactional(readOnly = true)
     public List<Game> getFinishGamesOrdered(Integer page, Pageable p){
         return gameRepository.findAllFinishGamesOrdered(p);
 
     }
 
+    @Transactional(readOnly = true)
     public Collection<Game> findGames(){
         return (Collection<Game>) gameRepository.findAll();
     }

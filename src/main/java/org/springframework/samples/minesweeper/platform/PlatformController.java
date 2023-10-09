@@ -40,8 +40,10 @@ public class PlatformController {
 		@SortDefault(sort = "id", direction = Sort.Direction.ASC),
 		@SortDefault(sort = "name", direction = Sort.Direction.DESC)})Pageable pageable) {
 		
-		String type = "platforms";
-		this.paginatingUtil.prepareModelForPagination(model, pageable, type,null);
+		Integer page = 0;
+		List ls=platformService.getAllPlatformOrdered(page, pageable);
+        Integer totalElements = platformService.findPlatforms().size();
+		this.paginatingUtil.prepareModelForPagination(model, pageable, ls,totalElements);
 		return VIEWS_PLATFORM_LIST;
 	}
 

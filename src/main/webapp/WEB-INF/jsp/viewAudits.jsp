@@ -21,7 +21,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${audits}" var="audit">
+			<c:forEach items="${itemsListed}" var="audit">
 				<tr>
 					<td><c:out value="${audit.startDate}" /></td>
 					

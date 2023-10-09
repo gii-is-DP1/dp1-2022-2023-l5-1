@@ -41,8 +41,10 @@ public class SagaController {
 		@SortDefault(sort = "id", direction = Sort.Direction.ASC),
 		@SortDefault(sort = "name", direction = Sort.Direction.DESC)})Pageable pageable) {
 		
-		String type = "sagas";
-		this.paginatingUtil.prepareModelForPagination(model, pageable, type,null);
+		Integer page =0;
+		List ls=sagaService.getAllSagasOrdered(page, pageable);
+        Integer totalElements = sagaService.findSagas().size();
+		this.paginatingUtil.prepareModelForPagination(model, pageable, ls,totalElements);
 		return VIEWS_SAGA_LIST;
 	}
 
