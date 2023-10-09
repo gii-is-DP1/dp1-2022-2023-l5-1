@@ -123,6 +123,7 @@ public class GameService {
 
     public Collection<Game> findGames(){
         return (Collection<Game>) gameRepository.findAll();
+    }
 
     public Boolean checkGamesLimit(User user){
         Integer games = getRecentGamesByUsername(user.getUsername());
