@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach; import org.junit.jupiter.api.Test; import org.mockito.Mock; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest; import org.springframework.boot.test.mock.mockito.MockBean; import org.springframework.context.annotation.ComponentScan; import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.minesweeper.audit.AuditService;
 import org.springframework.samples.minesweeper.configuration.SecurityConfiguration;
+import org.springframework.samples.minesweeper.customComponents.PaginatingUtil;
 import org.springframework.samples.minesweeper.game.GameService;
 import org.springframework.samples.minesweeper.genre.GenreService;
 import org.springframework.samples.minesweeper.platform.PlatformService;
@@ -26,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 
 @WebMvcTest(controllers = UserController.class,
+includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = PaginatingUtil.class),
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration = SecurityConfiguration.class)
 public class UserControllerTest {
